@@ -11,3 +11,15 @@
 /* ************************************************************************** */
 
 #include "libft.h"
+
+int ft_memcmp(const void *s1, const void *s2, size_t n)
+{
+	int	cmp;
+
+	cmp =  *(const unsigned char *)s1 - *(const unsigned char *)s2; 
+	if (!(cmp) && n)
+		return (ft_strncmp(++s1, ++s2, --n)); 	
+	else if (!n)
+		return (0);
+	return (cmp);
+}

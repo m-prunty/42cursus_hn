@@ -11,3 +11,17 @@
 /* ************************************************************************** */
 
 #include "libft.h"
+
+char *ft_strnstr(const char *big, const char *little, size_t len)
+{
+	size_t	n;
+
+	n = ft_strlen(little);
+	if (n && big--) 
+		while (len-- >= n && *++big)
+			if (!ft_strncmp(big, little, n))
+				break;
+	if (len <= n || !*big)
+		return (NULL);
+	return ((char*)big);
+}
