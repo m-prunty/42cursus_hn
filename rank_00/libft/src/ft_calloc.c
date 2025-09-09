@@ -11,3 +11,19 @@
 /* ************************************************************************** */
 
 #include "libft.h"
+#include <stdint.h>
+
+
+void	*ft_calloc(size_t nmemb, size_t size)
+{
+	void	*p;
+	long int n;
+	
+	n = nmemb * size;
+	if (n <= PTRDIFF_MAX)
+		p = malloc(n);
+	if (n > PTRDIFF_MAX || !p)
+		return (NULL);
+	ft_bzero((char *)p, size);
+	return (p);
+}
