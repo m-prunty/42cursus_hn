@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_isalpha.c                                       :+:      :+:    :+:   */
+/*   ft_calloc.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: maprunty <maprunty@student.42heilbronn.de  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/05 15:42:37 by maprunty          #+#    #+#             */
-/*   Updated: 2025/09/05 15:44:36 by maprunty         ###   ########.fr       */
+/*   Updated: 2025/09/10 01:02:46 by maprunty         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,6 @@ void	*ft_calloc(size_t nmemb, size_t size)
 		p = malloc(n);
 	if (n > PTRDIFF_MAX || !p)
 		return (NULL);
-	ft_bzero((char *)p, size);
+	ft_bzero((char *)p, n);
 	return (p);
 }

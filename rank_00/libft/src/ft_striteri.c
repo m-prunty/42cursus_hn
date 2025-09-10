@@ -1,13 +1,33 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_isalpha.c                                       :+:      :+:    :+:   */
+/*   ft_striteri.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: maprunty <maprunty@student.42heilbronn.de  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/05 15:42:37 by maprunty          #+#    #+#             */
-/*   Updated: 2025/09/05 15:44:36 by maprunty         ###   ########.fr       */
+/*   Updated: 2025/09/10 01:15:43 by maprunty         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
+/*
+Parameters 
+s: The string on which to iterate.
+f: The function to apply to each character.
+Return value None
+
+Description
+Applies the function ’f’ on each character of
+the string passed as argument, passing its index
+as first argument. Each character is passed by
+address to ’f’ to be modified if necessary.
+ */
+void	ft_striteri(char *s, void (*f)(unsigned int, char*))
+{
+	int		i;
+
+	i = -1;
+	while (s[++i])
+		f(i, &s[i]);
+}
