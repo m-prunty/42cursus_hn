@@ -6,7 +6,7 @@
 /*   By: maprunty <maprunty@student.42heilbronn.de  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/10 05:42:04 by maprunty          #+#    #+#             */
-/*   Updated: 2025/09/11 02:33:05 by maprunty         ###   ########.fr       */
+/*   Updated: 2025/09/11 08:32:29 by maprunty         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -190,10 +190,13 @@ L: With long double
 //%[flags][width][.precision][length]specifier
 
 #include <stdarg.h>
-#include "libft.h"
+#include <stddef.h>
+#include <stdio.h>
+#include "../include/libft.h"
 
 #define SPECIFIER "cspdiuxXi%"
 #define	FLAGS "-0# +"
+#define LENMOD	"hlqLjzZt"
 #define	FD 1
 
 typedef enum	e_flag
@@ -208,15 +211,22 @@ typedef enum	e_flag
 
 typedef struct	s_format
 {
-	char	*fmt;
+	const char	*str;
+	size_t	n;
+	va_list	ap;
 	//flag
-	e_flag flags[5];
+	e_flag	flags[5];
 	//width
-	int	width;
+	int		width;
 	//precision
-	int	precision;
+	int		precision;
+	//len
+	int		lenmod;
 	//spec
 	char	spec;
+	//bytecount
+	int		count;
+	
 }	t_format ;
 
 char *ft_strchrstr(const char *s, const char *chrs)
@@ -230,42 +240,115 @@ char *ft_strchrstr(const char *s, const char *chrs)
 	return (res);
 }
 
-int	ft_parse(const char *fmt_spec, const char *specifier, va_list ap)
+
+void ft_parse_flags(t_format *fmt)
+{
+	fmt->str++;
+	fmt->count++;
+}
+
+void ft_parse_width(t_format *fmt)
+{
+	fmt->str++;
+	fmt->count++;
+}
+
+void ft_parse_precis(t_format *fmt)
+{
+	fmt->str++;
+	fmt->count++;
+}
+
+void ft_parse_len(t_format *fmt)
+{
+	fmt->str++;
+	fmt->count++;
+}
+
+
+
+
+int	ft_parse(t_format *fmt)
 {
 	int	i;
 
-	i = fmt_spec - specifier;
-	while ()
+//	i = fmt_spec - specifier;
+	while (*fmt->str && *fmt->str != fmt->spec)
 	{
-		if (ft_strchr(FLAGS, *fmt_spec))
-			ft_parse_flag(fmt_spec);
-		else if (*fmt_spec != '0' && ft_isdigit(*fmt_spec))
-			
-			
-	
+		if (ft_strchr(FLAGS, *fmt->str))
+			ft_parse_flags(fmt);
+		else if (*fmt->str != '0' && (ft_isdigit(*fmt->str) || *fmt->str == '*'))
+			ft_parse_width(fmt);
+		else if (*fmt->str == '.')
+			ft_parse_precis(fmt);
+		else if (ft_strchr(LENMOD, *fmt->str))
+			ft_parse_len(fmt);
+		else
+			fmt->str++;
 	}	
 	return (0);
 }
 
+int	ft_render(fmt)
+{
+	return (0);
+}
+
+void	ft_init_format(t_format *fmt, const char* f_str )
+{
+	int i;
+	char *spec;
+	char *nxt_pcent;
+
+	i = -1;
+	fmt->str = ++f_str;
+	spec = ft_strchrstr(f_str, SPECIFIER);
+	nxt_pcent = ft_strchr(f_str, '%');
+	if (!spec || nxt_pcent < spec)
+		fmt->spec = '\0';
+	else
+		fmt->spec = *spec;
+	while (fmt->flags[++i])
+		fmt->flags[i] = 0;
+	fmt->width = 0;
+	fmt->precision = -1;
+	fmt->lenmod = 0;
+	fmt->count = 0;
+	if (fmt->spec)
+		fmt->count++;
+
+}
 
 int	ft_printf(const char *f_str, ...)
 {
-	va_list ap;
-	int		count;
-	char	*sp;
+	va_list		ap;
+	int			count;
+	t_format	*fmt;
 
 	count = 0;
+	fmt = (t_format *)malloc(sizeof(t_format));
 	va_start(ap, f_str);
 	while (*f_str)
 	{
 		if (*f_str == '%')
 		{
-			sp = ft_strchrstr(f_str, SPECIFIER);
-			ft_parse(f_str, sp, ap);
+			ft_init_format(fmt, f_str);
+			if (fmt->spec)
+				ft_parse(fmt);
+			f_str += fmt->count;
+			ft_render(fmt);
 		}	
 		else
 			ft_putchar_fd(*f_str, FD);
+		f_str++;
 	}
 	va_end(ap);
 	return (count);
+}
+int main()
+{
+	char	*str = "This is my test";
+	int		i = 42;
+
+	ft_printf("Here char; %#0c\nstr; %.45s\nint; %i\nnospec; %#034 ", 'a', i, str, 22);
 }
