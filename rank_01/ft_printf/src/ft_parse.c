@@ -1,33 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_printf.c                                        :+:      :+:    :+:   */
+/*   ft_parse.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: maprunty <maprunty@student.42heilbronn.de  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/09/11 18:26:36 by maprunty          #+#    #+#             */
-/*   Updated: 2025/09/12 17:00:14 by maprunty         ###   ########.fr       */
+/*   Created: 2025/09/11 18:42:37 by maprunty          #+#    #+#             */
+/*   Updated: 2025/09/11 18:56:00 by maprunty         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_printf.h"
-
-char *ft_strchrstr(const char *s, const char *chrs)
-{
-	char	*res;
-
-	res = NULL;
-	--s;
-	while (!res && *++s)
-		res = ft_strchr(chrs, *s);
-	return ((char *)s);
-}
-
-void ft_parse_len(t_format *fmt)
-{
-	fmt->str++;
-	fmt->count++;
-}
 
 void ft_parse_flags(t_format *fmt)
 {
@@ -94,72 +77,4 @@ int	ft_parse(t_format *fmt)
 		fmt->count = 0;
 	//	}	
 	return (0);
-}
-
-int	ft_render(t_format *fmt)
-{
-
-	return (0);
-}
-
-void	ft_init_format(t_format *fmt, const char* f_str )
-{
-	int i;
-	//	char *spec;
-	//	char *nxt_pcent;
-
-	i = -1;
-	fmt->str = ++f_str;
-	/*
-		* spec = ft_strchrstr(f_str, SPECIFIER);
-	nxt_pcent = ft_strchr(f_str, '%');
-	if (!spec || nxt_pcent < spec)
-		fmt->spec = '\0';
-	else
-		fmt->spec = *spec;
-	*/
-	while (fmt->flags[++i])
-		fmt->flags[i] = 0;
-	fmt->width = 0;
-	fmt->precision = -1;
-	fmt->lenmod = 0;
-	fmt->count = 0;
-	fmt->spec = '\0';
-	//if (fmt->spec)
-	//		fmt->count += 2;
-
-}
-
-int	ft_printf(const char *f_str, ...)
-{
-	va_list		ap;
-	int			count;
-	t_format	*fmt;
-
-	count = 0;
-	fmt = (t_format *)malloc(sizeof(t_format));
-	va_start(ap, f_str);
-	while (*f_str)
-	{
-		if (*f_str == '%')
-		{
-			ft_init_format(fmt, f_str);
-			//			if (fmt->spec)
-			ft_parse(fmt);
-			f_str += fmt->count;
-			ft_render(fmt);
-		}	
-		//else
-		ft_putchar_fd(*f_str++, FD);
-		//f_str++;
-	}
-	va_end(ap);
-	return (count);
-}
-int main()
-{
-	char	*str = "This is my test";
-	int		i = 42;
-
-	ft_printf("Here char; %#0c|\nstr; %.45|\nint; %i|\nnospec; %#034 |", 'a', i, str, 22);
 }
