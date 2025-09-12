@@ -6,100 +6,16 @@
 /*   By: maprunty <maprunty@student.42heilbronn.de  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/11 18:26:36 by maprunty          #+#    #+#             */
-/*   Updated: 2025/09/12 17:00:14 by maprunty         ###   ########.fr       */
+/*   Updated: 2025/09/12 17:09:20 by maprunty         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_printf.h"
 
-char *ft_strchrstr(const char *s, const char *chrs)
-{
-	char	*res;
-
-	res = NULL;
-	--s;
-	while (!res && *++s)
-		res = ft_strchr(chrs, *s);
-	return ((char *)s);
-}
-
 void ft_parse_len(t_format *fmt)
 {
 	fmt->str++;
 	fmt->count++;
-}
-
-void ft_parse_flags(t_format *fmt)
-{
-	int	i;
-
-	i = -1;
-	while (fmt->flags[++i])
-		;
-	fmt->flags[i]  = *fmt->str;
-	fmt->str++;
-	fmt->count++;
-}
-
-void ft_parse_width(t_format *fmt)
-{
-	while (ft_isdigit(*fmt->str))
-	{
-		fmt->width = fmt->width * 10 + (*fmt->str - '0');
-		fmt->str++;
-		fmt->count++;
-	}
-}
-
-void ft_parse_precis(t_format *fmt)
-{
-	fmt->precision = 0;
-	fmt->count++;
-	while (ft_isdigit(*++fmt->str))
-	{
-		fmt->precision = fmt->precision * 10 + (*fmt->str - '0');
-		fmt->str++;
-		fmt->count++;
-	}
-}
-
-
-void ft_parse_spec(t_format *fmt)
-{
-	fmt->spec = *fmt->str;
-	fmt->str++;
-	fmt->count += 2;
-}
-
-
-int	ft_parse(t_format *fmt)
-{
-	int	i;
-
-	//	i = fmt_spec - specifier;
-	//	while (*fmt->str && !fmt->spec)
-	//	{
-	while (ft_strchr(FLAGS, *fmt->str))
-		ft_parse_flags(fmt);
-	if (*fmt->str != '0' && (ft_isdigit(*fmt->str) || *fmt->str == '*'))
-		ft_parse_width(fmt);
-	if (*fmt->str == '.')
-		ft_parse_precis(fmt);
-	if (ft_strchr(LENMOD, *fmt->str))
-		ft_parse_len(fmt);
-	if (ft_strchr(SPECIFIER, *fmt->str))
-		ft_parse_spec(fmt);
-	//fmt->str++;
-	if (!fmt->spec)
-		fmt->count = 0;
-	//	}	
-	return (0);
-}
-
-int	ft_render(t_format *fmt)
-{
-
-	return (0);
 }
 
 void	ft_init_format(t_format *fmt, const char* f_str )
@@ -155,11 +71,4 @@ int	ft_printf(const char *f_str, ...)
 	}
 	va_end(ap);
 	return (count);
-}
-int main()
-{
-	char	*str = "This is my test";
-	int		i = 42;
-
-	ft_printf("Here char; %#0c|\nstr; %.45|\nint; %i|\nnospec; %#034 |", 'a', i, str, 22);
 }

@@ -6,7 +6,7 @@
 /*   By: maprunty <maprunty@student.42heilbronn.de  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/11 18:42:37 by maprunty          #+#    #+#             */
-/*   Updated: 2025/09/11 18:56:00 by maprunty         ###   ########.fr       */
+/*   Updated: 2025/09/12 17:05:34 by maprunty         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,7 @@ void ft_parse_spec(t_format *fmt)
 
 int	ft_parse(t_format *fmt)
 {
-	int	i;
+//	int	i;
 
 	//	i = fmt_spec - specifier;
 	//	while (*fmt->str && !fmt->spec)

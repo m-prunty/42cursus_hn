@@ -6,9 +6,16 @@
 /*   By: maprunty <maprunty@student.42heilbronn.de  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/11 18:54:21 by maprunty          #+#    #+#             */
-/*   Updated: 2025/09/12 17:00:18 by maprunty         ###   ########.fr       */
+/*   Updated: 2025/09/12 17:02:34 by maprunty         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_printf.h"
+
+
+int	ft_render(t_format *fmt)
+{
+	(void)fmt;
+	return (0);
+}
 
