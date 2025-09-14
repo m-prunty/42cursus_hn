@@ -6,7 +6,7 @@
 /*   By: maprunty <maprunty@student.42heilbronn.de  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/10 05:42:04 by maprunty          #+#    #+#             */
-/*   Updated: 2025/09/12 17:22:06 by maprunty         ###   ########.fr       */
+/*   Updated: 2025/09/14 08:25:55 by maprunty         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -189,6 +189,7 @@ L: With long double
 
 //%[flags][width][.precision][length]specifier
 
+#include <unistd.h>
 #include <stdarg.h>
 #include <stddef.h>
 #include "libft.h"
@@ -196,6 +197,8 @@ L: With long double
 #define SPECIFIER "cspdiuxX%"
 #define	FLAGS "-0# +"
 #define LENMOD	"hlqLjzZt"
+#define BASE	"0123456789abcdef"
+
 #define	FD 1
 
 typedef enum	e_flag
@@ -242,3 +245,8 @@ int		ft_render(t_format *fmt);
 
 void	ft_init_format(t_format *fmt, const char* f_str );
 int		ft_printf(const char *f_str, ...);
+
+int	ft_atoi_base(char *str, char *base);
+int	ft_isvalid_base(char *base);
+int	ft_convert_charbase(char c, int *val, char *base);
+void	ft_putnbr_base(int nbr, char *base);

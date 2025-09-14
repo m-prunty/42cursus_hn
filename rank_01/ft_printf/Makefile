@@ -19,8 +19,7 @@ CFLAGS  := -Wall -Wextra -Werror $(INC)
 AR		:= ar
 ARFLAGS := -rcs
 
-S_FILES	:= ft_printf.c ft_parse.c ft_render.c ft_utils.c
-
+S_FILES	:= ft_printf.c ft_parse.c ft_render.c ft_utils.c ft_atoi_base.c ft_putnbr_base.c
 SRC		:= $(S_FILES:%.c=src/%.c)
 OBJ     := $(patsubst src/%.c,obj/%.o,$(SRC))
 

@@ -6,7 +6,7 @@
 /*   By: maprunty <maprunty@student.42heilbronn.de  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/11 18:42:37 by maprunty          #+#    #+#             */
-/*   Updated: 2025/09/13 20:51:06 by maprunty         ###   ########.fr       */
+/*   Updated: 2025/09/14 09:48:19 by maprunty         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,6 @@ void ft_parse_precis(t_format *fmt)
 	while (ft_isdigit(*++fmt->str))
 	{
 		fmt->precision = fmt->precision * 10 + (*fmt->str - '0');
-		fmt->str++;
 		fmt->count++;
 	}
 }

@@ -6,7 +6,7 @@
 /*   By: maprunty <maprunty@student.42heilbronn.de  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/11 18:54:21 by maprunty          #+#    #+#             */
-/*   Updated: 2025/09/14 02:10:55 by maprunty         ###   ########.fr       */
+/*   Updated: 2025/09/14 09:59:47 by maprunty         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -111,8 +111,8 @@ int	ft_render_chars(t_format *fmt)
 		s = (char *)va_arg(fmt->ap, char *);
 		slen = ft_strlen(s);
 	}
-	if (fmt->precision && fmt->spec == 's')
-		slen -= fmt->precision;
+	if (fmt->precision >= 0 && fmt->spec == 's')
+		slen = fmt->precision;
 	if (fmt->width && !check_flags(fmt, MINUS))
 		print_space(fmt->width - slen);
 	ft_putstr_n_fd(s, slen, FD);
@@ -121,9 +121,35 @@ int	ft_render_chars(t_format *fmt)
 	return (1); 
 }
 
+
+void	ft_iter_up(unsigned int i, char *c)
+{
+	(void)i;
+	if (ft_islower(*c))
+		*c = *c - 32;
+}
+char *get_base(t_format *fmt, char *base_s)
+{
+//	char base_s[16];
+	
+	if (ft_strchr("id", fmt->spec))
+		ft_strlcpy(base_s, BASE, 11);
+	else if (ft_strchr("uxXp", fmt->spec))
+		ft_strlcpy(base_s, BASE, 17);
+	if (ft_isupper(fmt->spec))
+		ft_striteri(base_s, ft_iter_up);
+	return (base_s); 
+}
+
 int	ft_render_nums(t_format *fmt)
 {
-	(void)fmt;
+	int res;
+	char base_s[17];
+	res = (int)va_arg(fmt->ap, int);
+	//res = ft_atoi_base((char *)fmt->str, "01");
+	get_base(fmt, base_s);
+	ft_putnbr_base(res, base_s);
+	//free(base_s);
 	return (1);
 }
 
