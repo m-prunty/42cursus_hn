@@ -6,7 +6,7 @@
 /*   By: maprunty <maprunty@student.42heilbronn.de  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/11 18:26:36 by maprunty          #+#    #+#             */
-/*   Updated: 2025/09/12 17:09:20 by maprunty         ###   ########.fr       */
+/*   Updated: 2025/09/13 21:11:03 by maprunty         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,27 +48,28 @@ void	ft_init_format(t_format *fmt, const char* f_str )
 
 int	ft_printf(const char *f_str, ...)
 {
-	va_list		ap;
+	//va_list		ap;
 	int			count;
 	t_format	*fmt;
 
 	count = 0;
 	fmt = (t_format *)malloc(sizeof(t_format));
-	va_start(ap, f_str);
+	va_start(fmt->ap, f_str);
 	while (*f_str)
 	{
 		if (*f_str == '%')
 		{
 			ft_init_format(fmt, f_str);
-			//			if (fmt->spec)
 			ft_parse(fmt);
 			f_str += fmt->count;
-			ft_render(fmt);
+			fmt->count = 0;
+			if (fmt->spec)
+				ft_render(fmt);
 		}	
 		//else
 		ft_putchar_fd(*f_str++, FD);
 		//f_str++;
 	}
-	va_end(ap);
+	va_end(fmt->ap);
 	return (count);
 }

@@ -6,7 +6,7 @@
 /*   By: maprunty <maprunty@student.42heilbronn.de  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/10 05:42:04 by maprunty          #+#    #+#             */
-/*   Updated: 2025/09/11 18:52:46 by maprunty         ###   ########.fr       */
+/*   Updated: 2025/09/12 17:22:06 by maprunty         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -193,7 +193,7 @@ L: With long double
 #include <stddef.h>
 #include "libft.h"
 
-#define SPECIFIER "cspdiuxXi%"
+#define SPECIFIER "cspdiuxX%"
 #define	FLAGS "-0# +"
 #define LENMOD	"hlqLjzZt"
 #define	FD 1

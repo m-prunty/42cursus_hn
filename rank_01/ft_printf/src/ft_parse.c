@@ -6,7 +6,7 @@
 /*   By: maprunty <maprunty@student.42heilbronn.de  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/11 18:42:37 by maprunty          #+#    #+#             */
-/*   Updated: 2025/09/12 17:05:34 by maprunty         ###   ########.fr       */
+/*   Updated: 2025/09/13 20:51:06 by maprunty         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,12 @@ void ft_parse_flags(t_format *fmt)
 
 void ft_parse_width(t_format *fmt)
 {
+	if (*fmt->str == '*')
+	{
+		fmt->width = va_arg(fmt->ap, int);
+		fmt->str++;
+		fmt->count++;
+	}
 	while (ft_isdigit(*fmt->str))
 	{
 		fmt->width = fmt->width * 10 + (*fmt->str - '0');
