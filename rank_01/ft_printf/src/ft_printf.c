@@ -6,7 +6,7 @@
 /*   By: maprunty <maprunty@student.42heilbronn.de  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/11 18:26:36 by maprunty          #+#    #+#             */
-/*   Updated: 2025/09/13 21:11:03 by maprunty         ###   ########.fr       */
+/*   Updated: 2025/09/15 05:56:22 by maprunty         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,14 @@
 
 void ft_parse_len(t_format *fmt)
 {
-	fmt->str++;
-	fmt->count++;
+	int n;
+
+	n = 2;
+	while (n-- && ft_strchr(LENMOD, *fmt->str))
+	{
+		fmt->str++;
+		fmt->count++;
+	}
 }
 
 void	ft_init_format(t_format *fmt, const char* f_str )

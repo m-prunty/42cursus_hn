@@ -6,7 +6,7 @@
 /*   By: maprunty <maprunty@student.42heilbronn.de  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/11 18:42:37 by maprunty          #+#    #+#             */
-/*   Updated: 2025/09/14 09:48:19 by maprunty         ###   ########.fr       */
+/*   Updated: 2025/09/15 06:33:40 by maprunty         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,22 +32,36 @@ void ft_parse_width(t_format *fmt)
 		fmt->str++;
 		fmt->count++;
 	}
-	while (ft_isdigit(*fmt->str))
+	else
 	{
-		fmt->width = fmt->width * 10 + (*fmt->str - '0');
-		fmt->str++;
-		fmt->count++;
+		while (ft_isdigit(*fmt->str))
+		{
+			fmt->width = fmt->width * 10 + (*fmt->str - '0');
+			fmt->str++;
+			fmt->count++;
+		}
 	}
 }
 
 void ft_parse_precis(t_format *fmt)
 {
 	fmt->precision = 0;
+	fmt->str++;
 	fmt->count++;
-	while (ft_isdigit(*++fmt->str))
+	if (*fmt->str == '*')
 	{
-		fmt->precision = fmt->precision * 10 + (*fmt->str - '0');
+		fmt->precision = va_arg(fmt->ap, int);
+		fmt->str++;
 		fmt->count++;
+	}
+	else
+	{
+		while (ft_isdigit(*fmt->str))
+		{
+			fmt->precision = fmt->precision * 10 + (*fmt->str - '0');
+			fmt->str++;
+			fmt->count++;
+		}
 	}
 }
 
@@ -62,7 +76,7 @@ void ft_parse_spec(t_format *fmt)
 
 int	ft_parse(t_format *fmt)
 {
-//	int	i;
+	//	int	i;
 
 	//	i = fmt_spec - specifier;
 	//	while (*fmt->str && !fmt->spec)

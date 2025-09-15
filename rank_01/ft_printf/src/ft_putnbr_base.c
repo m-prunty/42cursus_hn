@@ -6,7 +6,7 @@
 /*   By: maprunty <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/14 05:12:41 by maprunty          #+#    #+#             */
-/*   Updated: 2025/09/14 08:04:36 by maprunty         ###   ########.fr       */
+/*   Updated: 2025/09/15 04:06:42 by maprunty         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,29 +40,29 @@ int	ft_isvalid_base(char *base)
 	return (0);
 }
 
-void	ft_putnbr_base(int nbr, char *base)
+void	ft_putnbr_base_fd(long int n, int fd, char *base)
 {
-	long	lnb;
 	int		base_len;
 
 	base_len = ft_isvalid_base(base);
-	if (base_len)
+	if (n <= ((long)1 << 63))
 	{
-		if (nbr == 1 << 31)
-		{
-			lnb = ~(long)(1 << 31) + 1;
-			ft_putnbr_base(-lnb / base_len, base);
-			ft_putchar_fd(base[lnb % base_len], FD);
-		}
-		else if (nbr < 0)
-		{
-			ft_putchar_fd('-', FD);
-			ft_putnbr_base(-nbr, base);
-		}
-		else if (nbr >= base_len)
-			ft_putnbr_base(nbr / base_len, base);
-		ft_putchar_fd(base[nbr % base_len], FD);
+		ft_putchar_fd('-', fd);
+		ft_putnbr_base_fd((~((long)1 << 63))  / base_len , fd, base);
+		n = (n % base_len) * -1;
 	}
+	else if (n < 0)
+		{
+			ft_putchar_fd('-', fd);
+			n *=-1;
+		}
+	if (n >= base_len)
+		{
+			ft_putnbr_base_fd(n / base_len, fd, base);
+			n %= base_len;
+		}
+	if (n < base_len)
+		ft_putchar_fd(base[n], fd);
 }
 
 /*
