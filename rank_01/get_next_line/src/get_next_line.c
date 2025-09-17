@@ -27,12 +27,13 @@ char *ft_strldup(const char *s, size_t l)
 	size_t	n;
 
 	n = ft_strlen(s) + 1;
-	if (n <= l)
-		dup	= malloc(sizeof(char) * n);
+	if (n < l)
+		l = n;
+	dup	= malloc(sizeof(char) * l);
 
 	if (!dup)
 		return (NULL);
-	ft_strlcpy(dup, s, n);
+	ft_strlcpy(dup, s, l);
 	return (dup);
 }
 /*
@@ -55,20 +56,29 @@ char	*gnl_strcat(char *ptr, char *src )
 	tmp = ptr;
 	ptr = malloc(sizeof(char) * (n_ptr + n_src + 1));
 	if (tmp)
-		ft_strlcat(ptr, tmp, n_ptr);
-	ft_strlcat(ptr, src, n_ptr + n_src);
+	{
+		ft_strlcat(ptr, tmp, n_ptr + 1);
+		free(tmp);
+	}
+	ft_strlcat(ptr, src, n_ptr + n_src + 1);
 	return (ptr);
 }
 
-char	*gnl_handle_return(char *ptr, char *nl)
+char	*gnl_handle_return(char **ptr, char *nl)
 {
 	char *tmp;
+	int		d;
 
 	if (!nl)
-		nl = strchr(ptr, '\n');
-	tmp = nl;
-	nl = (ft_strldup(ptr, ptr - nl));
-	ptr = tmp;	
+		nl = strchr(*ptr, '\n');
+	d = (nl - *ptr) + 1;
+	nl = ft_substr(*ptr, 0, d);
+	tmp = *ptr;
+	if (tmp && ft_strlen(*ptr + d))
+		*ptr = ft_substr(*ptr, d, ft_strlen(*ptr));
+	else
+		*ptr = NULL;
+	free(tmp);
 	return (nl);	
 
 }
@@ -81,6 +91,7 @@ char *get_next_line(int fd)
 	int		n;
 	//char *nl;
 	
+	ft_bzero(buf, BUFFER_SIZE);
 	nl = NULL;
 	if (ptr)
 		nl = strchr(ptr, '\n');
@@ -91,12 +102,11 @@ char *get_next_line(int fd)
 			n = read(fd, buf, BUFFER_SIZE);
 			buf[n] = 0;
 			ptr = gnl_strcat(ptr, buf );
-
 			//ft_memcpy(ret, buf, i);
-			ft_printf("\nbuf|%s|", ptr);
+			//ft_printf("\nbuf|%s|", ptr);
 		}
 	}
-	ptr = gnl_handle_return(ptr, nl);
+	nl = gnl_handle_return(&ptr, nl);
 /*	else
 	{
 		if ((ptr - nl))
@@ -104,7 +114,7 @@ char *get_next_line(int fd)
 	}	
 */
 //	if (ptr)
-	//		ft_printf("\npitr|%s|", ptr)
-	return (ptr);
+	//ft_printf("\nnl|%s|", nl);
+	return (nl);
 }
 
