@@ -6,13 +6,13 @@
 /*   By: maprunty <maprunty@student.42heilbronn.de  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/05 15:42:37 by maprunty          #+#    #+#             */
-/*   Updated: 2025/09/05 18:35:37 by maprunty         ###   ########.fr       */
+/*   Updated: 2025/10/10 17:42:17 by maprunty         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-int ft_isalnum(int c)
+int	ft_isalnum(int c)
 {
 	if (ft_isdigit(c) || ft_isalpha(c))
 		return (1 << 3);

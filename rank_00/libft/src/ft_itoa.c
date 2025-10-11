@@ -6,11 +6,12 @@
 /*   By: maprunty <maprunty@student.42heilbronn.de  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/05 15:42:37 by maprunty          #+#    #+#             */
-/*   Updated: 2025/09/09 10:40:28 by maprunty         ###   ########.fr       */
+/*   Updated: 2025/10/10 17:28:46 by maprunty         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
+
 /*
 Parameters
 n: the integer to convert.
@@ -23,7 +24,7 @@ Description
 Allocates (with malloc(3)) and returns a string
 representing the integer received as an argument.
 Negative numbers must be handled.
- */
+*/
 
 void	ft_putchar_recs(char **s, int c)
 {
@@ -32,7 +33,7 @@ void	ft_putchar_recs(char **s, int c)
 	**s = '\0';
 }
 
-int		ft_count_digits(long int n)
+int	ft_count_digits(long int n)
 {
 	if (!n)
 		return (0);
@@ -74,7 +75,7 @@ char	*ft_itoa(int n)
 	char	*s;
 	int		i;
 
-	i = ft_count_digits(n) ;
+	i = ft_count_digits(n);
 	if (!n)
 		i += 1;
 	s = malloc(sizeof(char) * (i + 1));

@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_isalpha.c                                       :+:      :+:    :+:   */
+/*   ft_strdup.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: maprunty <maprunty@student.42heilbronn.de  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/05 15:42:37 by maprunty          #+#    #+#             */
-/*   Updated: 2025/09/05 15:44:36 by maprunty         ###   ########.fr       */
+/*   Updated: 2025/10/10 18:22:28 by maprunty         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,10 +18,9 @@ char	*ft_strdup(const char *s)
 	int		n;
 
 	n = ft_strlen(s) + 1;
-	dup	= malloc(sizeof(char) * n);
+	dup = (char *)malloc(sizeof(char) * n);
 	if (!dup)
 		return (NULL);
 	ft_strlcpy(dup, s, n);
 	return (dup);
 }
-

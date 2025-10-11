@@ -6,7 +6,7 @@
 /*   By: maprunty <maprunty@student.42heilbronn.de  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/05 15:42:37 by maprunty          #+#    #+#             */
-/*   Updated: 2025/09/06 19:56:55 by maprunty         ###   ########.fr       */
+/*   Updated: 2025/10/10 17:08:09 by maprunty         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,4 @@ size_t	ft_strlcpy(char *dst, const char *src, size_t size)
 		dst[cpy] = '\0';
 	}
 	return (n);
-
 }
-

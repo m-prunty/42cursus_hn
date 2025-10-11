@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_isalpha.c                                       :+:      :+:    :+:   */
+/*   ft_memchr.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: maprunty <maprunty@student.42heilbronn.de  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/05 15:42:37 by maprunty          #+#    #+#             */
-/*   Updated: 2025/09/05 15:44:36 by maprunty         ###   ########.fr       */
+/*   Updated: 2025/10/10 18:38:12 by maprunty         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,9 +19,12 @@ void	*ft_memchr(const void *s, int c, size_t n)
 
 	us = (const unsigned char *)--s;
 	uc = (unsigned char)c;
-	while (n--  && uc != *++us)
-		;
-	if (uc == *us)
-		return ((void *)us);
+	if (n)
+	{
+		while (n-- && uc != *++us)
+			;
+		if (uc == *us)
+			return ((void *)us);
+	}
 	return (NULL);
 }

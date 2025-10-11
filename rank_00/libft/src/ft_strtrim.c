@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_isalpha.c                                       :+:      :+:    :+:   */
+/*   ft_strtrim.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: maprunty <maprunty@student.42heilbronn.de  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/05 15:42:37 by maprunty          #+#    #+#             */
-/*   Updated: 2025/09/05 15:44:36 by maprunty         ###   ########.fr       */
+/*   Updated: 2025/10/11 01:11:55 by maprunty         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ char	*ft_strtrim(char const *s1, char const *set)
 		;
 	while (ft_strchr(set, s1[--n]))
 		;
-	if (n - i <= 0)
-		return (NULL);
+	if (n - i < 0)
+		return (ft_strdup(""));
 	return (ft_substr(s1, i, n - i + 1));
 }

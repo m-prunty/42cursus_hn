@@ -6,7 +6,7 @@
 #    By: maprunty <maprunty@student.42heilbronn.de  +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/09/05 17:52:46 by maprunty          #+#    #+#              #
-#    Updated: 2025/09/06 22:23:15 by maprunty         ###   ########.fr        #
+#    Updated: 2025/10/11 02:16:29 by maprunty         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -14,7 +14,7 @@ NAME	:= libft.a
 
 INC 	:= -Iinclude
 CC      := gcc -g
-CFLAGS  := -Wall -Wextra -Werror $(INC)
+CFLAGS  := -Wall -Wextra -Werror $(INC) -fsanitize=leak
 
 AR		:= ar
 ARFLAGS := -rcs

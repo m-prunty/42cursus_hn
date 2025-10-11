@@ -19,6 +19,9 @@ int		main(int argc, const char *argv[])
 	int			arg;
 
 	write(1, "\n", 1);
+	ft_print_result(ft_strnstr("abcdefgh", "abc", 3));
+	ft_print_result(ft_strnstr("abcdefgh", "abc", 4));
+	ft_print_result(ft_strnstr("abcdefgh", "abc", 5));
 	if (argc == 1)
 		return (0);
 	else if ((arg = atoi(argv[1])) == 1)

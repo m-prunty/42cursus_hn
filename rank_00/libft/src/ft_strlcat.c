@@ -6,7 +6,7 @@
 /*   By: maprunty <maprunty@student.42heilbronn.de  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/05 15:42:37 by maprunty          #+#    #+#             */
-/*   Updated: 2025/09/06 20:22:20 by maprunty         ###   ########.fr       */
+/*   Updated: 2025/10/11 01:51:42 by maprunty         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,24 +14,22 @@
 
 size_t	ft_strlcat(char *dst, const char *src, size_t size)
 {
-	size_t	n;
+	size_t	nsrc;
 	size_t	ndst;
 	size_t	cpy;
 
-	n = ft_strlen(src);
+	nsrc = ft_strlen(src);
 	ndst = ft_strlen(dst);
-	
 	if (ndst >= size)
-		return (n + size);
-	if (n >= size)
+		return (nsrc + size);
+	if (nsrc + ndst >= size)
 		cpy = size - ndst - 1;
 	else
-		cpy = n;
+		cpy = nsrc;
 	if (size > 0)
 	{
 		ft_memcpy(dst + ndst, src, cpy);
 		dst[ndst + cpy] = '\0';
 	}
-	return (n + ndst);
-
+	return (nsrc + ndst);
 }

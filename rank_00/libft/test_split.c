@@ -10,6 +10,7 @@ void	ft_print_result(char const *s)
 	while (s[len])
 		len++;
 	write(1, s, len);
+	//free((char*)s);
 }
 
 int		main(int argc, const char *argv[])
@@ -104,8 +105,57 @@ int		main(int argc, const char *argv[])
 		if (!(tabstr = ft_split("lorem   i", ' ')))
 			ft_print_result("NULL");
 		else
-			if (!tabstr[0])
-				ft_print_result("ok\n");
+		{	
+			while (tabstr[i] != NULL)
+			{
+				ft_print_result(tabstr[i]);
+				write(1, "\n", 1);
+				i++;
+			}	
+		}
 	}
+	else if (arg == 8)
+	{
+		if (!(tabstr = ft_split("hello!", ' ')))
+			ft_print_result("NULL");
+		else
+		{
+			while (tabstr[i] != NULL)
+			{
+				ft_print_result(tabstr[i]);
+				write(1, "\n", 1);
+				i++;
+			}	
+		}
+	}
+	else if (arg == 9)
+	{
+		if (!(tabstr = ft_split("xxxxxxxxhello!", 'x')))
+			ft_print_result("NULL");
+		else
+		{
+			while (tabstr[i] != NULL)
+			{
+				ft_print_result(tabstr[i]);
+				write(1, "\n", 1);
+				i++;
+			}	
+		}
+	}
+	else if (arg == 11)
+	{
+		if (!(tabstr = ft_split("^^^1^^2a,^^^^3^^^^--h^^^^", '^')))
+			ft_print_result("NULL");
+		else
+		{
+			while (tabstr[i] != NULL)
+			{
+				ft_print_result(tabstr[i]);
+				write(1, "\n", 1);
+				i++;
+			}	
+		}
+	}
+	//free(tabstr[i]);
 	return (0);
 }

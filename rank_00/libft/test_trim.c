@@ -18,7 +18,10 @@ int		main(int argc, const char *argv[])
 	char	*strtrim;
 	int		arg;
 
-	alarm(5);
+
+	strtrim = ft_strtrim("abcdba", "acb");
+	printf("%s", strtrim);
+	free(strtrim);
 	if (argc == 1)
 		return (0);
 	else if ((arg = atoi(argv[1])) == 1)
