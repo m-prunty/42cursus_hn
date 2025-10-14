@@ -1,25 +1,23 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_memmove.c                                       :+:      :+:    :+:   */
+/*   ft_lstnew.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: maprunty <maprunty@student.42heilbronn.de  +#+  +:+       +#+        */
+/*   By: maprunty <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/09/05 15:42:37 by maprunty          #+#    #+#             */
-/*   Updated: 2025/10/13 01:38:54 by maprunty         ###   ########.fr       */
+/*   Created: 2025/10/14 01:42:05 by maprunty          #+#    #+#             */
+/*   Updated: 2025/10/14 04:09:40 by maprunty         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-void	*ft_memmove(void *dest, const void *src, size_t n)
+t_list	*ft_lstnew(void *content)
 {
-	if (!dest && !src)
-		return (0);
-	if (src < dest)
-		while (n--)
-			((char *)dest)[n] = ((char *)src)[n];
-	else
-		ft_memcpy(dest, src, n);
-	return (dest);
+	t_list	*new;
+
+	new = (t_list *)malloc(sizeof(t_list));
+	new->content = content;
+	new->next = NULL;
+	return (new);
 }
