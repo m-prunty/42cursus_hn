@@ -6,7 +6,7 @@
 /*   By: maprunty <maprunty@student.42heilbronn.de  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/05 15:42:37 by maprunty          #+#    #+#             */
-/*   Updated: 2025/10/11 04:03:45 by maprunty         ###   ########.fr       */
+/*   Updated: 2025/10/14 16:38:21 by maprunty         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,6 +49,48 @@ int	ft_count(char const *s, char c)
 	return (i);
 }
 
+//static void	_help_split(char **s, char **res, char c)
+//{
+//	int	n;
+//
+//	if (!ft_strchr(*s, c))
+//		n = ft_strlen(*s);
+//	else
+//		n = ft_strchr(*s, c) - *s;
+//	res[i++] = ft_substr(*s, 0, n);
+//	*s += n;
+//}
+/*
+void *_chk_res(char **res, int n)
+{
+	int i;
+
+	i = -1;
+	while (++i < n)
+	{
+		if (!res[i])
+		{
+			i = -1; 
+			while(res[++i])
+				free(res[i]);
+		}
+	}
+	return (NULL);
+}
+*/
+void	ft_for_sarr(char** sarr, int length)
+{
+	while (length--)
+		free(sarr++);
+}
+
+char	*_assign_sub(char **res, int i, char *sub)
+{
+	if (!sub)
+		ft_for_sarr(res, i);
+	return (sub);
+}
+
 char	**ft_split(char const *s, char c)
 {
 	char	**res;
@@ -69,8 +111,9 @@ char	**ft_split(char const *s, char c)
 				n = ft_strlen(s);
 			else
 				n = ft_strchr(s, c) - s;
-			res[i++] = ft_substr(s, 0, n);
+			res[i] = _assign_sub(res, i, ft_substr(s, 0, n));
 			s += n;
+			i++;
 		}
 	}
 	res[i] = NULL;
