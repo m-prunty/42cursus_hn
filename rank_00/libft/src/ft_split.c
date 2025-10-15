@@ -49,45 +49,15 @@ int	ft_count(char const *s, char c)
 	return (i);
 }
 
-//static void	_help_split(char **s, char **res, char c)
-//{
-//	int	n;
-//
-//	if (!ft_strchr(*s, c))
-//		n = ft_strlen(*s);
-//	else
-//		n = ft_strchr(*s, c) - *s;
-//	res[i++] = ft_substr(*s, 0, n);
-//	*s += n;
-//}
-/*
-void *_chk_res(char **res, int n)
-{
-	int i;
-
-	i = -1;
-	while (++i < n)
-	{
-		if (!res[i])
-		{
-			i = -1; 
-			while(res[++i])
-				free(res[i]);
-		}
-	}
-	return (NULL);
-}
-*/
-void	ft_for_sarr(char** sarr, int length)
-{
-	while (length--)
-		free(sarr++);
-}
-
-char	*_assign_sub(char **res, int i, char *sub)
+char	*_assign_sub(char **res, int n, char *sub)
 {
 	if (!sub)
-		ft_for_sarr(res, i);
+	{
+		while (n > 0)
+			free(res[--n]);
+		free(res);
+		return (NULL);
+	}
 	return (sub);
 }
 
@@ -96,9 +66,9 @@ char	**ft_split(char const *s, char c)
 	char	**res;
 	int		i;
 	int		n;
-
+	
 	i = 0;
-	res = (char **)malloc(sizeof(char *) * ((ft_count(s, c)) + 1));
+	res = (char **)ft_calloc(((ft_count(s, c)) + 1),sizeof(char *));
 	if (!res || !s)
 		return (NULL);
 	while (*s)
@@ -112,10 +82,11 @@ char	**ft_split(char const *s, char c)
 			else
 				n = ft_strchr(s, c) - s;
 			res[i] = _assign_sub(res, i, ft_substr(s, 0, n));
+			if (!res[i])
+				return(NULL);
 			s += n;
 			i++;
 		}
 	}
-	res[i] = NULL;
 	return (res);
-}
+ }

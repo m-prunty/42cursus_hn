@@ -14,7 +14,7 @@ NAME	:= libft.a
 
 INC 	:= -Iinclude
 CC      := gcc 
-CFLAGS  := -Wall -Wextra -Werror $(INC) -fsanitize=leak -g
+CFLAGS  := -Wall -Wextra -Werror $(INC)
 
 AR		:= ar
 ARFLAGS := -rcs
