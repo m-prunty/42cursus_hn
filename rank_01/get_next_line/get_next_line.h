@@ -6,7 +6,7 @@
 /*   By: maprunty <maprunty@student.42heilbronn.de  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/15 22:38:15 by maprunty          #+#    #+#             */
-/*   Updated: 2025/10/23 22:24:48 by maprunty         ###   ########.fr       */
+/*   Updated: 2025/10/26 16:35:56 by maprunty         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,7 @@
 # include <stdlib.h>
 # include <unistd.h>
 # include <fcntl.h>
+# include "libft.h"
 
 char *get_next_line(int fd);
 

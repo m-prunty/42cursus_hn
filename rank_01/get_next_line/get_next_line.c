@@ -6,7 +6,7 @@
 /*   By: maprunty <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/19 11:36:23 by maprunty          #+#    #+#             */
-/*   Updated: 2025/10/24 23:25:13 by maprunty         ###   ########.fr       */
+/*   Updated: 2025/10/26 21:54:59 by maprunty         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,7 @@ char	*clean_return(char **ptr)
 	char *nl;
 	char *tmp;
 	char *sub;
+	int	n;
 
 	nl = ft_strchr(*ptr, '\n');
 	if (nl)
@@ -26,37 +27,54 @@ char	*clean_return(char **ptr)
 		if (ft_strlen(sub) < ft_strlen(*ptr))
 			*ptr = ft_substr(*ptr, nl + 1 - *ptr, ft_strlen(*ptr) - (nl + 1 - *ptr));
 		else
-			*ptr = "";
+			*ptr = NULL;
 		free(tmp);
-		return (sub);
 	}
-	return (*ptr);
+	else
+	{
+		n = ft_strlen(*ptr);
+		sub = malloc(sizeof(char) * n + 1);
+		ft_memcpy(sub, *ptr, n);
+		sub[n] = '\0';
+		free(*ptr);
+		*ptr = NULL;
+	}
+	return (sub);
+}
+
+void	add_to_stat(char **ptr, char *buf, int nread)
+{
+	int n;
+	char	*tmp;
+
+	n = 0;
+	if (*ptr)
+		n = ft_strlen(*ptr);
+	tmp = (char *)malloc(sizeof(char) * (n + nread + 1));
+	ft_memcpy(tmp, *ptr, n);
+	ft_memcpy(tmp + n, buf, nread);
+	tmp[n + nread] = '\0';
+	free(*ptr);
+	*ptr = tmp;
 }
 
 char	*get_next_line(int fd)
 {
-	static char	*ptr = "";
+	static char	*ptr = NULL;
 	char		buf[BUFFER_SIZE];
-	char		*tmp;
 	int			nread;
 
 	nread = 1;
 	ft_bzero(buf, BUFFER_SIZE);
-	tmp = NULL;
-	while ((!*ptr || !ft_strchr(ptr, '\n')) && nread)
+	while ((!ptr || !ft_strchr(ptr, '\n')) && nread)
 	{
 		nread = read(fd, buf, BUFFER_SIZE);
 		if (nread >= 1)
-		{
-			tmp = ptr;
-			ptr = ft_strjoin(ptr, buf);
-			if (*tmp)
-				free(tmp);
-		}
+			add_to_stat(&ptr, buf, nread);
 		else if (nread < 0)
-			return (free(ptr), NULL);
+			return (NULL);
 	}
-	if (*ptr)
+	if (ptr || nread)
 		return (clean_return(&ptr));
 	return (NULL);
 }
