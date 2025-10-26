@@ -6,7 +6,7 @@
 /*   By: maprunty <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/19 11:36:23 by maprunty          #+#    #+#             */
-/*   Updated: 2025/10/26 21:54:59 by maprunty         ###   ########.fr       */
+/*   Updated: 2025/10/26 23:25:44 by maprunty         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,11 +20,14 @@ char	*clean_return(char **ptr)
 	int	n;
 
 	nl = ft_strchr(*ptr, '\n');
+	n = ft_strlen(*ptr);
 	if (nl)
 	{
+		sub = malloc(sizeof(char) * (nl + 1 - *ptr) );
+		ft_memcpy(sub, *ptr, n);
 		tmp = *ptr;
 		sub = ft_substr(*ptr, 0, nl + 1 - *ptr);
-		if (ft_strlen(sub) < ft_strlen(*ptr))
+		if (  < ft_strlen(*ptr))
 			*ptr = ft_substr(*ptr, nl + 1 - *ptr, ft_strlen(*ptr) - (nl + 1 - *ptr));
 		else
 			*ptr = NULL;
@@ -32,8 +35,7 @@ char	*clean_return(char **ptr)
 	}
 	else
 	{
-		n = ft_strlen(*ptr);
-		sub = malloc(sizeof(char) * n + 1);
+		sub = malloc(sizeof(char) * (n + 1));
 		ft_memcpy(sub, *ptr, n);
 		sub[n] = '\0';
 		free(*ptr);
