@@ -6,7 +6,7 @@
 /*   By: maprunty <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/19 11:36:23 by maprunty          #+#    #+#             */
-/*   Updated: 2025/10/26 23:25:44 by maprunty         ###   ########.fr       */
+/*   Updated: 2025/10/27 17:27:59 by maprunty         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,14 +20,11 @@ char	*clean_return(char **ptr)
 	int	n;
 
 	nl = ft_strchr(*ptr, '\n');
-	n = ft_strlen(*ptr);
 	if (nl)
 	{
-		sub = malloc(sizeof(char) * (nl + 1 - *ptr) );
-		ft_memcpy(sub, *ptr, n);
 		tmp = *ptr;
 		sub = ft_substr(*ptr, 0, nl + 1 - *ptr);
-		if (  < ft_strlen(*ptr))
+		if (ft_strlen(sub) < ft_strlen(*ptr))
 			*ptr = ft_substr(*ptr, nl + 1 - *ptr, ft_strlen(*ptr) - (nl + 1 - *ptr));
 		else
 			*ptr = NULL;
@@ -35,7 +32,8 @@ char	*clean_return(char **ptr)
 	}
 	else
 	{
-		sub = malloc(sizeof(char) * (n + 1));
+		n = ft_strlen(*ptr);
+		sub = malloc(sizeof(char) * n + 1);
 		ft_memcpy(sub, *ptr, n);
 		sub[n] = '\0';
 		free(*ptr);
@@ -63,19 +61,27 @@ void	add_to_stat(char **ptr, char *buf, int nread)
 char	*get_next_line(int fd)
 {
 	static char	*ptr = NULL;
-	char		buf[BUFFER_SIZE];
+	char		*buf;
 	int			nread;
 
 	nread = 1;
-	ft_bzero(buf, BUFFER_SIZE);
+	buf = (char *)ft_calloc(BUFFER_SIZE + 1, sizeof(char));
+	if (!buf)
+		return (NULL);
 	while ((!ptr || !ft_strchr(ptr, '\n')) && nread)
 	{
 		nread = read(fd, buf, BUFFER_SIZE);
 		if (nread >= 1)
 			add_to_stat(&ptr, buf, nread);
 		else if (nread < 0)
-			return (NULL);
+		{
+			free(ptr);
+			ptr = NULL;
+			return (free(buf), NULL);
+		}
 	}
+	if (buf)
+		free(buf);
 	if (ptr || nread)
 		return (clean_return(&ptr));
 	return (NULL);
