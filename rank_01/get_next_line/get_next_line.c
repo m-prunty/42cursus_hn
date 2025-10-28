@@ -6,13 +6,11 @@
 /*   By: maprunty <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/19 11:36:23 by maprunty          #+#    #+#             */
-/*   Updated: 2025/10/28 14:55:18 by maprunty         ###   ########.fr       */
+/*   Updated: 2025/10/28 20:43:35 by maprunty         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
-
-//int calloc_help(char *str, )
 
 void *free_null(char **ptr)
 {
@@ -22,35 +20,44 @@ void *free_null(char **ptr)
 }
 
 char	*clean_return(char **ptr)
-{	char	*nl;
+{
 	char	*tmp;
 	char	*sub;
-	size_t	n;
+	size_t	nl;
+	size_t	nptr;
 
+	if (!*ptr)
+		return (NULL);
 	tmp = *ptr;
-	*ptr = NULL;
-	n = ft_strlen(tmp);
-	nl = ft_memchr(tmp, '\n', n);
+	nptr = ft_strlen(tmp);
+	*ptr = (char *)ft_memchr(tmp, '\n', nptr) + 1;
+	nl = 0;
+	if (*ptr)
+		nl = (*ptr - tmp);
 	if (nl)
 	{
-		sub = ft_substr(tmp, 0, nl + 1 - tmp);
+		sub = malloc(sizeof(char) * (nl + 1));
 		if (!sub)
 			return (free_null(&tmp), NULL);
-		if (ft_strlen(sub) < n)
+		ft_memcpy(sub, tmp, nl);
+		sub[nl] = '\0';
+		if (nl < nptr)
 		{
-			*ptr = ft_substr(tmp, nl + 1 - tmp, ft_strlen(tmp) - (nl + 1 - tmp));
+			*ptr = malloc(sizeof(char) * (nptr + 1));
 			if (!*ptr)
-				return (free_null(&sub), free_null(&tmp),  NULL);
+				return (free_null(&sub), free_null(&tmp), NULL);
+			ft_memcpy(*ptr, tmp + nl, nptr);
+			(*ptr)[nptr] = '\0';
 		}
 		free(tmp);
 	}
 	else
 	{
-		sub = malloc(sizeof(char) * n + 1);
+		sub = malloc(sizeof(char) * (nptr + 1));
 		if (!sub)
 			return (free_null(&tmp), NULL);
-		ft_memcpy(sub, tmp, n);
-		sub[n] = '\0';
+		ft_memcpy(sub, tmp, nptr);
+		sub[nptr] = '\0';
 		free(tmp);
 		tmp = NULL;
 	}
