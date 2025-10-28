@@ -21,7 +21,7 @@
 #define MEM_SIZE 0x100
 #define REPETITIONS 1000
 #ifndef TIMEOUT
-#define TIMEOUT 9999999999 
+#define TIMEOUT 3
 #endif
 #ifndef BUFFER_SIZE
 #define BUFFER_SIZE 3

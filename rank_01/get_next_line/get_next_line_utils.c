@@ -6,7 +6,7 @@
 /*   By: maprunty <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/23 16:03:04 by maprunty          #+#    #+#             */
-/*   Updated: 2025/10/24 11:35:42 by maprunty         ###   ########.fr       */
+/*   Updated: 2025/10/28 11:41:59 by maprunty         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -135,20 +135,6 @@ char    *ft_substr(char const *s, unsigned int start, size_t len)
     ft_strlcpy(sub, s + start, len + 1);
     return (sub);
 }
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   ft_calloc.c                                        :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: maprunty <maprunty@student.42heilbronn.de  +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/09/05 15:42:37 by maprunty          #+#    #+#             */
-/*   Updated: 2025/10/10 18:18:50 by maprunty         ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
-
-#include "libft.h"
-
 void	*ft_calloc(size_t nmemb, size_t size)
 {
 	void		*p;
@@ -161,4 +147,20 @@ void	*ft_calloc(size_t nmemb, size_t size)
 		return (NULL);
 	ft_bzero((char *)p, n);
 	return (p);
+}
+void	*ft_memchr(const void *s, int c, size_t n)
+{
+	const unsigned char	*us;
+	unsigned char		uc;
+
+	us = (const unsigned char *)--s;
+	uc = (unsigned char)c;
+	if (n)
+	{
+		while (n-- && uc != *++us)
+			;
+		if (uc == *us)
+			return ((void *)us);
+	}
+	return (NULL);
 }
