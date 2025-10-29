@@ -6,14 +6,14 @@
 /*   By: maprunty <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/19 11:36:23 by maprunty          #+#    #+#             */
-/*   Updated: 2025/10/28 20:43:35 by maprunty         ###   ########.fr       */
+/*   Updated: 2025/10/29 20:18:00 by maprunty         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
 #include <unistd.h>
 
-void *free_null(char **ptr)
+void	*free_null(char **ptr)
 {
 	free(*ptr);
 	*ptr = NULL;
@@ -67,41 +67,41 @@ void *free_null(char **ptr)
 
 
  * */
+
+int	calloc_protect(char **to_calloc, size_t n)
+{
+	*to_calloc = ft_calloc(n, 1);
+	if (*to_calloc)
+		return (1);
+	return (0);
+}
+
 char	*clean_return(char **ptr)
 {
-	char	*tmp;
-	char	*sub;
-	size_t	nl;
-	size_t	nptr;
+	char	*tmp[2];
+	size_t	n[2];
 
-	tmp = *ptr;
-	nptr = ft_strlen(tmp);
-	*ptr = (char *)ft_memchr(tmp, '\n', nptr);
-	nl = 0;
+	tmp[0] = *ptr;
+	n[1] = ft_strlen(tmp[0]);
+	n[0] = 0;
+	*ptr = (char *)ft_memchr(tmp[0], '\n', n[1]);
 	if (*ptr)
-		nl = (*ptr + 1  - tmp);
+		n[0] = (*ptr + 1 - tmp[0]);
 	*ptr = NULL;
-	if (nl)
-		sub = malloc(sizeof(char) * (nl + 1));
-	else
+	if (!n[0])
+		n[0] = n[1];
+	if (!calloc_protect(&tmp[1], sizeof(char) * (n[0] + 1)))
+		return (free_null(&tmp[0]), NULL);
+	ft_memcpy(tmp[1], tmp[0], n[0]);
+	if (n[0] && n[0] < n[1])
 	{
-		sub = malloc(sizeof(char) * (nptr + 1));
-		nl = nptr;
+		if (!calloc_protect(ptr, sizeof(char) * (n[1] - n[0] + 1)))
+			return (free_null(&tmp[1]), free_null(&tmp[0]), NULL);
+		ft_memcpy(*ptr, tmp[0] + n[0], n[1] - n[0]);
+		(*ptr)[n[1] - n[0]] = '\0';
 	}
-	if (!sub)
-		return (free_null(&tmp), NULL);
-	ft_memcpy(sub, tmp, nl);
-	sub[nl] = '\0';
-	if (nl && nl < nptr)
-	{
-		*ptr = malloc(sizeof(char) * (nptr - nl + 1));
-		if (!*ptr)
-			return (free_null(&sub), free_null(&tmp), NULL);
-		ft_memcpy(*ptr, tmp + nl, nptr - nl);
-		(*ptr)[nptr - nl] = '\0';
-	}
-	free(tmp);
-	return (sub);
+	free(tmp[0]);
+	return (tmp[1]);
 }
 
 int	add_to_stat(char **ptr, char *buf, int *nread)
@@ -141,8 +141,8 @@ char	*get_next_line(int fd)
 		nread = read(fd, buf, BUFFER_SIZE);
 		if (nread >= 1 && add_to_stat(&ptr, buf, &nread))
 			;
-			else if (nread < 0)
-			return (free_null(&buf), free_null(&ptr),  NULL);
+		else if (nread < 0)
+			return (free_null(&buf), free_null(&ptr), NULL);
 	}
 	if (buf)
 		free_null(&buf);
