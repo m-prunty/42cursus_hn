@@ -11,6 +11,7 @@
 /* ************************************************************************** */
 
 #include "get_next_line.h"
+#include <unistd.h>
 
 void *free_null(char **ptr)
 {
@@ -18,8 +19,8 @@ void *free_null(char **ptr)
 	*ptr = NULL;
 	return (NULL);
 }
-
-char	*clean_return(char **ptr)
+/*
+ *char	*clean_return(char **ptr)
 {
 	char	*tmp;
 	char	*sub;
@@ -30,10 +31,11 @@ char	*clean_return(char **ptr)
 		return (NULL);
 	tmp = *ptr;
 	nptr = ft_strlen(tmp);
-	*ptr = (char *)ft_memchr(tmp, '\n', nptr) + 1;
+	*ptr = (char *)ft_memchr(tmp, '\n', nptr);
 	nl = 0;
 	if (*ptr)
-		nl = (*ptr - tmp);
+		nl = (*ptr + 1  - tmp);
+	*ptr = NULL;
 	if (nl)
 	{
 		sub = malloc(sizeof(char) * (nl + 1));
@@ -59,8 +61,46 @@ char	*clean_return(char **ptr)
 		ft_memcpy(sub, tmp, nptr);
 		sub[nptr] = '\0';
 		free(tmp);
-		tmp = NULL;
 	}
+	return (sub);
+}
+
+
+ * */
+char	*clean_return(char **ptr)
+{
+	char	*tmp;
+	char	*sub;
+	size_t	nl;
+	size_t	nptr;
+
+	tmp = *ptr;
+	nptr = ft_strlen(tmp);
+	*ptr = (char *)ft_memchr(tmp, '\n', nptr);
+	nl = 0;
+	if (*ptr)
+		nl = (*ptr + 1  - tmp);
+	*ptr = NULL;
+	if (nl)
+		sub = malloc(sizeof(char) * (nl + 1));
+	else
+	{
+		sub = malloc(sizeof(char) * (nptr + 1));
+		nl = nptr;
+	}
+	if (!sub)
+		return (free_null(&tmp), NULL);
+	ft_memcpy(sub, tmp, nl);
+	sub[nl] = '\0';
+	if (nl && nl < nptr)
+	{
+		*ptr = malloc(sizeof(char) * (nptr - nl + 1));
+		if (!*ptr)
+			return (free_null(&sub), free_null(&tmp), NULL);
+		ft_memcpy(*ptr, tmp + nl, nptr - nl);
+		(*ptr)[nptr - nl] = '\0';
+	}
+	free(tmp);
 	return (sub);
 }
 
@@ -101,7 +141,7 @@ char	*get_next_line(int fd)
 		nread = read(fd, buf, BUFFER_SIZE);
 		if (nread >= 1 && add_to_stat(&ptr, buf, &nread))
 			;
-		else if (nread < 0)
+			else if (nread < 0)
 			return (free_null(&buf), free_null(&ptr),  NULL);
 	}
 	if (buf)
