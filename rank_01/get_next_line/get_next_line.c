@@ -11,6 +11,7 @@
 /* ************************************************************************** */
 
 #include "get_next_line.h"
+#include <stddef.h>
 #include <unistd.h>
 
 void	*free_null(char **ptr)
@@ -76,10 +77,54 @@ int	calloc_protect(char **to_calloc, size_t n)
 	return (0);
 }
 
+
+
 char	*clean_return(char **ptr)
 {
-	char	*tmp[2];
+	char	*ptr_ret;
+	char	*nl_ret;
 	size_t	n[2];
+
+
+	n[1] = ft_strlen(*ptr);
+	n[0] = 0;
+	ptr_ret = (char *)ft_memchr(*ptr, '\n', n[1]);
+	if (ptr_ret)
+		n[0] = (ptr_ret + 1 - *ptr);
+	//ptr = NULL;
+	if (!n[0])
+		n[0] = n[1];
+	if (!calloc_protect(&nl_ret, sizeof(char) * (n[0] + 1)))
+		return (free_null(&ptr_ret), NULL);
+	ft_memcpy(nl_ret, *ptr, n[0] + 1);
+	if (n[0] && n[0] < n[1])
+	{	
+		if (!calloc_protect(ptr, sizeof(char) * (n[1] - n[0] + 1)))
+			return (free_null(&nl_ret), free_null(&ptr_ret), NULL);
+		ft_memcpy(*ptr, ptr_ret + n[0], n[1] - n[0]);
+		(*ptr)[n[1] - n[0]] = '\0';
+	}
+	return (nl_ret);
+}
+
+/*
+void *subdup(char **ptr, char *src, size_t start, size_t len)
+{
+	char	*out;
+	
+	out = *ptr;
+	if (!len)
+		return (NULL);
+	if (!calloc_protect(&out, sizeof(char) * (len + 1)))
+		return (NULL);
+	ft_memcpy(out, src + start, len);
+	out[len] = '\0';
+	return (out);
+}
+char	*clean_return(char **ptr)
+{
+	char    *tmp[2];
+	size_t  n[2];
 
 	tmp[0] = *ptr;
 	n[1] = ft_strlen(tmp[0]);
@@ -90,38 +135,41 @@ char	*clean_return(char **ptr)
 	*ptr = NULL;
 	if (!n[0])
 		n[0] = n[1];
-	if (!calloc_protect(&tmp[1], sizeof(char) * (n[0] + 1)))
+	if (!subdup(&tmp[1], tmp[0], 0, n[0]))
 		return (free_null(&tmp[0]), NULL);
-	ft_memcpy(tmp[1], tmp[0], n[0]);
 	if (n[0] && n[0] < n[1])
 	{
-		if (!calloc_protect(ptr, sizeof(char) * (n[1] - n[0] + 1)))
+		if (!subdup(ptr, tmp[0], 0, n[1]))
 			return (free_null(&tmp[1]), free_null(&tmp[0]), NULL);
-		ft_memcpy(*ptr, tmp[0] + n[0], n[1] - n[0]);
-		(*ptr)[n[1] - n[0]] = '\0';
 	}
 	free(tmp[0]);
 	return (tmp[1]);
 }
+*/
+
+
+
+#define CHUNK 1024
 
 int	add_to_stat(char **ptr, char *buf, int *nread)
 {
+	int		cur_n;
 	int		n;
 	char	*tmp;
 
 	n = 0;
-	if (*ptr)
+	tmp = *ptr;
+	if (tmp)
 		n = ft_strlen(*ptr);
-	tmp = (char *)malloc(sizeof(char) * (n + *nread + 1));
-	if (!tmp)
+	cur_n = ((n + *nread) / CHUNK) + 1;
+	if ((!tmp || (n + *nread  >= CHUNK * cur_n)) &&
+		 !calloc_protect(&tmp, CHUNK * (cur_n + 1)))
 	{
 		*nread = -1;
 		return (0);
 	}
-	ft_memcpy(tmp, *ptr, n);
 	ft_memcpy(tmp + n, buf, *nread);
 	tmp[n + *nread] = '\0';
-	free(*ptr);
 	*ptr = tmp;
 	return (1);
 }
@@ -138,6 +186,7 @@ char	*get_next_line(int fd)
 		return (free_null(&ptr), NULL);
 	while ((!ptr || !ft_memchr(buf, '\n', nread)) && nread)
 	{
+		ft_bzero(buf, '\0');
 		nread = read(fd, buf, BUFFER_SIZE);
 		if (nread >= 1 && add_to_stat(&ptr, buf, &nread))
 			;
