@@ -6,7 +6,7 @@
 /*   By: maprunty <maprunty@student.42heilbronn.de  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/11 18:54:21 by maprunty          #+#    #+#             */
-/*   Updated: 2025/09/15 07:02:09 by maprunty         ###   ########.fr       */
+/*   Updated: 2025/11/02 03:44:48 by maprunty         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,29 +70,31 @@ int	check_flags(t_format *fmt, e_flag f)
 	return (0);
 }
 
-int	print_space(int n)
+int	print_space(int n, int *count)
 {
 	int	i;
 
 	i = -1;
 	while (++i < n)
-		ft_putchar_fd(' ', FD);
+		ft_putchar_fd_count(' ', FD, count);
 	return (i);
 }
 
-int ft_putstr_n_fd(char *s, int n, int fd)
+int ft_putstr_n_fd(char *s, int n, int fd, int *count)
 {
 	int i;
-
+	
 	i = -1;
 	while (++i < n && s[i])
-		ft_putchar_fd(s[i], fd);
+		ft_putchar_fd_count(s[i], fd, count);
 	return (i);
 }
-
 		
-
-
+void    ft_putstr_fd_count(char *s, int fd, int *count)
+{
+	while (*s)
+		ft_putchar_fd_count(*s++, fd, count);
+}
 
 int	ft_render_chars(t_format *fmt)
 {
@@ -114,10 +116,10 @@ int	ft_render_chars(t_format *fmt)
 	if (fmt->precision >= 0 && fmt->spec == 's')
 		slen = fmt->precision;
 	if (fmt->width && !check_flags(fmt, MINUS))
-		print_space(fmt->width - slen);
-	ft_putstr_n_fd(s, slen, FD);
+		print_space(fmt->width - slen, &fmt->count);
+	ft_putstr_n_fd(s, slen, FD, &fmt->count);
 	if (fmt->width && check_flags(fmt, MINUS))
-		print_space(fmt->width - slen);
+		print_space(fmt->width - slen, &fmt->count);
 	return (1); 
 }
 
@@ -178,12 +180,12 @@ void handle_zero(t_format *fmt)
 		if (!i && fmt->width > fmt->count)
 		{
 			i = (fmt->width - fmt->count);
-			fmt->count += i;
+//			fmt->count += i;
 		}
 		else
 		{ 
 			while (i-- > 0)
-				ft_putchar_fd('0', FD);
+				ft_putchar_fd_count('0', FD, &fmt->count);
 			i = 0;
 		}
 	}
@@ -197,12 +199,12 @@ void handle_precis(t_format *fmt)
 		if (!i && fmt->precision > fmt->count)
 		{
 			i = fmt->precision - fmt->count;
-			fmt->count += i;
+//			fmt->count += i;
 		}
 		else
 		{ 
 			while (i-- > 0)
-				ft_putchar_fd('0', FD);
+				ft_putchar_fd_count('0', FD, &fmt->count);
 		i = 0;
 		}
 	}
@@ -223,9 +225,9 @@ void handle_hash(t_format *fmt)
 		else if (i == 2)
 		{
 			if (ft_islower(fmt->spec))
-				ft_putstr_fd("0x", FD);
+				ft_putstr_fd_count("0x", FD, &fmt->count);
 			else
-				ft_putstr_fd("0X", FD);
+				ft_putstr_fd_count("0X", FD, &fmt->count);
 			i = 0;
 		}
 	}
@@ -246,17 +248,17 @@ int	ft_render_nums(t_format *fmt)
 	handle_precis(fmt);
 
 	if (fmt->width && !check_flags(fmt, MINUS) && !check_flags(fmt, ZERO))
-		print_space(fmt->width - fmt->count);
+		print_space(fmt->width - fmt->count, &fmt->count);
 
 	if (check_flags(fmt, PLUS) && ft_strchr("id", fmt->spec) && res > 0)
-		ft_putchar_fd('+', FD);
+		ft_putchar_fd_count('+', FD, &fmt->count);
 	//if ()
 	handle_hash(fmt);
 	handle_zero(fmt);
 	handle_precis(fmt);
-	ft_putnbr_base_fd(res, FD, base_s);
+	ft_putnbr_base_fd(res, FD, base_s, &fmt->count);
 	if (fmt->width && check_flags(fmt, MINUS))
-		print_space(fmt->width - fmt->count);
+		print_space(fmt->width - fmt->count, &fmt->count);
 
 
 	//res = ft_atoi_base((char *)fmt->str, "01");
@@ -268,12 +270,12 @@ int	ft_render(t_format *fmt)
 {
 	//	int	n;
 	if (fmt->spec == '%')
-		ft_putchar_fd('%', FD);
+		ft_putchar_fd_count('%', FD, &fmt->count);
 	if (ft_strchr("cs", fmt->spec))
 		ft_render_chars(fmt);
 	else if (ft_strchr("pdiuxX", fmt->spec))
 		ft_render_nums(fmt);	
-	//n = fmt.
+ 	//n = fmt.
 
 	return (0);
 }

@@ -6,7 +6,7 @@
 /*   By: maprunty <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/14 05:12:41 by maprunty          #+#    #+#             */
-/*   Updated: 2025/09/15 04:06:42 by maprunty         ###   ########.fr       */
+/*   Updated: 2025/11/02 03:42:22 by maprunty         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,29 +40,29 @@ int	ft_isvalid_base(char *base)
 	return (0);
 }
 
-void	ft_putnbr_base_fd(long int n, int fd, char *base)
+void	ft_putnbr_base_fd(long int n, int fd, char *base, int *count)
 {
 	int		base_len;
 
 	base_len = ft_isvalid_base(base);
 	if (n <= ((long)1 << 63))
 	{
-		ft_putchar_fd('-', fd);
-		ft_putnbr_base_fd((~((long)1 << 63))  / base_len , fd, base);
+		ft_putchar_fd_count('-', fd, count);
+		ft_putnbr_base_fd((~((long)1 << 63))  / base_len , fd, base, count);
 		n = (n % base_len) * -1;
 	}
 	else if (n < 0)
 		{
-			ft_putchar_fd('-', fd);
+			ft_putchar_fd_count('-', fd, count);
 			n *=-1;
 		}
 	if (n >= base_len)
 		{
-			ft_putnbr_base_fd(n / base_len, fd, base);
+			ft_putnbr_base_fd(n / base_len, fd, base, count);
 			n %= base_len;
 		}
 	if (n < base_len)
-		ft_putchar_fd(base[n], fd);
+		ft_putchar_fd_count(base[n], fd, count);
 }
 
 /*
@@ -70,16 +70,16 @@ void	ft_putnbr_base_fd(long int n, int fd, char *base)
 int	main()
 {
 ft_putnbr_base(12345, "001123456789");
-ft_putchar_fd('\n', FD);
+ft_putchar_fd_count('\n', FD, &count);
 //ft_putnbr_base(-12345, "0abccde1");
-ft_putchar_fd('\n', FD);
+ft_putchar_fd_count('\n', FD, &count);
 //ft_putnbr_base(0, "abcd");
-ft_putchar_fd('\n', FD);
+ft_putchar_fd_count('\n', FD, &count);
 //printf("%i", ~(1<<31));
 //printf("%i", (1<<31));
 ft_putnbr_base((1<<31), "01");
-ft_putchar_fd('\n', FD);
+ft_putchar_fd_count('\n', FD, &count);
 ft_putnbr_base(~(1<<31), "0123456789");
-ft_putchar_fd('\n', FD);
+ft_putchar_fd_count('\n', FD, &count);
 }
 */

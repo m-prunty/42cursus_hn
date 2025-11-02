@@ -6,7 +6,7 @@
 /*   By: maprunty <maprunty@student.42heilbronn.de  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/12 17:04:10 by maprunty          #+#    #+#             */
-/*   Updated: 2025/09/15 07:46:44 by maprunty         ###   ########.fr       */
+/*   Updated: 2025/11/02 03:54:53 by maprunty         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -128,9 +128,15 @@ int main()
 	int		i = 42;
 	char *beg = "one", *mid = "two", *end = "three";
 	
-	ft_printf("Here char; |%#0c|\nstr; |%10.4s|\nint; |%i|\nnospec; |%#.*X|\n", 'a',  str, i, 15,15);
-	ft_printf("Here char; |%x|\nstr; |%5X|\nint; |%p|\nnospec; |%#034|\n", 42, -42,"two" );
-	printf("Here char; |%x|\nstr; |%5X|\nint; |%p|\nnospec; |%#034|\n", 42, -42,"two" );
-    test_edge_cases();
+//	ft_printf("Here char; |%#0c|\nstr; |%10.4s|\nint; |%i|\nnospec; |%#.*X|\n", 'a',  str, i, 15,15);
+//	ft_printf("Here char; |%x|\nstr; |%5X|\nint; |%p|\nnospec; |%#034|\n", 42, -42,"two" );
+//	printf("Here char; |%x|\nstr; |%5X|\nint; |%p|\nnospec; |%#034|\n", 42, -42,"two" );
+    //test_edge_cases();
+	//printf("%i",ft_printf(" %c ", '0'));   
+	ft_printf("%i:\n", ft_printf("|%c", '0'));
+	ft_printf("%i:\n", ft_printf("| %c", '0' - 256));
+	ft_printf("%i:\n", ft_printf("| %c %c %c ", '0', 0, '1'));
+	ft_printf("%i:\n", ft_printf("| %c %c %c ", '2', '1', 0));
+	ft_printf("%i:\n", ft_printf("| %c %c %c ", 0, '1', '2'));
 	
 }

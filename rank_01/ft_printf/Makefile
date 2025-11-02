@@ -6,15 +6,17 @@
 #    By: maprunty <maprunty@student.42heilbronn.de  +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/09/05 17:52:46 by maprunty          #+#    #+#              #
-#    Updated: 2025/09/12 17:00:44 by maprunty         ###   ########.fr        #
+#    Updated: 2025/10/17 10:39:22 by maprunty         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
-NAME	:= libftftprintf.a
+NAME	:= libftprintf.a
 
-INC 	:= -Iinclude
+LIB		:= lib
+LFT		:= libft.a
+INC 	:= include
 CC      := gcc -g
-CFLAGS  := -Wall -Wextra -Werror $(INC)
+CFLAGS  := -Wall -Wextra -Werror -I$(INC) 
 
 AR		:= ar
 ARFLAGS := -rcs
@@ -26,10 +28,11 @@ OBJ     := $(patsubst src/%.c,obj/%.o,$(SRC))
 all: $(NAME)
 
 $(NAME): $(OBJ) 
-	$(AR) $(ARFLAGS) $@ $^
+	cp  $(LIB)/$(LFT) $@ 
+	$(AR) $(ARFLAGS)  $@  $^
 
 obj/%.o: src/%.c | obj
-	$(CC) $(CFLAGS) -c $< -o $@
+	$(CC) $(CFLAGS) -c $< -o $@ 
 
 obj:
 	mkdir -p $@
