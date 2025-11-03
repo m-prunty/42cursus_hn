@@ -6,7 +6,7 @@
 #    By: maprunty <maprunty@student.42heilbronn.de  +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/09/05 17:52:46 by maprunty          #+#    #+#              #
-#    Updated: 2025/10/17 10:39:22 by maprunty         ###   ########.fr        #
+#    Updated: 2025/11/03 06:13:01 by maprunty         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -26,6 +26,8 @@ SRC		:= $(S_FILES:%.c=src/%.c)
 OBJ     := $(patsubst src/%.c,obj/%.o,$(SRC))
 
 all: $(NAME)
+
+bonus: all
 
 $(NAME): $(OBJ) 
 	cp  $(LIB)/$(LFT) $@ 

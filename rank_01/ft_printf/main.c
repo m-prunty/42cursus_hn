@@ -6,7 +6,7 @@
 /*   By: maprunty <maprunty@student.42heilbronn.de  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/12 17:04:10 by maprunty          #+#    #+#             */
-/*   Updated: 2025/11/02 03:54:53 by maprunty         ###   ########.fr       */
+/*   Updated: 2025/11/03 06:03:03 by maprunty         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -133,10 +133,28 @@ int main()
 //	printf("Here char; |%x|\nstr; |%5X|\nint; |%p|\nnospec; |%#034|\n", 42, -42,"two" );
     //test_edge_cases();
 	//printf("%i",ft_printf(" %c ", '0'));   
-	ft_printf("%i:\n", ft_printf("|%c", '0'));
-	ft_printf("%i:\n", ft_printf("| %c", '0' - 256));
-	ft_printf("%i:\n", ft_printf("| %c %c %c ", '0', 0, '1'));
-	ft_printf("%i:\n", ft_printf("| %c %c %c ", '2', '1', 0));
-	ft_printf("%i:\n", ft_printf("| %c %c %c ", 0, '1', '2'));
-	
+	ft_printf("%i:", ft_printf("|%c %c", '0', 65));
+	printf("\n");
+	ft_printf("%i:", ft_printf("| %c ", '0' - 256));
+	printf("\n");
+	ft_printf("%i:", ft_printf("| %c %c %c ", '0', 65, '1'));
+	printf("\n");
+	ft_printf("%i:", ft_printf("| %c %c %c ", '2', '1', 0));
+	printf("\n");
+	ft_printf("%i:", ft_printf("| %c %c %c ", 0, '1', '2'));
+	printf("\n");
+	ft_printf("%i",ft_printf(" NULL %s NULL ", NULL));
+	printf("\n\n");
+	printf("%i:", printf("|%c %c", '0', 65));
+	printf("\n");
+	printf("%i:", printf("| %c ", '0' - 256));
+	printf("\n");
+	printf("%i:", printf("| %c %c %c ", '0', 65, '1'));
+	printf("\n");
+	printf("%i:", printf("| %c %c %c ", '2', '1', 0));
+	printf("\n");
+	printf("%i:", printf("| %c %c %c ", 0, '1', '2'));
+	printf("\n");
+	printf("%i",printf(" NULL %s NULL ", NULL));
+
 }

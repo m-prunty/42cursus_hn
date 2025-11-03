@@ -6,7 +6,7 @@
 /*   By: maprunty <maprunty@student.42heilbronn.de  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/11 18:54:21 by maprunty          #+#    #+#             */
-/*   Updated: 2025/11/02 03:44:48 by maprunty         ###   ########.fr       */
+/*   Updated: 2025/11/03 06:11:28 by maprunty         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,7 +85,7 @@ int ft_putstr_n_fd(char *s, int n, int fd, int *count)
 	int i;
 	
 	i = -1;
-	while (++i < n && s[i])
+	while (++i < n)
 		ft_putchar_fd_count(s[i], fd, count);
 	return (i);
 }
@@ -98,26 +98,28 @@ void    ft_putstr_fd_count(char *s, int fd, int *count)
 
 int	ft_render_chars(t_format *fmt)
 {
-	char	*s;
-	char	c;
-	int		slen;
+	unsigned char	*s;
+	unsigned char	c;
+	int				slen;
 
 	if (fmt->spec == 'c')
 	{
-		c = (char)va_arg(fmt->ap, int);
-		s = (char *)&c;
+		c = (unsigned char)va_arg(fmt->ap, int);
+		s = (unsigned char *)&c;
 		slen = 1;
 	}
 	else
 	{
-		s = (char *)va_arg(fmt->ap, char *);
-		slen = ft_strlen(s);
+		s = (unsigned char *)va_arg(fmt->ap, char *);
+		if (!s)
+			s = (unsigned char *)"(null)";
+		slen = ft_strlen((char *)s);
 	}
 	if (fmt->precision >= 0 && fmt->spec == 's')
 		slen = fmt->precision;
 	if (fmt->width && !check_flags(fmt, MINUS))
 		print_space(fmt->width - slen, &fmt->count);
-	ft_putstr_n_fd(s, slen, FD, &fmt->count);
+	ft_putstr_n_fd((char *)s, slen, FD, &fmt->count);
 	if (fmt->width && check_flags(fmt, MINUS))
 		print_space(fmt->width - slen, &fmt->count);
 	return (1); 
@@ -279,4 +281,3 @@ int	ft_render(t_format *fmt)
 
 	return (0);
 }
-

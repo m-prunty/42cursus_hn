@@ -6,7 +6,7 @@
 /*   By: maprunty <maprunty@student.42heilbronn.de  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/11 18:26:36 by maprunty          #+#    #+#             */
-/*   Updated: 2025/11/02 02:39:23 by maprunty         ###   ########.fr       */
+/*   Updated: 2025/11/03 04:34:00 by maprunty         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,12 +58,13 @@ int	ft_printf(const char *f_str, ...)
 			ft_init_format(fmt, f_str);
 			ft_parse(fmt);
 			f_str += fmt->count;
-			fmt->count =0;
+			fmt->count = 0;
 			if (fmt->spec)
 				ft_render(fmt);
 			count += fmt->count;
-		}	
-		ft_putchar_fd_count(*f_str++, FD, &count);
+		}
+		if (*f_str)	
+			ft_putchar_fd_count(*f_str++, FD, &count);
 	}
 	va_end(fmt->ap);
 	free(fmt);
