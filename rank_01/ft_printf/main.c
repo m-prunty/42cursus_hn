@@ -6,7 +6,7 @@
 /*   By: maprunty <maprunty@student.42heilbronn.de  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/12 17:04:10 by maprunty          #+#    #+#             */
-/*   Updated: 2025/11/03 06:03:03 by maprunty         ###   ########.fr       */
+/*   Updated: 2025/11/04 04:44:55 by maprunty         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -120,7 +120,76 @@ void test_edge_cases(void) {
     ft_printf("INT_MAX precision : [%.*d]\n", INT_MAX > 20 ? 20 : INT_MAX, 42);
 }
 
+void	test_print_chars(char *format, int a, int b, int c)
+{
+   	printf("\nog_printf>> ");	
+	fflush(stdout);	
+    printf(format, a, b, c);
 
+   	printf("\nmy_printf>> ");	
+	fflush(stdout);	
+    ft_printf(format, a, b, c);
+}
+
+void	test_print_ptrs(char *format, int a, int b)
+{
+	int i, j = 0;
+
+   	printf("\nog_printf>>|");	
+	fflush(stdout);	
+    i = printf(format, a, b);
+   	printf("|\tnchars>>: %i", i);	
+
+   	printf("\nmy_printf>>|");	
+	fflush(stdout);	
+    j = ft_printf(format, a, b);
+   	printf("|\tnchars>>: %i", j);	
+}
+
+void	test_print_pcent(char *format )
+{
+	int i, j = 0;
+
+   	printf("\nog_printf>>|");	
+	fflush(stdout);	
+    i = printf(format);
+   	printf("|\tnchars>>: %i", i);	
+
+   	printf("\nmy_printf>>|");	
+	fflush(stdout);	
+    j = ft_printf(format);
+   	printf("|\tnchars>>: %i", j);	
+}
+
+void	test_print_int(char *format, int a )
+{
+	int i, j = 0;
+
+   	printf("\nog_printf>>|");	
+	fflush(stdout);	
+    i = printf(format, a);
+   	printf("|\tnchars>>: %i", i);	
+
+   	printf("\nmy_printf>>|");	
+	fflush(stdout);	
+    j = ft_printf(format, a);
+   	printf("|\tnchars>>: %i", j);	
+}
+
+void	test_print_strs(char *format, char *a, char *b)
+{
+	int i, j = 0;
+
+   	printf("\nog_printf>>|");	
+	fflush(stdout);	
+    i = printf(format, a, b);
+   	printf("|\tnchars>>: %i", i);	
+
+   	printf("\nmy_printf>>|");	
+	fflush(stdout);	
+    j = ft_printf(format, a, b);
+   	printf("|\tnchars>>: %i", j);	
+}
 
 int main()
 {
@@ -133,7 +202,8 @@ int main()
 //	printf("Here char; |%x|\nstr; |%5X|\nint; |%p|\nnospec; |%#034|\n", 42, -42,"two" );
     //test_edge_cases();
 	//printf("%i",ft_printf(" %c ", '0'));   
-	ft_printf("%i:", ft_printf("|%c %c", '0', 65));
+	
+/*	ft_printf("%i:", ft_printf("|%c %c", '0', 65));
 	printf("\n");
 	ft_printf("%i:", ft_printf("| %c ", '0' - 256));
 	printf("\n");
@@ -156,5 +226,27 @@ int main()
 	printf("%i:", printf("| %c %c %c ", 0, '1', '2'));
 	printf("\n");
 	printf("%i",printf(" NULL %s NULL ", NULL));
-
+*/
+/*
+	test_print_ptrs(" %p ", -1, 0);
+	test_print_ptrs(" %p %p ", (void *)LONG_MIN, (void *)LONG_MAX);
+	test_print_ptrs(" %p %p ", (void *)ULONG_MAX, (void *)-ULONG_MAX);
+	test_print_ptrs(" %2p ", -1, 0);
+	test_print_pcent(" %%%% ");
+	test_print_int(" %-1d ", 0);
+	test_print_int(" %-4d ", -14);
+	test_print_int(" %-5d ", 15);
+	test_print_int(" %-6d ", -16);
+	test_print_int(" %-11d ", LONG_MAX);
+	test_print_int(" %-12d ", LONG_MIN);
+	test_print_int(" %-13d ", UINT_MAX);
+	test_print_int(" %-14d ", ULONG_MAX);
+	test_print_int(" %-15d ", 9223372036854775807LL);
+*/	
+	test_print_chars("| %c %c %c ", 65, '1', '2');
+	test_print_strs("%7.7s%7.7s", "hello", "world");
+	test_print_strs("%3.7s%7.7s", "hello", "world");
+	test_print_strs("%7.7s%3.7s", "hello", "world");
+		
+	test_print_ptrs(" %-9p %-10p ", LONG_MIN, LONG_MAX);
 }

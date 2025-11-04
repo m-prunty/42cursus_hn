@@ -6,7 +6,7 @@
 /*   By: maprunty <maprunty@student.42heilbronn.de  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/10 05:42:04 by maprunty          #+#    #+#             */
-/*   Updated: 2025/11/02 03:43:57 by maprunty         ###   ########.fr       */
+/*   Updated: 2025/11/04 01:26:46 by maprunty         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -214,19 +214,13 @@ typedef enum	e_flag
 typedef struct	s_format
 {
 	const char	*str;
-	size_t	n;
+	int		n;
 	va_list	ap;
-	//flag
 	e_flag	flags[5];
-	//width
 	int		width;
-	//precision
 	int		precision;
-	//len
 	int		lenmod;
-	//spec
 	char	spec;
-	//bytecount
 	int		count;
 	
 }	t_format ;

@@ -6,7 +6,7 @@
 /*   By: maprunty <maprunty@student.42heilbronn.de  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/11 18:26:36 by maprunty          #+#    #+#             */
-/*   Updated: 2025/11/03 04:34:00 by maprunty         ###   ########.fr       */
+/*   Updated: 2025/11/03 21:51:22 by maprunty         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,7 +63,7 @@ int	ft_printf(const char *f_str, ...)
 				ft_render(fmt);
 			count += fmt->count;
 		}
-		if (*f_str)	
+		if (*f_str && *f_str != '%')	
 			ft_putchar_fd_count(*f_str++, FD, &count);
 	}
 	va_end(fmt->ap);

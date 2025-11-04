@@ -6,7 +6,7 @@
 /*   By: maprunty <maprunty@student.42heilbronn.de  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/11 18:42:37 by maprunty          #+#    #+#             */
-/*   Updated: 2025/09/15 06:33:40 by maprunty         ###   ########.fr       */
+/*   Updated: 2025/11/04 04:46:52 by maprunty         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,11 +76,6 @@ void ft_parse_spec(t_format *fmt)
 
 int	ft_parse(t_format *fmt)
 {
-	//	int	i;
-
-	//	i = fmt_spec - specifier;
-	//	while (*fmt->str && !fmt->spec)
-	//	{
 	while (ft_strchr(FLAGS, *fmt->str))
 		ft_parse_flags(fmt);
 	if (*fmt->str != '0' && (ft_isdigit(*fmt->str) || *fmt->str == '*'))
@@ -91,9 +86,8 @@ int	ft_parse(t_format *fmt)
 		ft_parse_len(fmt);
 	if (ft_strchr(SPECIFIER, *fmt->str))
 		ft_parse_spec(fmt);
-	//fmt->str++;
 	if (!fmt->spec)
 		fmt->count = 0;
-	//	}	
+	//fmt->str -= fmt->count;	
 	return (0);
 }
