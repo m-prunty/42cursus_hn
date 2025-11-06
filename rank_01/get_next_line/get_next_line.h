@@ -6,7 +6,7 @@
 /*   By: maprunty <maprunty@student.42heilbronn.de  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/15 22:38:15 by maprunty          #+#    #+#             */
-/*   Updated: 2025/10/26 16:35:56 by maprunty         ###   ########.fr       */
+/*   Updated: 2025/11/06 00:42:46 by maprunty         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,20 +17,25 @@
 #  define BUFFER_SIZE 10
 # endif
 
+# ifndef CHUNK
+#  define CHUNK 1024
+# endif
+
 # include <stddef.h>
 # include <stdlib.h>
 # include <unistd.h>
 # include <fcntl.h>
 # include "libft.h"
 
-char *get_next_line(int fd);
+char	*get_next_line(int fd);
 
-size_t  ft_strlen(const char *s);
-void    *ft_strcpy(void *dest, const void *src, size_t n);
-void    ft_bzero(void *s, size_t n);
-char    *ft_strchr(const char *s, int c);
-size_t  ft_strlcat(char *dst, const char *src, size_t size);
-char    *ft_strjoin(char const *s1, char const *s2);
-char    *ft_substr(char const *s, unsigned int start, size_t len);
-
+size_t	t_strlen(const char *s);
+void	*ft_strcpy(void *dest, const void *src, size_t n);
+void	ft_bzero(void *s, size_t n);
+char	*ft_strchr(const char *s, int c);
+size_t	ft_strlcat(char *dst, const char *src, size_t size);
+char	*ft_strjoin(char const *s1, char const *s2);
+char	*ft_substr(char const *s, unsigned int start, size_t len);
+int		calloc_protect(char **to_calloc, size_t n);
+void	*free_null(char **ptr);
 #endif

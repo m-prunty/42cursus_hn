@@ -21,9 +21,11 @@ int main(int ac, char **av)
 	int i;
 	
 	i = 0;
-	while(++i <= ac)
+	while(++i < ac)
 		fd[i - 1] = open(av[i], O_RDONLY);
 	print_nl(*fd);
+
+	close(*fd);
 }
 
 

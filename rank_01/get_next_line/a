@@ -1,0 +1,76 @@
+
+==16616== Invalid write of size 1
+==16616==    at 0x1097D5: ft_memcpy (get_next_line_utils.c:68)
+==16616==    by 0x1094EF: add_to_stat (get_next_line.c:73)
+==16616==    by 0x1095AD: get_next_line (get_next_line.c:91)
+==16616==    by 0x1098DB: print_nl (bain.c:13)
+==16616==    by 0x109A38: main (bain.c:26)
+==16616==  Address 0x4aeaa1a is 0 bytes after a block of size 10 alloc'd
+==16616==    at 0x4848899: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==16616==    by 0x109682: ft_calloc (get_next_line_utils.c:20)
+==16616==    by 0x1096DA: calloc_protect (get_next_line_utils.c:29)
+==16616==    by 0x109321: clean_return (get_next_line.c:38)
+==16616==    by 0x109640: get_next_line (get_next_line.c:99)
+==16616==    by 0x1098DB: print_nl (bain.c:13)
+==16616==    by 0x109A38: main (bain.c:26)
+==16616== 
+==16616== Invalid read of size 1
+==16616==    at 0x10976C: ft_strlen (get_next_line_utils.c:50)
+==16616==    by 0x109236: clean_return (get_next_line.c:24)
+==16616==    by 0x109640: get_next_line (get_next_line.c:99)
+==16616==    by 0x1098DB: print_nl (bain.c:13)
+==16616==    by 0x109A38: main (bain.c:26)
+==16616==  Address 0x4aeaa1a is 0 bytes after a block of size 10 alloc'd
+==16616==    at 0x4848899: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==16616==    by 0x109682: ft_calloc (get_next_line_utils.c:20)
+==16616==    by 0x1096DA: calloc_protect (get_next_line_utils.c:29)
+==16616==    by 0x109321: clean_return (get_next_line.c:38)
+==16616==    by 0x109640: get_next_line (get_next_line.c:99)
+==16616==    by 0x1098DB: print_nl (bain.c:13)
+==16616==    by 0x109A38: main (bain.c:26)
+==16616== 
+==16616== Invalid read of size 1
+==16616==    at 0x109886: ft_memchr (get_next_line_utils.c:94)
+==16616==    by 0x10925A: clean_return (get_next_line.c:26)
+==16616==    by 0x109640: get_next_line (get_next_line.c:99)
+==16616==    by 0x1098DB: print_nl (bain.c:13)
+==16616==    by 0x109A38: main (bain.c:26)
+==16616==  Address 0x4aeaa1a is 0 bytes after a block of size 10 alloc'd
+==16616==    at 0x4848899: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==16616==    by 0x109682: ft_calloc (get_next_line_utils.c:20)
+==16616==    by 0x1096DA: calloc_protect (get_next_line_utils.c:29)
+==16616==    by 0x109321: clean_return (get_next_line.c:38)
+==16616==    by 0x109640: get_next_line (get_next_line.c:99)
+==16616==    by 0x1098DB: print_nl (bain.c:13)
+==16616==    by 0x109A38: main (bain.c:26)
+==16616== 
+==16616== Invalid read of size 1
+==16616==    at 0x109892: ft_memchr (get_next_line_utils.c:96)
+==16616==    by 0x10925A: clean_return (get_next_line.c:26)
+==16616==    by 0x109640: get_next_line (get_next_line.c:99)
+==16616==    by 0x1098DB: print_nl (bain.c:13)
+==16616==    by 0x109A38: main (bain.c:26)
+==16616==  Address 0x4aeaa1e is 4 bytes after a block of size 10 alloc'd
+==16616==    at 0x4848899: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==16616==    by 0x109682: ft_calloc (get_next_line_utils.c:20)
+==16616==    by 0x1096DA: calloc_protect (get_next_line_utils.c:29)
+==16616==    by 0x109321: clean_return (get_next_line.c:38)
+==16616==    by 0x109640: get_next_line (get_next_line.c:99)
+==16616==    by 0x1098DB: print_nl (bain.c:13)
+==16616==    by 0x109A38: main (bain.c:26)
+==16616== 
+==16616== Invalid read of size 1
+==16616==    at 0x1097D2: ft_memcpy (get_next_line_utils.c:68)
+==16616==    by 0x1092E4: clean_return (get_next_line.c:34)
+==16616==    by 0x109640: get_next_line (get_next_line.c:99)
+==16616==    by 0x1098DB: print_nl (bain.c:13)
+==16616==    by 0x109A38: main (bain.c:26)
+==16616==  Address 0x4aeaa1a is 0 bytes after a block of size 10 alloc'd
+==16616==    at 0x4848899: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==16616==    by 0x109682: ft_calloc (get_next_line_utils.c:20)
+==16616==    by 0x1096DA: calloc_protect (get_next_line_utils.c:29)
+==16616==    by 0x109321: clean_return (get_next_line.c:38)
+==16616==    by 0x109640: get_next_line (get_next_line.c:99)
+==16616==    by 0x1098DB: print_nl (bain.c:13)
+==16616==    by 0x109A38: main (bain.c:26)
+==16616== 
