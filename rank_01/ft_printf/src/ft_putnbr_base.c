@@ -6,7 +6,7 @@
 /*   By: maprunty <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/14 05:12:41 by maprunty          #+#    #+#             */
-/*   Updated: 2025/11/02 03:42:22 by maprunty         ###   ########.fr       */
+/*   Updated: 2025/11/04 06:40:14 by maprunty         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,29 +40,34 @@ int	ft_isvalid_base(char *base)
 	return (0);
 }
 
-void	ft_putnbr_base_fd(long int n, int fd, char *base, int *count)
+
+void	ft_putnbr_base_fmt(long int n, char *base, int *count, int print_minus)
 {
 	int		base_len;
 
 	base_len = ft_isvalid_base(base);
-	if (n <= ((long)1 << 63))
-	{
-		ft_putchar_fd_count('-', fd, count);
-		ft_putnbr_base_fd((~((long)1 << 63))  / base_len , fd, base, count);
+	/*	if (n <= ((long)1 << 63))
+		{
+		if ()//ft_strchr("id", fmt->spec))
+
+		ft_putchar_fd_count('-', FD, count);
+		ft_putnbr_base_fmt((~((long)1 << 63)) / base_len , base, count, fmt);
 		n = (n % base_len) * -1;
+		}
+		*/
+	if (n < 0) 
+	{
+		if (!print_minus)
+			ft_putchar_fd_count('-', FD, count);
+		n *=-1;
 	}
-	else if (n < 0)
-		{
-			ft_putchar_fd_count('-', fd, count);
-			n *=-1;
-		}
 	if (n >= base_len)
-		{
-			ft_putnbr_base_fd(n / base_len, fd, base, count);
-			n %= base_len;
-		}
+	{
+		ft_putnbr_base_fmt(n / base_len, base, count, 0);
+		n %= base_len;
+	}
 	if (n < base_len)
-		ft_putchar_fd_count(base[n], fd, count);
+		ft_putchar_fd_count(base[n], FD, count);
 }
 
 /*

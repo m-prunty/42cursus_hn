@@ -6,7 +6,7 @@
 /*   By: maprunty <maprunty@student.42heilbronn.de  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/12 17:04:10 by maprunty          #+#    #+#             */
-/*   Updated: 2025/11/04 04:44:55 by maprunty         ###   ########.fr       */
+/*   Updated: 2025/11/04 09:35:06 by maprunty         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -242,11 +242,35 @@ int main()
 	test_print_int(" %-13d ", UINT_MAX);
 	test_print_int(" %-14d ", ULONG_MAX);
 	test_print_int(" %-15d ", 9223372036854775807LL);
-*/	
 	test_print_chars("| %c %c %c ", 65, '1', '2');
 	test_print_strs("%7.7s%7.7s", "hello", "world");
 	test_print_strs("%3.7s%7.7s", "hello", "world");
 	test_print_strs("%7.7s%3.7s", "hello", "world");
 		
+
+	test_print_int(" %04d ", -14);                                                                 
+	test_print_int(" %05d ", -15);                                                                 
+	test_print_int(" %06d ", -16);                                                                 
+	test_print_int(" %011d ", LONG_MAX);                                                           
+	test_print_int(" %013d ", UINT_MAX);                                                           
+	test_print_int(" %014d ", ULONG_MAX);                                                          
+	test_print_int(" %015d ", 9223372036854775807LL);    
+
+	
+	test_print_int(" %-10d ", INT_MIN);      
+	test_print_int(" %-11i ", LONG_MAX);                                                           
+	test_print_int(" %-1u ", 0);  
+	
+	test_print_int(" %02d ", -1);                                                                   
+	test_print_int(" %01d ", -9);                                                                  
+	test_print_int(" %02d ", -10);                                                                 
+	test_print_int(" %03d ", -11);                                                                 
+	test_print_int(" %01d ", -99);                                                                 
+	test_print_int(" %02d ", -100);                                                                
+	test_print_int(" %03d ", -101);          	
 	test_print_ptrs(" %-9p %-10p ", LONG_MIN, LONG_MAX);
+*/	
+	test_print_int(" %010d ", INT_MIN);      
+	test_print_int(" %011i ", LONG_MAX);                                                           
+	test_print_int(" %01u ", 0);  
 }

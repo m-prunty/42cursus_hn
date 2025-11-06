@@ -6,7 +6,7 @@
 /*   By: maprunty <maprunty@student.42heilbronn.de  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/11 18:54:21 by maprunty          #+#    #+#             */
-/*   Updated: 2025/11/04 04:48:20 by maprunty         ###   ########.fr       */
+/*   Updated: 2025/11/04 09:50:33 by maprunty         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -194,7 +194,7 @@ int		ft_count_digits_base(unsigned long long n, int base, t_format *fmt)
 	return (base_len);
 }
 
-void handle_zero(t_format *fmt)
+void handle_zero(t_format *fmt, unsigned long long *res)
 {
 	static int i = 0;
 
@@ -202,11 +202,16 @@ void handle_zero(t_format *fmt)
 	{
 		if (!i && fmt->width > fmt->n)
 			i = (fmt->width - fmt->n);
-		else
+		else if (i)
 		{ 
 			while (i-- > 0)
 				ft_putchar_fd_count('0', FD, &fmt->count);
 			i = 0;
+		}
+		if ((int)*res < 0 && ft_strchr("id", fmt->spec))
+		{
+			ft_putchar_fd_count('-', FD, &fmt->count);
+			*res = ((long)(~((int)*res))) + 1 ;//(long)((int)*res) * -1;
 		}
 	}
 }
@@ -214,6 +219,7 @@ void handle_zero(t_format *fmt)
 void handle_precis(t_format *fmt)
 {
 	static int i = 0;
+
 	if (fmt->precision >= 0 )
 	{ 
 		if (!i && fmt->precision > fmt->n)
@@ -286,17 +292,17 @@ int	ft_render_nums(t_format *fmt)
 	get_base(fmt, base_s);
 	fmt->n = ft_count_digits_base(res, ft_strlen(base_s), fmt);
 	handle_hash(fmt);
-	handle_zero(fmt);
+	handle_zero(fmt, &res);
 	if (fmt->width && !check_flags(fmt, MINUS) && !check_flags(fmt, ZERO))
 		print_space(fmt->width - fmt->n, &fmt->count);
 	if (check_flags(fmt, PLUS) && ft_strchr("id", fmt->spec) && res > 0)
 		ft_putchar_fd_count('+', FD, &fmt->count);
 	handle_hash(fmt);
-	handle_zero(fmt);
+	handle_zero(fmt, &res);
 	if (fmt->spec == 'p')
 		ft_iputnum_ptr(res, fmt);
 	else
-		ft_putnbr_base_fd(res, FD, base_s, &fmt->count);
+		ft_putnbr_base_fmt(res, base_s, &fmt->count, check_flags(fmt, ZERO));
 	if (fmt->width && check_flags(fmt, MINUS))
 		print_space(fmt->width - fmt->n, &fmt->count);
 	return (1);

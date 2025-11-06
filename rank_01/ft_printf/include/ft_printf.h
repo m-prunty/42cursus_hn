@@ -6,7 +6,7 @@
 /*   By: maprunty <maprunty@student.42heilbronn.de  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/10 05:42:04 by maprunty          #+#    #+#             */
-/*   Updated: 2025/11/04 01:26:46 by maprunty         ###   ########.fr       */
+/*   Updated: 2025/11/04 13:43:02 by maprunty         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -214,14 +214,14 @@ typedef enum	e_flag
 typedef struct	s_format
 {
 	const char	*str;
-	int		n;
-	va_list	ap;
-	e_flag	flags[5];
-	int		width;
-	int		precision;
-	int		lenmod;
-	char	spec;
-	int		count;
+	e_flag		flags[5];
+	int			n;
+	va_list		ap;
+	int			width;
+	int			precision;
+	int			lenmod;
+	char		spec;
+	int			count;
 	
 }	t_format ;
 
@@ -246,4 +246,4 @@ int	ft_isvalid_base(char *base);
 int	ft_convert_charbase(char c, int *val, char *base);
 void	ft_putnbr_base(int nbr, char *base);
 
-void	ft_putnbr_base_fd(long int n, int fd, char *base, int *count);
+void	ft_putnbr_base_fmt(long int n, char *base, int *count,  int print_minus);
