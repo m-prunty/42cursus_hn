@@ -6,7 +6,7 @@
 /*   By: maprunty <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/23 16:03:04 by maprunty          #+#    #+#             */
-/*   Updated: 2025/11/05 23:38:23 by maprunty         ###   ########.fr       */
+/*   Updated: 2025/11/07 23:16:25 by maprunty         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,19 +16,17 @@
 void	*ft_calloc(size_t n, size_t size)
 {
 	void	*p;
+	size_t			i;
 
 	p = malloc(n * size);
 	if (!p)
 		return (NULL);
-	ft_bzero(p, n * size);
+	i = 0;
+	while (i < n)
+		((unsigned char *)p)[i++] = 0;
 	return (p);
 }
 
-int	calloc_protect(char **to_calloc, size_t n)
-{
-	*to_calloc = ft_calloc(n, 1);
-	return (*to_calloc != NULL);
-}
 
 void	ft_bzero(void *s, size_t n)
 {
