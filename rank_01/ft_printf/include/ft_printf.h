@@ -6,7 +6,7 @@
 /*   By: maprunty <maprunty@student.42heilbronn.de  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/10 05:42:04 by maprunty          #+#    #+#             */
-/*   Updated: 2025/11/04 13:43:02 by maprunty         ###   ########.fr       */
+/*   Updated: 2025/11/10 02:05:24 by maprunty         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -216,6 +216,7 @@ typedef struct	s_format
 	const char	*str;
 	e_flag		flags[5];
 	int			n;
+	int			isneg;
 	va_list		ap;
 	int			width;
 	int			precision;

@@ -6,7 +6,7 @@
 /*   By: maprunty <maprunty@student.42heilbronn.de  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/11 18:26:36 by maprunty          #+#    #+#             */
-/*   Updated: 2025/11/03 21:51:22 by maprunty         ###   ########.fr       */
+/*   Updated: 2025/11/10 02:06:35 by maprunty         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,13 +26,9 @@ void ft_parse_len(t_format *fmt)
 
 void	ft_init_format(t_format *fmt, const char* f_str )
 {
-	//int i;
-
-	//i = -1;
 	fmt->str = ++f_str;
-	ft_memset(fmt->flags, '\0', 5*sizeof(e_flag));
-	//while (fmt->flags[++i])
-	//	fmt->flags[i] = 0;
+	ft_memset(fmt->flags, '\0', 5 * sizeof(e_flag));
+	fmt->isneg = 0;
 	fmt->width = 0;
 	fmt->precision = -1;
 	fmt->lenmod = 0;

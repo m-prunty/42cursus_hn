@@ -6,7 +6,7 @@
 /*   By: maprunty <maprunty@student.42heilbronn.de  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/11 18:54:21 by maprunty          #+#    #+#             */
-/*   Updated: 2025/11/04 09:50:33 by maprunty         ###   ########.fr       */
+/*   Updated: 2025/11/10 05:20:07 by maprunty         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,6 +96,16 @@ void    ft_putstr_fd_count(char *s, int fd, int *count)
 		ft_putchar_fd_count(*s++, fd, count);
 }
 
+size_t	ft_strlen_safe(const char *s)
+{
+	size_t	i;
+
+	i = 0;
+	while (s && *s++)
+		i++;
+	return (i);
+}
+
 int	ft_render_chars(t_format *fmt)
 {
 	unsigned char	*s;
@@ -110,9 +120,9 @@ int	ft_render_chars(t_format *fmt)
 	else
 	{
 		s = (unsigned char *)va_arg(fmt->ap, char *);
-		if (!s)
-			s = (unsigned char *)"(null)";
-		fmt->n = ft_strlen((char *)s);
+		//if (!s && !check_flags(fmt, SPACE))
+		//	s = (unsigned char *)"(null)";
+		fmt->n = ft_strlen_safe((char *)s);
 	}
 	if (fmt->precision >= 0 && fmt->precision < fmt->n && fmt->spec == 's')
 		fmt->n = fmt->precision;
@@ -163,6 +173,22 @@ char *get_base(t_format *fmt, char *base_s)
 */
 
 
+int ft_iputnum_ptr(size_t n, t_format *fmt)
+{   
+	size_t  base;
+	char    *symbols;
+
+	symbols = "0123456789abcdef";
+	base = 16;
+	if (n < base)
+		(ft_putchar_fd_count(symbols[n], FD, &fmt->count));
+	else
+	{
+		ft_iputnum_ptr(n / base, fmt);
+		ft_iputnum_ptr(n % base, fmt);
+	}
+	return (1);
+}
 
 
 
@@ -179,6 +205,8 @@ int		ft_count_digits_base(unsigned long long n, int base, t_format *fmt)
 		{
 			n *= -1;
 			base_len += 1;
+			if (fmt->precision > 0)
+				base_len--;
 		}
 		while ((int)n)
 		{
@@ -194,7 +222,7 @@ int		ft_count_digits_base(unsigned long long n, int base, t_format *fmt)
 	return (base_len);
 }
 
-void handle_zero(t_format *fmt, unsigned long long *res)
+void handle_zero(t_format *fmt)
 {
 	static int i = 0;
 
@@ -207,11 +235,6 @@ void handle_zero(t_format *fmt, unsigned long long *res)
 			while (i-- > 0)
 				ft_putchar_fd_count('0', FD, &fmt->count);
 			i = 0;
-		}
-		if ((int)*res < 0 && ft_strchr("id", fmt->spec))
-		{
-			ft_putchar_fd_count('-', FD, &fmt->count);
-			*res = ((long)(~((int)*res))) + 1 ;//(long)((int)*res) * -1;
 		}
 	}
 }
@@ -233,13 +256,13 @@ void handle_precis(t_format *fmt)
 	}
 }
 
-void handle_hash(t_format *fmt)
+void handle_hash(t_format *fmt, unsigned long long res)
 {
 	static int i = 0;
 
 	if (ft_strchr("p", fmt->spec) || (ft_strchr("xX", fmt->spec) && check_flags(fmt, HASH)))
 	{ 
-		if (!i)
+		if (!i && res)
 		{
 			i = 2;
 			fmt->n += i;
@@ -255,23 +278,12 @@ void handle_hash(t_format *fmt)
 	}
 }
 
-int ft_iputnum_ptr(size_t n, t_format *fmt)
-{   
-	size_t  base;
-	char    *symbols;
 
-	symbols = "0123456789abcdef";
-	base = 16;
-	if (n < base)
-		(ft_putchar_fd_count(symbols[n], FD, &fmt->count));
-	else
-	{
-		ft_iputnum_ptr(n / base, fmt);
-		ft_iputnum_ptr(n % base, fmt);
-	}
-	return (1);
+void handle_space(t_format *fmt)
+{
+	if (check_flags(fmt, SPACE) && !check_flags(fmt, PLUS) && fmt->isneg)
+		fmt->n += print_space(1, &fmt->count);
 }
-
 
 
 int	ft_render_nums(t_format *fmt)
@@ -289,20 +301,27 @@ int	ft_render_nums(t_format *fmt)
 		if (!res)
 			return (ft_putstr_n_fd("(nil)", 5, FD, &fmt->count));
 	}
+	if (ft_strchr("id", fmt->spec) && (int)res < 0)
+		fmt->isneg = 1;
 	get_base(fmt, base_s);
 	fmt->n = ft_count_digits_base(res, ft_strlen(base_s), fmt);
-	handle_hash(fmt);
-	handle_zero(fmt, &res);
+	handle_space(fmt);
+	handle_hash(fmt, res);
+	handle_zero(fmt);
+	handle_precis(fmt);
 	if (fmt->width && !check_flags(fmt, MINUS) && !check_flags(fmt, ZERO))
 		print_space(fmt->width - fmt->n, &fmt->count);
-	if (check_flags(fmt, PLUS) && ft_strchr("id", fmt->spec) && res > 0)
+	if (check_flags(fmt, PLUS) && ft_strchr("id", fmt->spec) && !fmt->isneg)
 		ft_putchar_fd_count('+', FD, &fmt->count);
-	handle_hash(fmt);
-	handle_zero(fmt, &res);
+	if (((check_flags(fmt, ZERO)  || fmt->precision > 0 )&& ft_strchr("id", fmt->spec)) && fmt->isneg)
+		ft_putchar_fd_count('-', FD, &fmt->count);
+	handle_hash(fmt, res);
+	handle_zero(fmt);
+	handle_precis(fmt);
 	if (fmt->spec == 'p')
 		ft_iputnum_ptr(res, fmt);
 	else
-		ft_putnbr_base_fmt(res, base_s, &fmt->count, check_flags(fmt, ZERO));
+		ft_putnbr_base_fmt(res, base_s, &fmt->count, check_flags(fmt, ZERO) || fmt->precision > 0 || fmt->spec == 'u');
 	if (fmt->width && check_flags(fmt, MINUS))
 		print_space(fmt->width - fmt->n, &fmt->count);
 	return (1);

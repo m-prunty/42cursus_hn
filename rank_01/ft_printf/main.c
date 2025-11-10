@@ -6,7 +6,7 @@
 /*   By: maprunty <maprunty@student.42heilbronn.de  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/12 17:04:10 by maprunty          #+#    #+#             */
-/*   Updated: 2025/11/04 09:35:06 by maprunty         ###   ########.fr       */
+/*   Updated: 2025/11/10 05:59:30 by maprunty         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -269,8 +269,81 @@ int main()
 	test_print_int(" %02d ", -100);                                                                
 	test_print_int(" %03d ", -101);          	
 	test_print_ptrs(" %-9p %-10p ", LONG_MIN, LONG_MAX);
-*/	
 	test_print_int(" %010d ", INT_MIN);      
 	test_print_int(" %011i ", LONG_MAX);                                                           
 	test_print_int(" %01u ", 0);  
+	test_print_int(" %.2u ", -1);                                                                                                                                                       
+	test_print_int(" %.2u ", 1);                                                                                                                                                        
+	test_print_int(" %.3u ", 11);
+	test_print_int(" %.3u ", -99);                                                                                                                                                      
+	test_print_int(" %.4u ", -101);                                                                                                                                                     
+	test_print_int(" %.10u ", LONG_MAX);                                                                                                                                                
+	test_print_int(" %.12u ", UINT_MAX); 
+	test_print_int(" %#x ", 0);                                                                                                                                                          
+	test_print_int(" %#x ", LONG_MIN);                                                                                                                                                  
+
+	test_print_int(" %#X ", 0);                                                                                                                                                         
+	test_print_int(" %#X ", LONG_MIN);
+
+
+	test_print_int(" % d ", 0);
+	test_print_int(" % d ", 1);
+	test_print_int(" % d ", 9);
+	test_print_int(" % d ", 10);
+	test_print_int(" % d ", 11);
+	test_print_int(" % d ", 15);
+	test_print_int(" % d ", 16);
+	test_print_int(" % d ", 17);
+	test_print_int(" % d ", 99);
+	test_print_int(" % d ", 100);
+	test_print_int(" % d ", 101);
+	test_print_int(" % d ", INT_MAX);
+	test_print_int(" % d ", LONG_MIN);
+	test_print_int(" % d ", -1);                                                                                                                                                        
+	test_print_int(" % d ", -9);                                                                                                                                                        
+	test_print_int(" % d ", -10);                                                                                                                                                       
+	test_print_int(" % d ", -11);                                                                                                                                                       
+	test_print_int(" % d ", -14);                                                                                                                                                       
+	test_print_int(" % d ", -15);                                                                                                                                                       
+	test_print_int(" % d ", -16);                                                                                                                                                       
+	test_print_int(" % d ", -99);                                                                                                                                                       
+	test_print_int(" % d ", -100);                                                                                                                                                      
+	test_print_int(" % d ", -101);                                                                                                                                                      
+	test_print_int(" % d ", INT_MIN);                                                                                                                                                   
+	test_print_int(" % d ", LONG_MAX);                                                                                                                                                  
+	test_print_int(" % d ", UINT_MAX);  
+	
+	test_print_int(" %+d ", 0);
+	test_print_int(" %+d ", -1);
+	test_print_int(" %+d ", -9);
+	test_print_int(" %+d ", -10);
+	test_print_int(" %+d ", -11);
+	test_print_int(" %+d ", -14);
+	test_print_int(" %+d ", -15);
+	test_print_int(" %+d ", -16);
+	test_print_int(" %+d ", -99);
+	test_print_int(" %+d ", -100);
+	test_print_int(" %+d ", -101);
+
+	test_print_int("%.03s", NULL);
+	test_print_int("%3.1s", NULL);
+	test_print_int("%9.1s", NULL);
+	test_print_int("%-3.1s", NULL);
+	test_print_int("%-9.1s", NULL);
+	test_print_int("%8.5i", 34);
+	test_print_int("%10.5i", -216);
+	test_print_int("%8.5i", 0);
+	test_print_int("%8.3i", -8473);
+	test_print_int("%-8.5i", 34);
+	test_print_int("%-10.5i", -216);
+	test_print_int("%-8.5i", 0);
+	test_print_int("%-8.3i", -8473);
+	test_print_int("%08.5i", 34);
+	test_print_int("%010.5i", -216);
+	test_print_int("%08.5i", 0);
+	test_print_int("%08.3i", 8375);
+	test_print_int("%08.3i", -8473);
+*/	
+
+	test_print_strs("NULL |%.3s| |%1s| NULL", NULL, NULL);
 }

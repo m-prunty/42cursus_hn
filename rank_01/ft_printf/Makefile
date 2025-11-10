@@ -6,13 +6,13 @@
 #    By: maprunty <maprunty@student.42heilbronn.de  +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/09/05 17:52:46 by maprunty          #+#    #+#              #
-#    Updated: 2025/11/03 06:13:01 by maprunty         ###   ########.fr        #
+#    Updated: 2025/11/09 19:28:51 by maprunty         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME	:= libftprintf.a
 
-LIB		:= lib
+LIB		:= libft
 LFT		:= libft.a
 INC 	:= include
 CC      := gcc -g
@@ -29,8 +29,9 @@ all: $(NAME)
 
 bonus: all
 
-$(NAME): $(OBJ) 
-	cp  $(LIB)/$(LFT) $@ 
+$(NAME): $(OBJ)
+	$(MAKE) -C $(LIB)
+	mv  $(LIB)/$(LFT) $@ 
 	$(AR) $(ARFLAGS)  $@  $^
 
 obj/%.o: src/%.c | obj
@@ -40,9 +41,11 @@ obj:
 	mkdir -p $@
 
 clean:
+	$(MAKE) -C $(LIB) clean
 	rm -rf $(OBJ) 
 
 fclean: clean
+	$(MAKE) -C $(LIB) fclean
 	rm -rf $(NAME)
 
 re: fclean all
