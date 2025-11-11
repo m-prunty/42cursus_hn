@@ -6,7 +6,7 @@
 /*   By: maprunty <maprunty@student.42heilbronn.de  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/12 17:04:10 by maprunty          #+#    #+#             */
-/*   Updated: 2025/11/10 05:59:30 by maprunty         ###   ########.fr       */
+/*   Updated: 2025/11/11 09:21:40 by maprunty         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -165,12 +165,13 @@ void	test_print_int(char *format, int a )
 {
 	int i, j = 0;
 
-   	printf("\nog_printf>>|");	
+   	printf("\nformat >>|%s| int>>|%i|", format, a );	
+   	printf("\nog_printf>>\t|");	
 	fflush(stdout);	
     i = printf(format, a);
    	printf("|\tnchars>>: %i", i);	
 
-   	printf("\nmy_printf>>|");	
+   	printf("\nmy_printf>>\t|");	
 	fflush(stdout);	
     j = ft_printf(format, a);
    	printf("|\tnchars>>: %i", j);	
@@ -343,7 +344,65 @@ int main()
 	test_print_int("%08.5i", 0);
 	test_print_int("%08.3i", 8375);
 	test_print_int("%08.3i", -8473);
-*/	
 
-	test_print_strs("NULL |%.3s| |%1s| NULL", NULL, NULL);
+	test_print_int("%.09s", NULL);
+	test_print_int("%3.6s", NULL);
+	test_print_int("%20.6s", NULL);
+	test_print_int("%-3.8s", NULL);
+	test_print_int("%-10.8s", NULL);
+	test_print_int("%8.5i", 34);
+	test_print_int("%10.5i", -216);
+	test_print_int("%8.5i", 0);
+	test_print_int("%8.3i", -8473);
+	test_print_int("%-8.5i", 34);
+	test_print_int("%-10.5i", -216);
+	test_print_int("%-8.5i", 0);
+	test_print_int("%-8.3i", -8473);
+	test_print_int("%08.5i", 34);
+	test_print_int("%010.5i", -216);
+	test_print_int("%08.5i", 0);
+	test_print_int("%08.3i", 8375);
+	test_print_int("%08.3i", -8473);
+	test_print_int("%.0i", 0);
+	test_print_int("%.i", 0);
+	
+	test_print_int("%8.3i", -8473);
+	test_print_int("%-8.3i", -8473);
+	test_print_int("%08.5i", 34);
+	test_print_int("%010.5i", -216);
+	test_print_int("%08.5i", 0);
+	test_print_int("%08.3i", 8375);
+	test_print_int("%08.3i", -8473);
+	test_print_int("%.0i", 0);
+	test_print_int("%.i", 0);
+	test_print_int("%5.0i", 0);
+	test_print_int("%5.i", 0);
+	test_print_int("%-5.0i", 0);
+	test_print_int("%-5.i", 0);
+	test_print_int("%8.3d", -8473);
+	test_print_int("%-8.3d", -8473);
+	test_print_int("%08.5d", 34);
+	test_print_int("%010.5d", -216);
+	test_print_int("%08.5d", 0);
+	test_print_int("%08.3d", 8375);
+	test_print_int("%08.3d", -8473);
+*/
+	
+	test_print_int(" %-4d ", -14);
+	test_print_int(" %-5d ", -15);
+	test_print_int(" %-6d ", -16);
+	test_print_int(" %-11d ", LONG_MAX);
+	test_print_int(" %-13d ", UINT_MAX);
+	test_print_int(" %-14d ", ULONG_MAX);
+	test_print_int(" %-15d ", 9223372036854775807LL);
+	test_print_int(" %-5i ", -15);
+	test_print_int(" %-6i ", -16);
+	test_print_int(" %-1i ", -99);
+	test_print_int(" %-12i ", LONG_MIN);
+	test_print_int(" %-14i ", ULONG_MAX);
+	test_print_int(" %-15i ", 9223372036854775807LL);
+	test_print_int(" %-1u ", 0);
+
+//	test_print_strs("NULL |%.3s| |%1s| NULL", NULL, NULL);
+
 }

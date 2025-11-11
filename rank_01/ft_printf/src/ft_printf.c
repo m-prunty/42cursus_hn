@@ -6,7 +6,7 @@
 /*   By: maprunty <maprunty@student.42heilbronn.de  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/11 18:26:36 by maprunty          #+#    #+#             */
-/*   Updated: 2025/11/10 02:06:35 by maprunty         ###   ########.fr       */
+/*   Updated: 2025/11/11 03:49:30 by maprunty         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,6 @@ void	ft_init_format(t_format *fmt, const char* f_str )
 	fmt->lenmod = 0;
 	fmt->count = 0;
 	fmt->spec = '\0';
-
 }
 
 int	ft_printf(const char *f_str, ...)

@@ -6,7 +6,7 @@
 /*   By: maprunty <maprunty@student.42heilbronn.de  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/11 18:54:21 by maprunty          #+#    #+#             */
-/*   Updated: 2025/11/10 05:20:07 by maprunty         ###   ########.fr       */
+/*   Updated: 2025/11/11 09:13:05 by maprunty         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,38 +15,38 @@
 #include "ft_printf.h"
 /*
  *        c      If no l modifier is present, the int argument is converted to an
-              unsigned  char, and the resulting character is written.  If an l
-              modifier is present, the wint_t  (wide  character)  argument  is
-              converted  to  a  multibyte sequence by a call to the wcrtomb(3)
-              function, with a conversion state starting in the initial state,
-              and the resulting multibyte string is written.
+ unsigned  char, and the resulting character is written.  If an l
+ modifier is present, the wint_t  (wide  character)  argument  is
+ converted  to  a  multibyte sequence by a call to the wcrtomb(3)
+ function, with a conversion state starting in the initial state,
+ and the resulting multibyte string is written.
 
-       s      If no l modifier is present: the const char *  argument  is  ex‐
-              pected to be a pointer to an array of character type (pointer to
-              a string).  Characters from the array are written up to (but not
-              including)  a  terminating  null  byte ('\0'); if a precision is
-              specified, no more than the number specified are written.  If  a
-              precision  is given, no null byte need be present; if the preci‐
-              sion is not specified, or is greater than the size of the array,
-              the array must contain a terminating null byte.
+ s      If no l modifier is present: the const char *  argument  is  ex‐
+ pected to be a pointer to an array of character type (pointer to
+ a string).  Characters from the array are written up to (but not
+ including)  a  terminating  null  byte ('\0'); if a precision is
+ specified, no more than the number specified are written.  If  a
+ precision  is given, no null byte need be present; if the preci‐
+ sion is not specified, or is greater than the size of the array,
+ the array must contain a terminating null byte.
 
-              If an l modifier is present: the const wchar_t * argument is ex‐
-              pected to be a pointer to an array  of  wide  characters.   Wide
-              characters  from the array are converted to multibyte characters
-              (each by a call to the wcrtomb(3) function,  with  a  conversion
-              state  starting in the initial state before the first wide char‐
-              acter), up to and including a terminating null  wide  character.
-              The  resulting  multibyte  characters are written up to (but not
-              including) the terminating null byte.  If a precision is  speci‐
-              fied,  no  more bytes than the number specified are written, but
-              no partial multibyte characters are written.  Note that the pre‐
-              cision determines the number of bytes written, not the number of
-              wide characters or screen positions.  The array must  contain  a
-              terminating null wide character, unless a precision is given and
-              it  is  so small that the number of bytes written exceeds it be‐
-              fore the end of the array is reached.
+ If an l modifier is present: the const wchar_t * argument is ex‐
+ pected to be a pointer to an array  of  wide  characters.   Wide
+ characters  from the array are converted to multibyte characters
+ (each by a call to the wcrtomb(3) function,  with  a  conversion
+ state  starting in the initial state before the first wide char‐
+ acter), up to and including a terminating null  wide  character.
+ The  resulting  multibyte  characters are written up to (but not
+ including) the terminating null byte.  If a precision is  speci‐
+ fied,  no  more bytes than the number specified are written, but
+ no partial multibyte characters are written.  Note that the pre‐
+ cision determines the number of bytes written, not the number of
+ wide characters or screen positions.  The array must  contain  a
+ terminating null wide character, unless a precision is given and
+ it  is  so small that the number of bytes written exceeds it be‐
+ fore the end of the array is reached.
 
- */
+*/
 
 /*
  * for 'c' sapecifier only meaningful modifiers are width and negative width 
@@ -83,13 +83,13 @@ int	print_space(int n, int *count)
 int ft_putstr_n_fd(char *s, int n, int fd, int *count)
 {
 	int i;
-	
+
 	i = -1;
 	while (++i < n)
 		ft_putchar_fd_count(s[i], fd, count);
 	return (i);
 }
-		
+
 void    ft_putstr_fd_count(char *s, int fd, int *count)
 {
 	while (*s)
@@ -120,8 +120,8 @@ int	ft_render_chars(t_format *fmt)
 	else
 	{
 		s = (unsigned char *)va_arg(fmt->ap, char *);
-		//if (!s && !check_flags(fmt, SPACE))
-		//	s = (unsigned char *)"(null)";
+		if (!s && !check_flags(fmt, SPACE) && (fmt->precision < 0 || fmt->precision >= 6))
+			s = (unsigned char *)"(null)";
 		fmt->n = ft_strlen_safe((char *)s);
 	}
 	if (fmt->precision >= 0 && fmt->precision < fmt->n && fmt->spec == 's')
@@ -143,7 +143,6 @@ void	ft_iter_up(unsigned int i, char *c)
 
 char *get_base(t_format *fmt, char *base_s)
 {
-	//	char base_s[16];
 
 	if (ft_strchr("idu", fmt->spec))
 		ft_strlcpy(base_s, BASE, 11);
@@ -239,14 +238,19 @@ void handle_zero(t_format *fmt)
 	}
 }
 
-void handle_precis(t_format *fmt)
+void handle_precis(t_format *fmt, int res)
 {
 	static int i = 0;
 
 	if (fmt->precision >= 0 )
 	{ 
-		if (!i && fmt->precision > fmt->n)
+		if (!i && (fmt->precision > fmt->n || !res))
+		{
 			i = fmt->precision - fmt->n;
+			fmt->n = fmt->precision;
+			if (fmt->isneg)
+				fmt->n++;
+		}
 		else
 		{ 
 			while (i-- > 0)
@@ -281,10 +285,29 @@ void handle_hash(t_format *fmt, unsigned long long res)
 
 void handle_space(t_format *fmt)
 {
-	if (check_flags(fmt, SPACE) && !check_flags(fmt, PLUS) && fmt->isneg)
+	if (check_flags(fmt, SPACE) && !check_flags(fmt, PLUS) && !fmt->isneg)
 		fmt->n += print_space(1, &fmt->count);
 }
 
+void handle_sym(t_format *fmt)
+{
+	if (!fmt->isneg)
+	{	
+		if (check_flags(fmt, PLUS) && ft_strchr("id", fmt->spec))
+			ft_putchar_fd_count('+', FD, &fmt->count);
+	}
+	else
+	{
+		if ((check_flags(fmt, ZERO)  || fmt->precision > 0 ) && ft_strchr("id", fmt->spec))
+			ft_putchar_fd_count('-', FD, &fmt->count);
+	}
+}
+
+void handle_width(t_format *fmt)
+{
+	if (fmt->width && !check_flags(fmt, MINUS) && !check_flags(fmt, ZERO))
+		print_space(fmt->width - fmt->n - fmt->isneg, &fmt->count);
+}
 
 int	ft_render_nums(t_format *fmt)
 {
@@ -308,22 +331,18 @@ int	ft_render_nums(t_format *fmt)
 	handle_space(fmt);
 	handle_hash(fmt, res);
 	handle_zero(fmt);
-	handle_precis(fmt);
-	if (fmt->width && !check_flags(fmt, MINUS) && !check_flags(fmt, ZERO))
-		print_space(fmt->width - fmt->n, &fmt->count);
-	if (check_flags(fmt, PLUS) && ft_strchr("id", fmt->spec) && !fmt->isneg)
-		ft_putchar_fd_count('+', FD, &fmt->count);
-	if (((check_flags(fmt, ZERO)  || fmt->precision > 0 )&& ft_strchr("id", fmt->spec)) && fmt->isneg)
-		ft_putchar_fd_count('-', FD, &fmt->count);
+	handle_precis(fmt, res);
+	handle_width(fmt);
+	handle_sym(fmt);
 	handle_hash(fmt, res);
 	handle_zero(fmt);
-	handle_precis(fmt);
+	handle_precis(fmt, (int)res);
 	if (fmt->spec == 'p')
 		ft_iputnum_ptr(res, fmt);
-	else
+	else if (fmt->n)
 		ft_putnbr_base_fmt(res, base_s, &fmt->count, check_flags(fmt, ZERO) || fmt->precision > 0 || fmt->spec == 'u');
 	if (fmt->width && check_flags(fmt, MINUS))
-		print_space(fmt->width - fmt->n, &fmt->count);
+		print_space(fmt->width - fmt->n - fmt->isneg, &fmt->count);
 	return (1);
 }
 
