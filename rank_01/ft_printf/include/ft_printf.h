@@ -6,7 +6,7 @@
 /*   By: maprunty <maprunty@student.42heilbronn.de  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/10 05:42:04 by maprunty          #+#    #+#             */
-/*   Updated: 2025/11/10 02:05:24 by maprunty         ###   ########.fr       */
+/*   Updated: 2025/11/12 07:44:03 by maprunty         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -247,4 +247,4 @@ int	ft_isvalid_base(char *base);
 int	ft_convert_charbase(char c, int *val, char *base);
 void	ft_putnbr_base(int nbr, char *base);
 
-void	ft_putnbr_base_fmt(long int n, char *base, int *count,  int print_minus);
+void	ft_putnbr_base_fmt(long int n, char *base, t_format *fmt);

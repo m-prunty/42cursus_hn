@@ -6,7 +6,7 @@
 /*   By: maprunty <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/14 05:12:41 by maprunty          #+#    #+#             */
-/*   Updated: 2025/11/04 06:40:14 by maprunty         ###   ########.fr       */
+/*   Updated: 2025/11/12 10:49:20 by maprunty         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ int	ft_isvalid_base(char *base)
 }
 
 
-void	ft_putnbr_base_fmt(long int n, char *base, int *count, int print_minus)
+void	ft_putnbr_base_fmt(long int n, char *base, t_format *fmt)
 {
 	int		base_len;
 
@@ -55,19 +55,19 @@ void	ft_putnbr_base_fmt(long int n, char *base, int *count, int print_minus)
 		n = (n % base_len) * -1;
 		}
 		*/
-	if (n < 0) 
+	if (fmt->isneg) 
 	{
-		if (!print_minus)
-			ft_putchar_fd_count('-', FD, count);
+		//n = (int)n;
 		n *=-1;
+		fmt->isneg = 0;
 	}
 	if (n >= base_len)
 	{
-		ft_putnbr_base_fmt(n / base_len, base, count, 0);
+		ft_putnbr_base_fmt(n / base_len, base, fmt);
 		n %= base_len;
 	}
 	if (n < base_len)
-		ft_putchar_fd_count(base[n], FD, count);
+		ft_putchar_fd_count(base[n], FD, &fmt->count);
 }
 
 /*
