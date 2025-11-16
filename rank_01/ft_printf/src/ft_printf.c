@@ -6,25 +6,24 @@
 /*   By: maprunty <maprunty@student.42heilbronn.de  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/11 18:26:36 by maprunty          #+#    #+#             */
-/*   Updated: 2025/11/11 03:49:30 by maprunty         ###   ########.fr       */
+/*   Updated: 2025/11/16 01:00:30 by maprunty         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_printf.h"
 
-void ft_parse_len(t_format *fmt)
+int	ft_render(t_format *fmt)
 {
-	int n;
-
-	n = 2;
-	while (n-- && ft_strchr(LENMOD, *fmt->str))
-	{
-		fmt->str++;
-		fmt->count++;
-	}
+	if (fmt->spec == '%')
+		ft_putchar_fd_count('%', FD, &fmt->count);
+	if (ft_strchr("cs", fmt->spec))
+		ft_render_chars(fmt);
+	else if (ft_strchr("pdiuxX", fmt->spec))
+		ft_render_nums(fmt);
+	return (0);
 }
 
-void	ft_init_format(t_format *fmt, const char* f_str )
+void	ft_init_format(t_format *fmt, const char *f_str)
 {
 	fmt->str = ++f_str;
 	ft_memset(fmt->flags, '\0', 5 * sizeof(e_flag));
@@ -58,10 +57,9 @@ int	ft_printf(const char *f_str, ...)
 				ft_render(fmt);
 			count += fmt->count;
 		}
-		if (*f_str && *f_str != '%')	
+		if (*f_str && *f_str != '%')
 			ft_putchar_fd_count(*f_str++, FD, &count);
 	}
 	va_end(fmt->ap);
-	free(fmt);
-	return (count);
+	return (free(fmt), count);
 }

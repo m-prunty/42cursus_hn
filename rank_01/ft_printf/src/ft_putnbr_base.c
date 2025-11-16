@@ -6,10 +6,9 @@
 /*   By: maprunty <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/14 05:12:41 by maprunty          #+#    #+#             */
-/*   Updated: 2025/11/12 10:49:20 by maprunty         ###   ########.fr       */
+/*   Updated: 2025/11/16 01:02:53 by maprunty         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-
 
 #include "ft_printf.h"
 
@@ -40,51 +39,35 @@ int	ft_isvalid_base(char *base)
 	return (0);
 }
 
+void	ft_putnbr_ptr(size_t n, t_format *fmt)
+{
+	size_t	base;
+	char	*symbols;
+
+	symbols = "0123456789abcdef";
+	base = 16;
+	if (n < base)
+		(ft_putchar_fd_count(symbols[n], FD, &fmt->count));
+	else
+	{
+		ft_putnbr_ptr(n / base, fmt);
+		ft_putnbr_ptr(n % base, fmt);
+	}
+}
 
 void	ft_putnbr_base_fmt(long int n, char *base, t_format *fmt)
 {
 	int		base_len;
 
 	base_len = ft_isvalid_base(base);
-	/*	if (n <= ((long)1 << 63))
-		{
-		if ()//ft_strchr("id", fmt->spec))
-
-		ft_putchar_fd_count('-', FD, count);
-		ft_putnbr_base_fmt((~((long)1 << 63)) / base_len , base, count, fmt);
-		n = (n % base_len) * -1;
-		}
-		*/
-	if (fmt->isneg) 
+	if (fmt->isneg)
 	{
-		//n = (int)n;
-		n *=-1;
+		n *= -1;
 		fmt->isneg = 0;
 	}
 	if (n >= base_len)
-	{
 		ft_putnbr_base_fmt(n / base_len, base, fmt);
-		n %= base_len;
-	}
+	n %= base_len;
 	if (n < base_len)
-		ft_putchar_fd_count(base[n], FD, &fmt->count);
+		ft_putchar_fd_count(base[n % base_len], FD, &fmt->count);
 }
-
-/*
-#include <stdio.h>
-int	main()
-{
-ft_putnbr_base(12345, "001123456789");
-ft_putchar_fd_count('\n', FD, &count);
-//ft_putnbr_base(-12345, "0abccde1");
-ft_putchar_fd_count('\n', FD, &count);
-//ft_putnbr_base(0, "abcd");
-ft_putchar_fd_count('\n', FD, &count);
-//printf("%i", ~(1<<31));
-//printf("%i", (1<<31));
-ft_putnbr_base((1<<31), "01");
-ft_putchar_fd_count('\n', FD, &count);
-ft_putnbr_base(~(1<<31), "0123456789");
-ft_putchar_fd_count('\n', FD, &count);
-}
-*/

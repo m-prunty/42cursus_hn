@@ -6,7 +6,7 @@
 /*   By: maprunty <maprunty@student.42heilbronn.de  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/12 17:04:10 by maprunty          #+#    #+#             */
-/*   Updated: 2025/11/12 12:17:09 by maprunty         ###   ########.fr       */
+/*   Updated: 2025/11/15 22:45:45 by maprunty         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -193,6 +193,21 @@ void	test_print_ints(char *format, int a , int b)
    	printf("|\tnchars>>: %i", j);	
 }
 
+void	test_print_str(char *format, char *a)
+{
+	int i, j = 0;
+
+   	printf("\nog_printf>>|");	
+	fflush(stdout);	
+    i = printf(format, a);
+   	printf("|\tnchars>>: %i", i);	
+
+   	printf("\nmy_printf>>|");	
+	fflush(stdout);	
+    j = ft_printf(format, a);
+   	printf("|\tnchars>>: %i", j);	
+}
+
 void	test_print_strs(char *format, char *a, char *b)
 {
 	int i, j = 0;
@@ -220,6 +235,7 @@ int main()
     //test_edge_cases();
 	//printf("%i",ft_printf(" %c ", '0'));   
 	
+/*
 	ft_printf("%i:", ft_printf("|%c %c", '0', 65));
 	printf("\n");
 	ft_printf("%i:", ft_printf("| %c ", '0' - 256));
@@ -231,11 +247,11 @@ int main()
 	ft_printf("%i:", ft_printf("| %c %c %c ", 0, '1', '2'));
 	printf("\n");
 	ft_printf("%i",ft_printf(" NULL %s NULL ", NULL));
+
 	printf("\n\n");
 	printf("%i:", printf("|%c %c", '0', 65));
 	printf("\n");
 	printf("%i:", printf("| %c ", '0' - 256));
-/*
 	printf("\n");
 	printf("%i:", printf("| %c %c %c ", '0', 65, '1'));
 	printf("\n");
@@ -349,6 +365,31 @@ int main()
 	test_print_int("%-3.1s", NULL);
 	test_print_int("%-9.1s", NULL);
 	test_print_int("%8.5i", 34);
+
+*/
+
+/*
+	test_print_str("%23s", NULL);
+	test_print_str("%32s", "abc");
+	test_print_str("%16s", "nark nark");
+	test_print_str("%-32s", "abc");
+	test_print_str("%-16s", "nark nark");
+	test_print_strs("%.5s%7s", "yo", "boi");
+	test_print_str("%7.5s", "yolo");
+	test_print_str("%7.5s", "bombastic");
+	test_print_str("%-7.5s", "yolo");
+	test_print_str("%-7.5s", "tubular");
+	test_print_strs("%7.7s%7.7s", "hello", "world");
+	test_print_strs("%3.7s%7.7s", "hello", "world");
+	test_print_strs("%7.7s%3.7s", "hello", "world");
+	test_print_strs("%7.3s%7.7s", "hello", "world");
+	test_print_strs("%3.3s%7.7s", "hello", "world");
+	test_print_strs("%7.3s%3.7s", "hello", "world");
+	test_print_strs("%7.7s%7.3s", "hello", "world");
+	test_print_strs("%3.7s%7.3s", "hello", "world");
+	test_print_strs("%7.7s%3.3s", "hello", "world");
+	test_print_strs("%7.3s%7.3s", "hello", "world");
+	
 	test_print_int("%10.5i", -216);
 	test_print_int("%8.5i", 0);
 	test_print_int("%8.3i", -8473);
@@ -477,8 +518,18 @@ int main()
 	test_print_ints(" %-13p %-14p ", ULONG_MAX, -ULONG_MAX);
 	test_print_int("%15p", NULL);
 	test_print_int("%-15p", NULL);
+	//test_print_ptrs(" %p ", -1);
+	test_print_ptrs(" %p %p ", LONG_MIN, LONG_MAX);
+	test_print_ptrs(" %p %p ", INT_MIN, INT_MAX);
 	*/
+	test_print_ptrs(" %-11p %-12p ", INT_MIN, INT_MAX);
+	test_print_ptrs(" %-13p %-14p ", ULONG_MAX, -ULONG_MAX);
+/*
+	test_print_str("%.c", 'a');
+	test_print_str("%.c", 'a');
+	test_print_str("%1.c", 'a');
+	test_print_str("%5.c", 'a');
+	test_print_strs("NULL |%.3s| |%1s| NULL", NULL, NULL);
 
-//	test_print_strs("NULL |%.3s| |%1s| NULL", NULL, NULL);
-
+	*/
 }

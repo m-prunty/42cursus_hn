@@ -6,25 +6,25 @@
 /*   By: maprunty <maprunty@student.42heilbronn.de  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/11 18:42:37 by maprunty          #+#    #+#             */
-/*   Updated: 2025/11/04 04:46:52 by maprunty         ###   ########.fr       */
+/*   Updated: 2025/11/12 20:11:30 by maprunty         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_printf.h"
 
-void ft_parse_flags(t_format *fmt)
+void	ft_parse_flags(t_format *fmt)
 {
 	int	i;
 
 	i = -1;
 	while (fmt->flags[++i])
 		;
-	fmt->flags[i]  = *fmt->str;
+	fmt->flags[i] = *fmt->str;
 	fmt->str++;
 	fmt->count++;
 }
 
-void ft_parse_width(t_format *fmt)
+void	ft_parse_width(t_format *fmt)
 {
 	if (*fmt->str == '*')
 	{
@@ -43,7 +43,7 @@ void ft_parse_width(t_format *fmt)
 	}
 }
 
-void ft_parse_precis(t_format *fmt)
+void	ft_parse_precis(t_format *fmt)
 {
 	fmt->precision = 0;
 	fmt->str++;
@@ -65,14 +65,12 @@ void ft_parse_precis(t_format *fmt)
 	}
 }
 
-
-void ft_parse_spec(t_format *fmt)
+void	ft_parse_spec(t_format *fmt)
 {
 	fmt->spec = *fmt->str;
 	fmt->str++;
 	fmt->count += 2;
 }
-
 
 int	ft_parse(t_format *fmt)
 {
@@ -82,12 +80,9 @@ int	ft_parse(t_format *fmt)
 		ft_parse_width(fmt);
 	if (*fmt->str == '.')
 		ft_parse_precis(fmt);
-	if (ft_strchr(LENMOD, *fmt->str))
-		ft_parse_len(fmt);
 	if (ft_strchr(SPECIFIER, *fmt->str))
 		ft_parse_spec(fmt);
 	if (!fmt->spec)
 		fmt->count = 0;
-	//fmt->str -= fmt->count;	
 	return (0);
 }
