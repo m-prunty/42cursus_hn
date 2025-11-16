@@ -6,7 +6,7 @@
 /*   By: maprunty <maprunty@student.42heilbronn.de  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/11 18:26:36 by maprunty          #+#    #+#             */
-/*   Updated: 2025/11/16 01:00:30 by maprunty         ###   ########.fr       */
+/*   Updated: 2025/11/16 01:56:28 by maprunty         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ int	ft_render(t_format *fmt)
 void	ft_init_format(t_format *fmt, const char *f_str)
 {
 	fmt->str = ++f_str;
-	ft_memset(fmt->flags, '\0', 5 * sizeof(e_flag));
+	ft_memset(fmt->flags, '\0', 5 * sizeof(t_flag));
 	fmt->isneg = 0;
 	fmt->width = 0;
 	fmt->precision = -1;

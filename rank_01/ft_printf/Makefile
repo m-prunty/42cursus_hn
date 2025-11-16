@@ -6,7 +6,7 @@
 #    By: maprunty <maprunty@student.42heilbronn.de  +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/09/05 17:52:46 by maprunty          #+#    #+#              #
-#    Updated: 2025/11/11 08:23:57 by maprunty         ###   ########.fr        #
+#    Updated: 2025/11/16 01:31:43 by maprunty         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -21,7 +21,9 @@ CFLAGS  := -Wall -Wextra -Werror -I$(INC)
 AR		:= ar
 ARFLAGS := -rcs
 
-S_FILES	:= ft_printf.c ft_parse.c ft_render.c ft_utils.c ft_atoi_base.c ft_putnbr_base.c
+S_FILES	:= ft_printf.c ft_parse.c ft_render_chars.c ft_render_nums.c ft_utils.c \
+		   ft_putnbr_base.c handlers.c platform_dependent.c
+
 SRC		:= $(S_FILES:%.c=src/%.c)
 OBJ     := $(patsubst src/%.c,obj/%.o,$(SRC))
 

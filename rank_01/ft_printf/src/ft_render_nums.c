@@ -6,7 +6,7 @@
 /*   By: maprunty <maprunty@student.42heilbronn.de  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/11 18:54:21 by maprunty          #+#    #+#             */
-/*   Updated: 2025/11/16 01:05:58 by maprunty         ###   ########.fr       */
+/*   Updated: 2025/11/16 01:28:29 by maprunty         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,7 @@ void	just_left(unsigned long long res, int len, char *base_s, t_format *fmt)
 	handle_hash(fmt, res);
 	handle_precis(fmt, res);
 	if (fmt->spec == 'p')
-		ft_iputnbr_ptr(res, fmt);
+		ft_putnbr_ptr(res, fmt);
 	else if (fmt->n)
 		ft_putnbr_base_fmt(res, base_s, fmt);
 	print_space(fmt->width - len, &fmt->count);

@@ -6,7 +6,7 @@
 /*   By: maprunty <maprunty@student.42heilbronn.de  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/11 18:54:07 by maprunty          #+#    #+#             */
-/*   Updated: 2025/11/16 01:06:14 by maprunty         ###   ########.fr       */
+/*   Updated: 2025/11/16 01:56:54 by maprunty         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ void	ft_putchar_fd_count(char c, int fd, int *count)
 	*count += write(fd, &c, 1);
 }
 
-int	check_flags(t_format *fmt, e_flag f)
+int	check_flags(t_format *fmt, t_flag f)
 {
 	int	i;
 
