@@ -6,20 +6,24 @@
 /*   By: maprunty <maprunty@student.42heilbron      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/15 23:25:20 by maprunty          #+#    #+#             */
-/*   Updated: 2025/11/16 01:35:20 by maprunty         ###   ########.fr       */
+/*   Updated: 2025/11/17 13:02:38 by maprunty         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_printf.h"
 
-void	handle_zero(t_format *fmt)
+void	handle_zero(t_format *fmt, int res)
 {
 	int	i;
 
 	if (fmt->precision < 0 && check_flags(fmt, ZERO)
 		&& !check_flags(fmt, MINUS))
 	{
-		i = fmt->width - fmt->n - fmt->isneg;
+		i = fmt->width - fmt->n - (check_flags(fmt, PLUS))
+			- (fmt->isneg && !check_flags(fmt, PLUS))
+			- (!fmt->isneg && check_flags(fmt, SPACE))
+			- ((check_flags(fmt, HASH)
+					&& res && ft_strchr("xX", fmt->spec)) * 2);
 		while (i-- > 0)
 			ft_putchar_fd_count('0', FD, &fmt->count);
 	}
@@ -49,34 +53,38 @@ void	handle_precis(t_format *fmt, int res)
 		ft_putchar_fd_count('0', FD, &fmt->count);
 }
 
-void	handle_hash(t_format *fmt, unsigned long long res)
+void	handle_prefix(t_format *fmt, unsigned long long res)
 {
 	if (ft_strchr("p", fmt->spec)
-		|| (ft_strchr("xX", fmt->spec) && check_flags(fmt, HASH)))
+		|| (ft_strchr("xX", fmt->spec) && (check_flags(fmt, HASH) && res)))
 	{
-		if (res)
+		if (res || APPLE)
 		{
 			if (ft_islower(fmt->spec))
 				ft_putstr_fd_count("0x", FD, &fmt->count);
 			else
 				ft_putstr_fd_count("0X", FD, &fmt->count);
 		}
+		return ;
+	}
+	else if (ft_strchr("id", fmt->spec))
+	{
+		if (fmt->isneg)
+			ft_putchar_fd_count('-', FD, &fmt->count);
+		else if (check_flags(fmt, PLUS))
+			ft_putchar_fd_count('+', FD, &fmt->count);
+		else if (check_flags(fmt, SPACE) && !fmt->isneg)
+			ft_putchar_fd_count(' ', FD, &fmt->count);
 	}
 }
 
-void	handle_sym(t_format *fmt)
+void	handle_width(t_format *fmt, int res)
 {
-	if (fmt->isneg && ft_strchr("id", fmt->spec))
-		ft_putchar_fd_count('-', FD, &fmt->count);
-	else if (check_flags(fmt, PLUS) && ft_strchr("id", fmt->spec))
-		ft_putchar_fd_count('+', FD, &fmt->count);
-	else if (check_flags(fmt, SPACE) && !fmt->isneg
-		&& ft_strchr("id", fmt->spec))
-		ft_putchar_fd_count(' ', FD, &fmt->count);
-}
-
-void	handle_width(t_format *fmt, int print)
-{
-	if (print && fmt->width > fmt->n)
-		print_space(fmt->width - fmt->n, &fmt->count);
+	if (ft_strchr("sc", fmt->spec))
+	{
+		if (res && fmt->width > fmt->n)
+			print_space(fmt->width - fmt->n, &fmt->count);
+	}
+	else if ((!check_flags(fmt, ZERO) || fmt->precision >= 0))
+		print_space(fmt->width - fmt->len, &fmt->count);
 }

@@ -6,7 +6,7 @@
 #    By: maprunty <maprunty@student.42heilbronn.de  +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/09/05 17:52:46 by maprunty          #+#    #+#              #
-#    Updated: 2025/11/16 01:31:43 by maprunty         ###   ########.fr        #
+#    Updated: 2025/11/17 07:43:37 by maprunty         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -32,7 +32,7 @@ all: $(NAME)
 bonus: all
 
 debug: dbgclean bonus
-	gcc -g main.c $(NAME) 
+	$(CC) -no-pie bonus_test.c $(NAME) 
 
 $(LFT):
 	$(MAKE) -C $(LIB)

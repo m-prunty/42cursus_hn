@@ -31,6 +31,7 @@ unsigned long long	get_value(t_format *fmt)
 
 int	if_apple(t_format *fmt)
 {
+	(void)fmt;
 	return (1);
 }
 
@@ -48,7 +49,7 @@ unsigned long long	get_value(t_format *fmt)
 	{
 		res = (unsigned long long)va_arg(fmt->ap, void *);
 		if (!res)
-			return (ft_render_chars(fmt), 0);
+			return (ft_render_chars(fmt, NULL, 0), 0);
 	}
 	return (res);
 }

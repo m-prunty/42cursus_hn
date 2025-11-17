@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_render.c                                        :+:      :+:    :+:   */
+/*   ft_render_nums.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: maprunty <maprunty@student.42heilbronn.de  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/11 18:54:21 by maprunty          #+#    #+#             */
-/*   Updated: 2025/11/16 01:28:29 by maprunty         ###   ########.fr       */
+/*   Updated: 2025/11/17 12:58:51 by maprunty         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,28 +48,32 @@ int	ft_count_digits_base(unsigned long long n, int base, t_format *fmt)
 	return (base_len);
 }
 
-void	just_left(unsigned long long res, int len, char *base_s, t_format *fmt)
+void	just_left(unsigned long long res, char *base_s, t_format *fmt)
 {
-	handle_sym(fmt);
-	handle_hash(fmt, res);
+	handle_prefix(fmt, res);
 	handle_precis(fmt, res);
 	if (fmt->spec == 'p')
 		ft_putnbr_ptr(res, fmt);
 	else if (fmt->n)
 		ft_putnbr_base_fmt(res, base_s, fmt);
-	print_space(fmt->width - len, &fmt->count);
+	print_space(fmt->width - fmt->len, &fmt->count);
 }
 
-void	just_right(unsigned long long res, int len, char *base_s, t_format *fmt)
+void	just_right(unsigned long long res, char *base_s, t_format *fmt)
 {
-	if (!check_flags(fmt, ZERO) || fmt->precision >= 0)
-		print_space(fmt->width - len, &fmt->count);
-	handle_sym(fmt);
-	handle_hash(fmt, res);
+	if (ft_strchr("id", fmt->spec) && !res && !fmt->precision && fmt->width)
+		fmt->len--;
 	if (check_flags(fmt, ZERO) && fmt->precision < 0)
-		handle_zero(fmt);
+	{
+		handle_prefix(fmt, res);
+		handle_zero(fmt, res);
+	}
 	else
+	{
+		handle_width(fmt, res);
+		handle_prefix(fmt, res);
 		handle_precis(fmt, res);
+	}
 	if (fmt->spec == 'p')
 		ft_putnbr_ptr(res, fmt);
 	else if (fmt->n)
@@ -80,26 +84,25 @@ int	ft_render_nums(t_format *fmt)
 {
 	unsigned long long	res;
 	char				base_s[17];
-	int					len;
 
-	len = 0;
 	res = get_value(fmt);
-	if (fmt->spec == 'p' && !res)
+	if (fmt->spec == 's')
 		return (1);
-	if (fmt->spec == 'p')
-		len += 2;
 	if (ft_strchr("id", fmt->spec) && (int)res < 0)
 		fmt->isneg = 1;
-	get_base(fmt, base_s);
-	fmt->n = ft_count_digits_base(res, ft_strlen(base_s), fmt);
-	len += fmt->n;
+	fmt->n = ft_count_digits_base(res, ft_strlen(get_base(fmt, base_s)), fmt);
+	fmt->len = fmt->n;
 	if (fmt->precision > fmt->n)
-		len = fmt->precision;
+		fmt->len = fmt->precision ;
 	if (fmt->isneg || check_flags(fmt, PLUS) || check_flags(fmt, SPACE))
-		len++;
-	if (check_flags(fmt, MINUS) || (!fmt->precision && !res))
-		just_left(res, len, base_s, fmt);
+		fmt->len++;
+	if ((check_flags(fmt, HASH) && res && ft_strchr("xX", fmt->spec))
+		|| fmt->spec == 'p')
+		fmt->len += 2;
+	if (check_flags(fmt, MINUS)
+		|| (!fmt->precision & !res && !check_flags(fmt, PLUS)))
+		just_left(res, base_s, fmt);
 	else
-		just_right(res, len, base_s, fmt);
+		just_right(res, base_s, fmt);
 	return (1);
 }

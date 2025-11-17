@@ -6,7 +6,7 @@
 /*   By: maprunty <maprunty@student.42heilbronn.de  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/11 18:42:37 by maprunty          #+#    #+#             */
-/*   Updated: 2025/11/12 20:11:30 by maprunty         ###   ########.fr       */
+/*   Updated: 2025/11/17 13:32:29 by maprunty         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,9 +17,12 @@ void	ft_parse_flags(t_format *fmt)
 	int	i;
 
 	i = -1;
-	while (fmt->flags[++i])
-		;
-	fmt->flags[i] = *fmt->str;
+	if (!check_flags(fmt, *fmt->str))
+	{
+		while (fmt->flags[++i])
+			;
+		fmt->flags[i] = *fmt->str;
+	}
 	fmt->str++;
 	fmt->count++;
 }

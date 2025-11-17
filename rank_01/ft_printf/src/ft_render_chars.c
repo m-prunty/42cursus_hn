@@ -6,7 +6,7 @@
 /*   By: maprunty <maprunty@student.42heilbron      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/16 00:55:12 by maprunty          #+#    #+#             */
-/*   Updated: 2025/11/16 00:58:21 by maprunty         ###   ########.fr       */
+/*   Updated: 2025/11/17 10:09:02 by maprunty         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,16 +38,13 @@ size_t	ft_strlen_safe(const char *s)
 	return (i);
 }
 
-int	ft_render_chars(t_format *fmt)
+int	ft_render_chars(t_format *fmt, unsigned char *s, unsigned char c[2])
 {
-	unsigned char	*s;
-	unsigned char	c;
-
+	fmt->n = 1;
 	if (fmt->spec == 'c')
 	{
-		c = (unsigned char)va_arg(fmt->ap, int);
-		s = (unsigned char *)&c;
-		fmt->n = 1;
+		c[0] = (unsigned char)va_arg(fmt->ap, int);
+		s = c;
 	}
 	else if (fmt->spec == 's')
 	{
@@ -56,11 +53,14 @@ int	ft_render_chars(t_format *fmt)
 			s = (unsigned char *)"(null)";
 		fmt->n = ft_strlen_safe((char *)s);
 	}
-	else
+	else if (fmt->spec == 'p')
 	{
 		s = (unsigned char *)"(nil)";
 		fmt->n = ft_strlen_safe((char *)s);
+		fmt->spec = 's';
 	}
+	else if (fmt->spec == '%')
+		s = (unsigned char *)"%";
 	handle_precis(fmt, 0);
 	handle_width(fmt, !check_flags(fmt, MINUS));
 	ft_putstr_n_fd((char *)s, fmt->n, FD, &fmt->count);
