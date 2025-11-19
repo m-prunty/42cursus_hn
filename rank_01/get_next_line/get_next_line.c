@@ -6,7 +6,7 @@
 /*   By: maprunty <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/19 11:36:23 by maprunty          #+#    #+#             */
-/*   Updated: 2025/11/19 14:10:02 by maprunty         ###   ########.fr       */
+/*   Updated: 2025/11/19 20:06:24 by maprunty         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,19 +14,32 @@
 
 //int calloc_help(char *str, )
 
-void *free_null(char **ptr)
+void *free_null(char **buf)
 {
-	free(*ptr);
-	*ptr = NULL;
+	free(*buf);
+	*buf = NULL;
 	return (NULL);
 }
 
-char	*clean_return(char **ptr)
+char	*clean_return(char ptr[], char *tmpbuf)
 {	char	*nl;
-	char	*tmp;
 	char	*sub;
 	size_t	n;
 
+	nl = ft_strchr(tmpbuf, '\n');
+	if (nl)
+		n = nl - tmpbuf + 1;
+	else
+		n = ft_strlen(tmpbuf);
+	sub = ft_calloc(sizeof(char), n  + 1);
+	if (!sub)
+		return (NULL);
+	ft_memcpy(sub, tmpbuf, n);
+	ft_memmove(ptr, tmpbuf + n, ft_strlen(tmpbuf + n));		
+	ptr[ft_strlen(tmpbuf + n)] = '\0';
+	free(tmpbuf);
+	return (sub);
+	/*
 	tmp = *ptr;
 	*ptr = NULL;
 	n = ft_strlen(tmp);
@@ -54,52 +67,50 @@ char	*clean_return(char **ptr)
 		free(tmp);
 		tmp = NULL;
 	}
-	return (sub);
+	return (sub);*/
 }
 
-int	add_to_stat(char **ptr, char *buf, int *nread)
+int	add_to_stat(char ptr[], char **tmpbuf, int *nread)
 {
 	int		n;
 	char	*tmp;
 
-	n = 0;
-	if (*ptr)
-		n = ft_strlen(*ptr);
-	tmp = (char *)malloc(sizeof(char) * (n + *nread + 1));
+	n = ft_strlen(ptr);
+	tmp = (char *)ft_calloc((n + *nread + 1), sizeof(char));
 	if (!tmp)
 	{
 		*nread = -1;
 		return (0);
 	}
-	ft_memcpy(tmp, *ptr, n);
-	ft_memcpy(tmp + n, buf, *nread);
+	ft_memcpy(tmp, ptr, n);
+	ft_memcpy(tmp + n, *tmpbuf, *nread);
 	tmp[n + *nread] = '\0';
-	free(*ptr);
-	*ptr = tmp;
+	free(*tmpbuf);
+	*tmpbuf = tmp;
 	return (1);
 }
 
 char	*get_next_line(int fd)
 {
-	static char	*ptr = NULL;
-	char		*buf;
+	static char	ptr[BUFFER_SIZE + 1] = {0};
+	char		*tmpbuf;
 	int			nread;
 
-	nread = 1;
-	buf = (char *)ft_calloc(BUFFER_SIZE + 1, sizeof(char));
-	if (!buf)
-		return (free_null(&ptr), NULL);
-	while ((!ptr || !ft_memchr(buf, '\n', nread)) && nread)
+	nread = -1;
+	tmpbuf = (char *)ft_calloc(BUFFER_SIZE + 1, sizeof(char));
+	if (!tmpbuf)
+		return (NULL);
+	while ((!ptr[0] && !ft_memchr(tmpbuf, '\n', BUFFER_SIZE)) && nread)
 	{
-		nread = read(fd, buf, BUFFER_SIZE);
-		if (nread >= 1 && add_to_stat(&ptr, buf, &nread))
+		if (nread < 0)
+			nread = 0;
+		nread = read(fd, tmpbuf + nread, BUFFER_SIZE);
+		if (nread >= 1 && add_to_stat(ptr, &tmpbuf, &nread))
 			;
 		else if (nread < 0)
-			return (free_null(&buf), free_null(&ptr),  NULL);
+			return (free_null(&tmpbuf),  NULL);
 	}
-	if (buf)
-		free_null(&buf);
-	if (ptr || nread)
-		return (clean_return(&ptr));
-	return (NULL);
+	if (!tmpbuf[0] && ptr[0])
+		ft_memcpy(tmpbuf, ptr, ft_strlen(ptr));
+	return (clean_return(ptr, tmpbuf));
 }
