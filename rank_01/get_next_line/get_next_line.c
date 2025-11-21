@@ -6,7 +6,7 @@
 /*   By: maprunty <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/19 11:36:23 by maprunty          #+#    #+#             */
-/*   Updated: 2025/11/19 20:06:24 by maprunty         ###   ########.fr       */
+/*   Updated: 2025/11/21 21:27:52 by maprunty         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,103 +14,172 @@
 
 //int calloc_help(char *str, )
 
-void *free_null(char **buf)
+void *free_null(char **ptr)
 {
-	free(*buf);
-	*buf = NULL;
+	free(*ptr);
+	*ptr = NULL;
 	return (NULL);
 }
+char *clean_return(char ptr[], char **tmp)
+{
+    char    *nl;
+    char    *line;
+    size_t  len;
+    size_t  tail_len;
 
-char	*clean_return(char ptr[], char *tmpbuf)
-{	char	*nl;
-	char	*sub;
-	size_t	n;
+    nl = ft_memchr(*tmp, '\n', ft_strlen(*tmp));
+    if (nl)
+        len = (nl - *tmp) + 1;
+    else
+        len = ft_strlen(*tmp);
 
-	nl = ft_strchr(tmpbuf, '\n');
-	if (nl)
-		n = nl - tmpbuf + 1;
-	else
-		n = ft_strlen(tmpbuf);
-	sub = ft_calloc(sizeof(char), n  + 1);
-	if (!sub)
-		return (NULL);
-	ft_memcpy(sub, tmpbuf, n);
-	ft_memmove(ptr, tmpbuf + n, ft_strlen(tmpbuf + n));		
-	ptr[ft_strlen(tmpbuf + n)] = '\0';
-	free(tmpbuf);
-	return (sub);
-	/*
-	tmp = *ptr;
-	*ptr = NULL;
-	n = ft_strlen(tmp);
-	nl = ft_memchr(tmp, '\n', n);
-	if (nl)
-	{
-		sub = ft_substr(tmp, 0, nl + 1 - tmp);
-		if (!sub)
-			return (free_null(&tmp), NULL);
-		if (ft_strlen(sub) < n)
-		{
-			*ptr = ft_substr(tmp, nl + 1 - tmp, ft_strlen(tmp) - (nl + 1 - tmp));
-			if (!*ptr)
-				return (free_null(&sub), free_null(&tmp),  NULL);
-		}
-		free(tmp);
-	}
-	else
-	{
-		sub = malloc(sizeof(char) * n + 1);
-		if (!sub)
-			return (free_null(&tmp), NULL);
-		ft_memcpy(sub, tmp, n);
-		sub[n] = '\0';
-		free(tmp);
-		tmp = NULL;
-	}
-	return (sub);*/
+    line = malloc(len + 1);
+    if (!line)
+        return (NULL);
+
+    ft_memcpy(line, *tmp, len);
+    line[len] = '\0';
+    tail_len = ft_strlen(*tmp + len);
+    ft_memmove(ptr, *tmp + len, tail_len);
+    ptr[tail_len] = '\0';
+	free_null(tmp);
+    return (line);
 }
 
-int	add_to_stat(char ptr[], char **tmpbuf, int *nread)
+int add_to_stat(char **tmpbuf, char *buf, int *nread)
 {
-	int		n;
+    size_t	n;
 	char	*tmp;
-
-	n = ft_strlen(ptr);
-	tmp = (char *)ft_calloc((n + *nread + 1), sizeof(char));
+	
+	n = 0;
+	if (*tmpbuf)
+		n = ft_strlen(*tmpbuf);
+	tmp = ft_calloc(n + *nread + 1, sizeof(char));
 	if (!tmp)
 	{
-		*nread = -1;
+		*nread = 0;
 		return (0);
 	}
-	ft_memcpy(tmp, ptr, n);
-	ft_memcpy(tmp + n, *tmpbuf, *nread);
-	tmp[n + *nread] = '\0';
-	free(*tmpbuf);
+	ft_memcpy(tmp, *tmpbuf, n);
+    ft_memcpy(tmp + n, buf, *nread);
+    tmp[n + *nread] = '\0';
+	if (n)
+		free_null(tmpbuf);
 	*tmpbuf = tmp;
-	return (1);
+    return (1);
 }
 
-char	*get_next_line(int fd)
+char *get_next_line(int fd)
 {
-	static char	ptr[BUFFER_SIZE + 1] = {0};
-	char		*tmpbuf;
-	int			nread;
+	static char ptr[BUFFER_SIZE + 1] = {0};
+	char        *buf;
+	char        *tmpbuf;
+	int         nread;
 
-	nread = -1;
-	tmpbuf = (char *)ft_calloc(BUFFER_SIZE + 1, sizeof(char));
-	if (!tmpbuf)
+	buf = (char *)ft_calloc(BUFFER_SIZE + 1, sizeof(char));
+	if (!buf)
 		return (NULL);
-	while ((!ptr[0] && !ft_memchr(tmpbuf, '\n', BUFFER_SIZE)) && nread)
+	tmpbuf = "";//ft_calloc(ft_strlen(ptr) + 1, sizeof(char));
+	nread = 1;
+	if (ptr[0])
 	{
-		if (nread < 0)
-			nread = 0;
-		nread = read(fd, tmpbuf + nread, BUFFER_SIZE);
-		if (nread >= 1 && add_to_stat(ptr, &tmpbuf, &nread))
+		nread = ft_strlen(ptr);
+		ft_memcpy(buf, ptr, ft_strlen(ptr));
+	}
+	while ((!ft_memchr(tmpbuf, '\n', ft_strlen(tmpbuf)) && nread > 0) || ptr[0])
+	{ 
+		if (!ptr[0])
+		{
+			ft_bzero(buf, BUFFER_SIZE + 1);
+			nread = read(fd, buf, BUFFER_SIZE);
+		}
+		else
+			ft_bzero(ptr, BUFFER_SIZE + 1);
+		if (nread > 0 && add_to_stat(&tmpbuf, buf, &nread))
 			;
 		else if (nread < 0)
-			return (free_null(&tmpbuf),  NULL);
+			return (free_null(&buf), NULL);
 	}
-	if (!tmpbuf[0] && ptr[0])
-		ft_memcpy(tmpbuf, ptr, ft_strlen(ptr));
-	return (clean_return(ptr, tmpbuf));
+	free_null(&buf);
+	if (*tmpbuf)
+		return ( clean_return(ptr, &tmpbuf));
+	return ( NULL);
 }
+
+
+/*
+   char	*clean_return(char ptr[], char *buf)
+   {	char	*nl;
+   char	*sub;
+   size_t	n;
+
+   nl = ft_strchr(buf, '\n');
+   if (nl)
+   n = nl - buf + 1;
+   else
+   n = ft_strlen(buf);
+   sub = ft_calloc(sizeof(char), n  + 1);
+   if (!sub)
+   return (NULL);
+   ft_memcpy(sub, buf, n);
+   ft_memmove(ptr, buf + n, ft_strlen(buf + n));		
+   ptr[ft_strlen(buf + n)] = '\0';
+   free(buf);
+   return (sub);
+   }
+
+   int	add_to_stat(char **tmpbuf, char **buf, int *nread)
+   {
+   int		n;
+   char	*tmp;
+
+   n = 0;
+   if (*tmpbuf != *buf)
+   n = ft_strlen(*tmpbuf);
+   tmp = (char *)ft_calloc((n + *nread + 1), sizeof(char));
+   if (!tmp)
+   {
+ *nread = -1;
+ return (0);
+ }
+
+ ft_memcpy(tmp, *tmpbuf, n);
+ ft_memcpy(tmp + n, *buf, *nread);
+ tmp[n + *nread] = '\0';
+
+ if (*tmpbuf != *buf)
+ free(*tmpbuf);
+ *tmpbuf = tmp;
+ return (1);
+ }
+
+ char	*get_next_line(int fd)
+ {
+ static char	ptr[BUFFER_SIZE + 1] = {0};
+ char		*buf;
+ char		*tmpbuf;
+ int			nread;
+
+ nread = -1;
+ tmpbuf = NULL;
+ buf = (char *)ft_calloc(BUFFER_SIZE + 1, sizeof(char));
+ if (!buf)
+ return (NULL);
+ while ((!ptr[0] && !ft_strchr(buf, '\n')) || ft_strchr(ptr ) && nread)
+ {
+ ft_bzero(buf, BUFFER_SIZE);
+ nread = read(fd, buf, BUFFER_SIZE);
+ if (!tmpbuf)
+ tmpbuf = buf;
+ if (nread >= 1 && add_to_stat(&tmpbuf, &buf, &nread))
+ ;
+ else if (nread < 0)
+ return (free_null(&buf),  NULL);
+ }
+ if (!buf[0] && ptr[0])
+ {
+tmpbuf = buf;
+ft_memcpy(tmpbuf, ptr, ft_strlen(ptr));
+}
+return (clean_return(ptr, tmpbuf));
+}*/
