@@ -12,6 +12,7 @@ void	print_nl(int fd)
 		free(gnl_str);
 		gnl_str = get_next_line(fd);
 		printf("%s", gnl_str);
+		fflush(stdout);
 	}
 }
 
