@@ -14,8 +14,20 @@ void	print_nl(int fd)
 		printf("%s", gnl_str);
 		fflush(stdout);
 	}
-}
+}/*
+int main(int ac, char **av)
+{
+    char *line;
+    int fd = open(av[1], O_RDONLY);
 
+    for (int i = 1; i <= 20; i++)
+    {
+        line = get_next_line(fd);
+        printf("GNL returned: %s\n", line ? line : "(NULL)");
+        free(line);
+    }
+}
+*/
 int main(int ac, char **av)
 {
 	int fd[ac];
@@ -27,6 +39,5 @@ int main(int ac, char **av)
 	print_nl(*fd);
 	close(*fd);
 }
-
 
 
