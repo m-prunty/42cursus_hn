@@ -6,7 +6,7 @@
 /*   By: maprunty <maprunty@student.42heilbronn.de  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/15 22:38:15 by maprunty          #+#    #+#             */
-/*   Updated: 2025/11/27 03:30:55 by maprunty         ###   ########.fr       */
+/*   Updated: 2025/11/27 07:27:26 by maprunty         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@
 
 
 # ifndef CHUNK
-#  define CHUNK 1024
+#  define CHUNK 36 
 # endif
 
 # ifndef CHUNK_SIZE
@@ -39,15 +39,14 @@
 typedef struct s_gnl
 {
 	struct	s_gnl	*next;
-	void	*content;
+	char	*content;
 	size_t	n;
 	int		nl;
 }	t_gnl;
 
 char *get_next_line(int fd);
 
-
-size_t  ft_strlen(const char *s);
+void	ft_gnlclear(t_gnl **gnlbuf);
 void    ft_bzero(void *s, size_t n);
 void	*ft_calloc(size_t nmemb, size_t size);
 void	*ft_memchr(const void *s, int c, size_t n);
