@@ -1,16 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   get_next_line.c                                    :+:      :+:    :+:   */
+/*   get_next_line_bonus.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: maprunty <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/19 11:36:23 by maprunty          #+#    #+#             */
-/*   Updated: 2025/11/27 08:10:18 by maprunty         ###   ########.fr       */
+/*   Updated: 2025/11/27 16:09:23 by maprunty         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "get_next_line.h"
+#include "get_next_line_bonus.h"
 
 t_gnl	*ft_gnlnew(t_gnl **new, char *content)
 {
@@ -37,24 +37,24 @@ t_gnl	*ft_gnlnew(t_gnl **new, char *content)
 
 void	fill_newline(t_gnl *tmp, char **nl, size_t *n)
 {
-	int	chunk_len;
+	int	nl_len;
 
 	n[0] = 0;
 	while (tmp && n[0] < n[1])
 	{
-		chunk_len = tmp->n;
-		if (n[0] + chunk_len > n[1])
-			chunk_len = n[1] - n[0];
-		if (chunk_len > 0)
+		nl_len = tmp->n;
+		if (n[0] + nl_len > n[1])
+			nl_len = n[1] - n[0];
+		if (nl_len > 0)
 		{
-			ft_memcpy(*nl + n[0], tmp->content, chunk_len);
-			n[0] += chunk_len;
+			ft_memcpy(*nl + n[0], tmp->content, nl_len);
+			n[0] += nl_len;
 		}
 		tmp = tmp->next;
 	}
 }
 
-char	*return_nl(t_gnl **gnlbuf, char ptr[])
+char	*return_nl(t_gnl **gnlbuf, char *ptr)
 {
 	t_gnl	*tmp;
 	char	*nl;
@@ -111,17 +111,17 @@ int	add_to_nl(t_gnl **buf, char *ptr, int fd, int nread)
 
 char	*get_next_line(int fd)
 {
-	static char	ptr[BUFFER_SIZE + 1] = {0};
+	static char	ptr[FD_MAX][BUFFER_SIZE + 1] = {0};
 	t_gnl		*gnlbuf;
 	t_gnl		*tmp;
 
 	gnlbuf = NULL;
-	if ((fd < 0) || !ft_gnlnew(&gnlbuf, ptr))
+	if ((fd < 0) || !ft_gnlnew(&gnlbuf, ptr[fd]))
 		return (0);
 	tmp = gnlbuf;
-	if (!add_to_nl(&tmp, ptr, fd, tmp->n))
+	if (!add_to_nl(&tmp, ptr[fd], fd, tmp->n))
 		return (ft_gnlclear(&gnlbuf), NULL);
 	if (*(char *)(gnlbuf->content))
-		return (return_nl(&gnlbuf, ptr));
+		return (return_nl(&gnlbuf, ptr[fd]));
 	return (ft_gnlclear(&gnlbuf), NULL);
 }
