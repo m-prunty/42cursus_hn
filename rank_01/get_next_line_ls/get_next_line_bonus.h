@@ -6,7 +6,7 @@
 /*   By: maprunty <maprunty@student.42heilbronn.de  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/15 22:38:15 by maprunty          #+#    #+#             */
-/*   Updated: 2025/11/27 16:53:28 by maprunty         ###   ########.fr       */
+/*   Updated: 2025/11/30 03:50:40 by maprunty         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,16 +21,8 @@
 #  define BUFFER_SIZE 10
 # endif
 
-# ifndef CHUNK
-#  define CHUNK 1024
-# endif
-
 # ifndef CHUNK_SIZE
-#  if CHUNK > BUFFER_SIZE
-#   define CHUNK_SIZE CHUNK
-#  else
-#   define CHUNK_SIZE (BUFFER_SIZE + 1)
-#  endif
+#  define CHUNK_SIZE 1024
 # endif
 
 # include <stddef.h>
@@ -45,11 +37,13 @@ typedef struct s_gnl
 	char			*content;
 	size_t			n;
 	int				nl;
+	size_t			chk_sz;
 }	t_gnl;
 
 char	*get_next_line(int fd);
 
-void	ft_gnlclear(t_gnl **gnlbuf);
+//void	ft_gnlclear(t_gnl **gnlbuf);
+void	ft_gnlclear(t_gnl **gnlbuf, char **ptr);
 void	ft_bzero(void *s, size_t n);
 void	*ft_calloc(size_t nmemb, size_t size);
 void	*ft_memchr(const void *s, int c, size_t n);

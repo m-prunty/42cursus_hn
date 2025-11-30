@@ -6,20 +6,23 @@
 /*   By: maprunty <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/19 11:36:23 by maprunty          #+#    #+#             */
-/*   Updated: 2025/11/27 08:10:18 by maprunty         ###   ########.fr       */
+/*   Updated: 2025/11/29 23:40:32 by maprunty         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
 
-t_gnl	*ft_gnlnew(t_gnl **new, char *content)
+t_gnl	*ft_gnlnew(t_gnl **new, char *content, size_t chk_sz)
 {
 	t_gnl	*tmp;
 
 	tmp = (t_gnl *)malloc(sizeof(t_gnl));
 	if (!(tmp))
 		return (NULL);
-	(tmp)->content = ft_calloc(CHUNK_SIZE, 1);
+	tmp->chk_sz = chk_sz;
+	if (BUFFER_SIZE >= tmp->chk_sz)
+		tmp->chk_sz = BUFFER_SIZE + 1;
+	(tmp)->content = ft_calloc(tmp->chk_sz, 1);
 	if (!(tmp)->content)
 		return (free(tmp), NULL);
 	tmp->n = 0;
@@ -74,36 +77,34 @@ char	*return_nl(t_gnl **gnlbuf, char ptr[])
 	nl = ft_calloc(n[1] + 1, 1);
 	if (!nl)
 		return (ft_gnlclear(gnlbuf), NULL);
-	tmp = *gnlbuf;
 	fill_newline(*gnlbuf, &nl, n);
 	ft_gnlclear(gnlbuf);
 	return (nl);
 }
 
-int	add_to_nl(t_gnl **buf, char *ptr, int fd, int nread)
+int	add_to_nl(t_gnl *buf, char *ptr, int fd, int nread)
 {
-	while (!(*buf)->nl)
+	while (!(buf)->nl)
 	{
 		ft_bzero(ptr, BUFFER_SIZE + 1);
 		nread = read(fd, ptr, BUFFER_SIZE);
 		if (nread == 0)
-			return ((*buf)->nl = (*buf)->n);
+			return ((buf)->nl = (buf)->n);
 		else if (nread < 0)
 			return (0);
-		if ((*buf)->n + nread >= CHUNK_SIZE)
+		if ((buf)->n + nread >= buf->chk_sz)
 		{
-			if (!ft_gnlnew(&((*buf)->next), ptr))
+			if (!ft_gnlnew(&((buf)->next), ptr, buf->chk_sz))
 				return (0);
-			*buf = (*buf)->next;
+			buf = (buf)->next;
 		}
 		else
 		{
-			ft_memcpy((*buf)->content + (*buf)->n, ptr, nread);
-			(*buf)->n += nread;
+			ft_memcpy((buf)->content + (buf)->n, ptr, nread);
+			(buf)->n += nread;
 			if (ft_memchr(ptr, '\n', nread))
-				(*buf)->nl = (char *)ft_memchr((*buf)->content
-						+ ((*buf)->n - nread), '\n', nread) - (*buf)->content
-					+ 1;
+				buf->nl = (char *)ft_memchr(buf->content + (buf->n - nread),
+						'\n', nread) - buf->content + 1;
 		}
 	}
 	return (1);
@@ -113,13 +114,11 @@ char	*get_next_line(int fd)
 {
 	static char	ptr[BUFFER_SIZE + 1] = {0};
 	t_gnl		*gnlbuf;
-	t_gnl		*tmp;
 
 	gnlbuf = NULL;
-	if ((fd < 0) || !ft_gnlnew(&gnlbuf, ptr))
+	if (((fd < 0) )|| !ft_gnlnew(&gnlbuf, ptr, CHUNK_SIZE))
 		return (0);
-	tmp = gnlbuf;
-	if (!add_to_nl(&tmp, ptr, fd, tmp->n))
+	if (!add_to_nl(gnlbuf, ptr, fd, gnlbuf->n))
 		return (ft_gnlclear(&gnlbuf), NULL);
 	if (*(char *)(gnlbuf->content))
 		return (return_nl(&gnlbuf, ptr));

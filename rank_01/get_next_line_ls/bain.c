@@ -28,10 +28,10 @@ void	print_n_nl(int *fd, int n)
 {
 	char	*gnl_str;
 	int		i;
-	int		j = 0;
+//	int		j = 0;
 
 	gnl_str = malloc(1);
-	while (gnl_str && j++ < 3)
+	while (gnl_str)//&& j++ < 3)
 	{
 		i = 0;
 		while (i < n)
@@ -42,7 +42,7 @@ void	print_n_nl(int *fd, int n)
 
 int main(int ac, char **av)
 {
-	int fd[ac];
+	int fd[ac - 1];
 	int i;
 	
 	i = 0;

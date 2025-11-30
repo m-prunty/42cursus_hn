@@ -6,11 +6,7 @@
 /*   By: maprunty <maprunty@student.42heilbronn.de  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/15 22:38:15 by maprunty          #+#    #+#             */
-<<<<<<< HEAD
-/*   Updated: 2025/11/27 07:53:30 by maprunty         ###   ########.fr       */
-=======
-/*   Updated: 2025/11/27 16:53:44 by maprunty         ###   ########.fr       */
->>>>>>> 2d927490e31945fc3c08540f5aa9f1e6e3dea981
+/*   Updated: 2025/11/29 20:08:43 by maprunty         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,24 +17,8 @@
 #  define BUFFER_SIZE 10
 # endif
 
-# ifndef CHUNK
-<<<<<<< HEAD
-#  define CHUNK 36 
-=======
-#  define CHUNK 1024
->>>>>>> 2d927490e31945fc3c08540f5aa9f1e6e3dea981
-# endif
-
 # ifndef CHUNK_SIZE
-#  if CHUNK > BUFFER_SIZE
-#   define CHUNK_SIZE CHUNK
-#  else
-<<<<<<< HEAD
-#   define CHUNK_SIZE BUFFER_SIZE + 1
-=======
-#   define CHUNK_SIZE (BUFFER_SIZE + 1)
->>>>>>> 2d927490e31945fc3c08540f5aa9f1e6e3dea981
-#  endif
+#  define CHUNK_SIZE 1024
 # endif
 
 # include <stddef.h>
@@ -53,6 +33,7 @@ typedef struct s_gnl
 	char			*content;
 	size_t			n;
 	int				nl;
+	size_t			chk_sz;
 }	t_gnl;
 
 char	*get_next_line(int fd);
