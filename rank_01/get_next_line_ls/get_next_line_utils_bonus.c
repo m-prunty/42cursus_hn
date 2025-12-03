@@ -6,7 +6,7 @@
 /*   By: maprunty <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/23 16:03:04 by maprunty          #+#    #+#             */
-/*   Updated: 2025/11/30 04:03:04 by maprunty         ###   ########.fr       */
+/*   Updated: 2025/12/03 04:18:53 by maprunty         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,21 +66,22 @@ void	*ft_memchr(const void *s, int c, size_t n)
 void	ft_gnlclear(t_gnl **gnlbuf, char **ptr)
 {
 	t_gnl	*tmp;
-	
+
 	while (gnlbuf && *gnlbuf)
 	{
-
 		tmp = ((*gnlbuf)->next);
 		if ((*gnlbuf)->content)
+		{
 			free((*gnlbuf)->content);
-		(*gnlbuf)->content = NULL;
+			(*gnlbuf)->content = NULL;
+		}
 		free(*gnlbuf);
+		*gnlbuf = NULL;
 		*gnlbuf = tmp;
 	}
 	if (ptr && *ptr)
 	{
 		free(*ptr);
 		*ptr = NULL;
-		ptr = NULL;
 	}
 }

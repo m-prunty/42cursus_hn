@@ -6,7 +6,7 @@
 /*   By: maprunty <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/19 11:36:23 by maprunty          #+#    #+#             */
-/*   Updated: 2025/11/29 23:40:32 by maprunty         ###   ########.fr       */
+/*   Updated: 2025/12/03 04:18:06 by maprunty         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -116,7 +116,7 @@ char	*get_next_line(int fd)
 	t_gnl		*gnlbuf;
 
 	gnlbuf = NULL;
-	if (((fd < 0) )|| !ft_gnlnew(&gnlbuf, ptr, CHUNK_SIZE))
+	if (fd < 0 || !ft_gnlnew(&gnlbuf, ptr, CHUNK_SIZE))
 		return (0);
 	if (!add_to_nl(gnlbuf, ptr, fd, gnlbuf->n))
 		return (ft_gnlclear(&gnlbuf), NULL);
