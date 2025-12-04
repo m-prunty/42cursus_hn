@@ -10,7 +10,7 @@
 #                                                                              #
 # **************************************************************************** #
 
-NAME	:= libft.a
+NAME	:= libft
 
 INC 	:= -Iinclude
 CC      := gcc 
@@ -30,21 +30,39 @@ S_FILES	:=	ft_toupper.c ft_isalpha.c ft_isdigit.c ft_tolower.c ft_isalnum.c \
 B_FILES	:=	ft_lstnew.c ft_lstadd_front.c ft_lstsize.c ft_lstlast.c ft_lstadd_back.c \
 			ft_lstdelone.c ft_lstclear.c ft_lstiter.c ft_lstmap.c
 
+BT_FILES :=	btree_apply_by_level.c\
+		btree_apply_infix.c\
+		btree_apply_prefix.c\
+		btree_apply_suffix.c\
+		btree_create_node.c\
+		btree_insert_data.c\
+		btree_level_count.c\
+		btree_search_item.c\
+
+
 SRC		:= $(S_FILES:%.c=src/%.c)
 BSRC	:= $(B_FILES:%.c=src/%.c)
+BTSRC	:= $(BT_FILES:%.c=src/btree/%.c)
 
 OBJ     := $(patsubst src/%.c,obj/%.o,$(SRC))
 BOBJ	:= $(patsubst src/%.c,obj/%.o,$(BSRC))
+BTOBJ	:= $(patsubst src/btree/%.c,obj/%.o,$(BTSRC))
 
 all: $(NAME)
 
 bonus: $(OBJ) $(BOBJ)
-	$(AR) $(ARFLAGS) $(NAME) $^
+	$(AR) $(ARFLAGS) $(NAME)_ls.a $^
+
+btree: $(OBJ) $(BOBJ) $(BTOBJ)
+	$(AR) $(ARFLAGS) $(NAME)_bt.a $^
 
 $(NAME): $(OBJ) 
-	$(AR) $(ARFLAGS) $@ $^
+	$(AR) $(ARFLAGS) $@.a $^
 
 obj/%.o: src/%.c | obj
+	$(CC) $(CFLAGS) -c $< -o $@
+
+obj/%.o: src/btree/%.c | obj
 	$(CC) $(CFLAGS) -c $< -o $@
 
 obj:
@@ -54,7 +72,7 @@ clean:
 	rm -rf $(OBJ) $(BOBJ)
 
 fclean: clean
-	rm -rf $(NAME)
+	rm -rf $(NAME)%.a
 
 re: fclean all
 
