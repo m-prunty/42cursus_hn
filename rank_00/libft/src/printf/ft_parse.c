@@ -1,0 +1,91 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   ft_parse.c                                         :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: maprunty <maprunty@student.42heilbronn.de  +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/09/11 18:42:37 by maprunty          #+#    #+#             */
+/*   Updated: 2025/11/17 13:32:29 by maprunty         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+#include "ft_printf.h"
+
+void	ft_parse_flags(t_format *fmt)
+{
+	int	i;
+
+	i = -1;
+	if (!check_flags(fmt, *fmt->str))
+	{
+		while (fmt->flags[++i])
+			;
+		fmt->flags[i] = *fmt->str;
+	}
+	fmt->str++;
+	fmt->count++;
+}
+
+void	ft_parse_width(t_format *fmt)
+{
+	if (*fmt->str == '*')
+	{
+		fmt->width = va_arg(fmt->ap, int);
+		fmt->str++;
+		fmt->count++;
+	}
+	else
+	{
+		while (ft_isdigit(*fmt->str))
+		{
+			fmt->width = fmt->width * 10 + (*fmt->str - '0');
+			fmt->str++;
+			fmt->count++;
+		}
+	}
+}
+
+void	ft_parse_precis(t_format *fmt)
+{
+	fmt->precision = 0;
+	fmt->str++;
+	fmt->count++;
+	if (*fmt->str == '*')
+	{
+		fmt->precision = va_arg(fmt->ap, int);
+		fmt->str++;
+		fmt->count++;
+	}
+	else
+	{
+		while (ft_isdigit(*fmt->str))
+		{
+			fmt->precision = fmt->precision * 10 + (*fmt->str - '0');
+			fmt->str++;
+			fmt->count++;
+		}
+	}
+}
+
+void	ft_parse_spec(t_format *fmt)
+{
+	fmt->spec = *fmt->str;
+	fmt->str++;
+	fmt->count += 2;
+}
+
+int	ft_parse(t_format *fmt)
+{
+	while (ft_strchr(FLAGS, *fmt->str))
+		ft_parse_flags(fmt);
+	if (*fmt->str != '0' && (ft_isdigit(*fmt->str) || *fmt->str == '*'))
+		ft_parse_width(fmt);
+	if (*fmt->str == '.')
+		ft_parse_precis(fmt);
+	if (ft_strchr(SPECIFIER, *fmt->str))
+		ft_parse_spec(fmt);
+	if (!fmt->spec)
+		fmt->count = 0;
+	return (0);
+}
