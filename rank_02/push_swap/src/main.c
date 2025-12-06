@@ -14,6 +14,8 @@
 
 int	ft_isstr_numeric(char *str)
 {
+	if (*str == '-')
+		str++;
 	while (*str)
 	{
 		if (ft_isdigit(*str))
@@ -30,7 +32,7 @@ int	chk_input(char **strs)
 
 	i = 0;
 	while (strs[i])
-	{
+	{	
 		if (ft_isstr_numeric(strs[i]))
 			i++;
 		else
@@ -56,7 +58,8 @@ int	*ft_strstoiarr(char **strs,  int n)
 	}
 	return (iarr);
 }
-
+# define a 0
+# define b 1
 typedef struct s_stack
 {
 	char	name;
@@ -108,49 +111,222 @@ t_element		*ps_getelements(int *iarr, int n, char name)
 	return (elements);
 }
 
-int	ps_elecmp(void *str1, void *str2)
+int	ps_elecmp(void *ele1, void *ele2)
 {
-	int	s1;
-	int	s2;
+	int	i1;
+	int	i2;
 	
-	s1 =((t_element *)str1)->value;
-	s2 =((t_element *)str2)->value;
-	return ((int)s1 - (int)s2);
+	i1 =((t_element *)ele1)->value;
+	i2 =((t_element *)ele2)->value;
+	return (i1 - i2);
 }
 
 void	ps_putnbr(t_element *ele)
 {
+	if (ele )
+	{
 	ft_putnbr_fd(ele->value, 1);
 	ft_putstr_fd(", ", 1);
 	ft_putnbr_fd(ele->sort, 1);
 	ft_putstr_fd("\n", 1);
+	}
 }
 
 void ps_print(t_stack stk)
 {
+	//if ()
+	ft_printf("stack: %c\n", stk.name);
 	ft_lstiter(stk.head, ps_putnbr);
 	ft_putchar_fd('\n', 1);
-	btree_apply_infix(stk.root, ps_putnbr);
+	//btree_apply_infix(stk.root, ps_putnbr);
 	ft_putchar_fd('\n', 1);
+}
+
+void	ps_apfcount(t_element *ele)
+{
+	static int	i = 0;
+
+	i++;
+	ele->sort = i;
 }
 
 int	ps_init_stacks(t_stack stks[2], t_element *elements, int n)
 {
-	//t_stack *tmp_a;
 	t_list	*tmplst;
 	int i;
 	
-	//*stks = (t_stack *)ft_calloc(sizeof(t_stack), 2);
-	(stks)[0].name = 'a';
-	(stks)[1].name = 'b';
+	(stks)[a].name = 'a';
+	(stks)[b].name = 'b';
 	i = -1;
 	while (++i < n)
 	{
 		tmplst = ft_lstnew(&elements[i]);
-		ft_lstadd_back(&stks[0].head, tmplst);
-		btree_insert_data(&stks[0].root, &elements[i], ps_elecmp);
+		ft_lstadd_back(&stks[a].head, tmplst);
+		btree_insert_data(&stks[a].root, &elements[i], ps_elecmp);
 	}
-	stks[0].n = i;
+	btree_apply_infix(stks[a].root, ps_apfcount);
+	stks[a].n = i;
+}
+
+
+t_list *ft_lstgoto(t_list *lst, int idx)
+{
+	if (idx < 0 || !lst)
+		return (NULL);
+	if (idx)
+		return (ft_lstgoto(lst->next, --idx));
+	return (lst);
+}
+
+int	ft_lstrrot(t_list **lst, int n)
+{	
+	t_list	*newtail;
+	t_list	*newhead;
+
+	if (lst && n)
+	{
+		newtail = ft_lstgoto(*lst, n - 2);
+		newhead = newtail->next;
+		newtail->next = NULL;
+		newhead->next = *lst;
+		*lst = newhead;
+		if (ft_lstsize(*lst) == n)
+			return (1);
+	}
+	return (0);
+}
+
+int	ft_lstrot(t_list **lst, int n)
+{	
+	t_list	*newtail;
+	t_list	*newhead;
+
+	if (lst && n)
+	{
+		newtail = *lst;
+		newhead = newtail->next;
+		ft_lstgoto(*lst, n - 1)->next = newtail;
+		newtail->next = NULL;
+		//newhead->next = *lst;
+		*lst = newhead;
+		if (ft_lstsize(*lst) == n)
+			return (1);
+	}
+	return (0);
+}
+
+int rotate(t_stack *stk, int rev)
+{
+	if (!rev)
+		return (ft_lstrot(&stk->head, stk->n));
+	return (ft_lstrrot(&stk->head, stk->n));
+}
+
+int	r(t_stack *stk)
+{
+	if (rotate(stk, 0))
+		return (ft_printf("r%c\n", (stk)->name));
+	ft_printf("error; r%c\n", (stk)->name);
+	return (0);
+}
+
+
+int	rr(t_stack *stk)
+{
+	if (rotate(stk, 1))
+		return (ft_printf("rr%c\n", (stk)->name));
+	ft_printf("error; rr%c\n", (stk)->name);
+	return (0);
+}
+int	rrs(t_stack *stks, int rev)
+{
+	if (rotate(&stks[a], rev)  && rotate(&stks[b], rev))
+		return (ft_printf("r%c%c\n", 'r' * rev, 'r'));
+	ft_printf("error; r%c%c\n", 'r' * rev, 'r');
+	return (0);
+}
+
+t_list	*ft_lstpop(t_list **list)
+{
+	t_list	*next;
+	t_list	*popd;
+
+	popd = *list;
+	if (popd) 
+	{
+		next = popd->next;
+		popd->next = NULL;
+		*list = next;
+		return (popd);
+	}
+	return (NULL);
+}
+
+t_list	*ps_stkpop(t_stack *stk)
+{
+	if (stk && stk->head)
+		if (stk->n--)
+			return (ft_lstpop(&stk->head));
+	return (NULL);
+}
+
+int	ps_stkpush(t_stack *stk, t_list *lst)
+{
+	if (stk && lst)
+	{
+		(ft_lstadd_front(&stk->head, lst));
+		return (1);
+	}
+	return (0);
+}
+
+int	push(t_stack *stks, int stk_to)
+{
+	t_list *from;
+
+
+	from = ps_stkpop(&stks[(stk_to + 1) % 2]);
+	if (from)
+		return (ps_stkpush(&stks[stk_to], from));
+	return (0);
+}
+
+int	p(t_stack *stks, int stk_to)
+{
+	if (push(stks, stk_to))
+		return (ft_printf("p%c\n", (stks)[stk_to].name));
+	ft_printf("error: p%c\n", (stks)[stk_to].name);
+	return (0);
+}
+
+int	ft_lstswap(t_list **lst)
+{
+	t_list	*next;
+
+	if (*lst && (*lst)->next)
+	{
+		next = (*lst)->next;
+		(*lst)->next = next->next;
+		next->next = *lst;
+		*lst = next;
+		return (1);
+	}
+	return (0);
+}
+
+int	swap(t_stack *stk)
+{
+	if (stk)
+		return (ft_lstswap(&stk->head));
+	return (0);	
+}
+
+int	s(t_stack *stk)
+{
+	if (swap(stk))
+		return (ft_printf("s%c\n", (stk)->name));
+	ft_printf("error: s%c\n", (stk)->name);
+	return (0);
 }
 
 int main(int ac, char **av)
@@ -178,7 +354,36 @@ int main(int ac, char **av)
 		if (!ps_init_stacks(stks, elements, ac))
 			return (NULL);
 	}
-	ps_print(stks[0]);
+	ps_print(stks[a]);
+	//	ft_lstrot(&stks[a].head, stks[a].n);
+	r(&stks[a]);
+	ps_print(stks[a]);
+	rr(&stks[a]);
+	ps_print(stks[a]);
+	r(&stks[a]);
+	r(&stks[a]);
+	r(&stks[a]);
+	ps_print(stks[a]);
+	//rrs(&stks, 0);
+	//rrs(&stks, 1);
+	//ps_stkpop(&stks[a]);
+	ps_print(stks[a]);
+	p(stks, b);
+	p(stks, b);
+	p(stks, b);
+	ps_print(stks[b]);
+	ps_print(stks[a]);
+	p(stks, b);
+	p(stks, b);
+	p(stks, b);
+	ps_print(stks[b]);
+	ps_print(stks[a]);
+	s(&stks[b]);
+	ps_print(stks[b]);
+	p(stks, a);
+	s(&stks[a]);
+	ps_print(stks[b]);
+	ps_print(stks[a]);
 	return (1);
 
 }
