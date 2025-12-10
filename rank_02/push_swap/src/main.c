@@ -264,9 +264,18 @@ t_list	*ft_lstpop(t_list **list)
 
 t_list	*ps_stkpop(t_stack *stk)
 {
+	t_list *popd;
+	
 	if (stk && stk->head)
+	{
 		if (stk->n--)
-			return (ft_lstpop(&stk->head));
+		{
+			popd = ft_lstpop(&stk->head);
+			//if (!stk->n)
+			//	stk->head = NULL;
+			return (popd);
+		}
+	}
 	return (NULL);
 }
 
@@ -391,7 +400,8 @@ t_list *get_max(t_stack *stk)
 }
 int		ps_lstcmp(t_list *lst1, t_list *lst2)
 {
-	return (ps_elecmp(lst1->content, lst2->content));
+	if (lst1 && lst2)
+		return (ps_elecmp(lst1->content, lst2->content));
 }
 /*
 void	place_in_stk(t_stack *stk, t_list *to_place)
@@ -423,39 +433,45 @@ int	n_sorted(t_stack stk)
 	return (i);
 }
 
-void	bubble(t_stack *stks, int to)
+void	bubble(t_stack **stks, int to)
 {
 	t_list	**s1;
 	t_list	**s2;
-	t_list	max;
 	int		from;
+	int		remain;
 
 	from = (to + 1 ) % 2;
-	s1 = &stks[from].head;
-	s2 = &stks[to].head;
-	while (*s1 && stks[from].n - n_sorted(stks[from]))
+	s1 = &(*stks)[from].head;
+	s2 = &(*stks)[to].head;
+	remain = (*stks)[from].n - n_sorted((*stks)[from]);
+	while (*s1 && remain > 0)
 	{
-		if (!*s2)
-			p(stks, to);
-		else
+	remain = (*stks)[from].n - n_sorted((*stks)[from]);
+		if (!s2[0])
+			p((*stks), to);
+		else if (ps_lstele(*s2)->sorted == 0)
 		{
-			if ((to % 2) && ps_lstcmp(*s1, *s2) < 0 )
+			if (ps_lstcmp(*s1, *s2) >0 )
 			{
-				p(stks, to);
-				r(&stks[to]);
+				p((*stks), to);
+				r(&(*stks)[to]);
 			}
-			else if (!(to % 2) && ps_lstcmp(*s1, *s2) > 0 )
+/*			else if (!(to % 2) && ps_lstcmp(*s1, *s2) < 0 )
 			{
-				p(stks, to);
-				r(&stks[to]);
+				p((*stks), to);
+				r(&(*stks)[to]);
 			}
+			*/
 			else
-				p(stks, to);
+				p((*stks), to);
 		}
+		else
+				r(&(*stks)[to]);
 	}
 	ps_lstele(*s2)->sorted = ps_lstele(*s2)->sort;
+	//ft_printf("%i %i %n",(*stks)[from].n, (*stks)[to].n );	
 	//p(stks, from);
-	r(&stks[to % 2]);
+	//r(&(*stks)[to % 2]);
 }
 
 void bubble_sort(t_stack *stks)
@@ -465,14 +481,14 @@ void bubble_sort(t_stack *stks)
 	int	to;
 
 
-	n = stks[a].n;
-	to = -1;
-	while (++to < n || ps_issorted(&stks[a]))
+	n = (stks)[a].n;
+	to = 0;
+	while (++to < n )// && !ps_issorted(&(*stks)[a]))
 	{
-		bubble(stks, to % 2);
-		//r(&stks[to % 2]);
-		ps_print(stks[a]);
-		ps_print(stks[b]);
+		bubble((&stks), to);
+		//r(&(*stks)[to % 2]);
+		ps_print((stks)[a]);
+		ps_print((stks)[b]);
 	}
 
 }
@@ -504,7 +520,8 @@ int main(int ac, char **av)
 		ft_printf("disorder->>>%i\n", compute_disorder(&stks[a]));
 	}
 	ps_print(stks[a]);
-	bubble_sort(stks);
+	bubble_sort(&stks);
+}
 	//ps_print(stks[a]);
 	//ps_print(stks[b]);
 	//	ft_lstrot(&stks[a].head, stks[a].n);
@@ -540,7 +557,6 @@ int main(int ac, char **av)
 	ps_print(stks[a]);
 	return (1);
 	*/
-}
 /*
    int	main()
    {
