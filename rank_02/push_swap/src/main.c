@@ -4,9 +4,9 @@
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: maprunty <maprunty@student.42heilbronn.de  +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
+	/*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/02 16:50:45 by maprunty          #+#    #+#             */
-/*   Updated: 2025/12/07 19:32:51 by maprunty         ###   ########.fr       */
+/*   Updated: 2025/12/12 04:56:29 by maprunty         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,23 +58,6 @@ int	*ft_strstoiarr(char **strs,  int n)
 	}
 	return (iarr);
 }
-# define a 0
-# define b 1
-typedef struct s_stack
-{
-	char	name;
-	int		n;
-	t_list	*head;
-	t_btree *root;
-	
-}	t_stack;
-
-typedef struct s_element
-{
-	int		value;
-	int		sorted;
-	int		sort;
-}	t_element;
 
 
 void	push_swap(int *iarr, int ac)
@@ -170,174 +153,7 @@ int	ps_init_stacks(t_stack stks[2], t_element *elements, int n)
 }
 
 
-t_list *ft_lstgoto(t_list *lst, int idx)
-{
-	if (idx < 0 || !lst)
-		return (NULL);
-	if (idx)
-		return (ft_lstgoto(lst->next, --idx));
-	return (lst);
-}
 
-int	ft_lstrrot(t_list **lst, int n)
-{	
-	t_list	*newtail;
-	t_list	*newhead;
-
-	if (lst && n > 2)
-	{
-		newtail = ft_lstgoto(*lst, n - 2);
-		newhead = newtail->next;
-		newtail->next = NULL;
-		newhead->next = *lst;
-		*lst = newhead;
-		if (ft_lstsize(*lst) == n)
-			return (1);
-	}
-	return (0);
-}
-
-int	ft_lstrot(t_list **lst, int n)
-{	
-	t_list	*newtail;
-	t_list	*newhead;
-
-	if (*lst && n >= 2)
-	{
-		newtail = *lst;
-		newhead = newtail->next;
-		ft_lstgoto(*lst, n - 1)->next = newtail;
-		newtail->next = NULL;
-		*lst = newhead;
-		if (ft_lstsize(*lst) == n)
-			return (1);
-	}
-	return (0);
-}
-
-int rotate(t_stack *stk, int rev)
-{
-	if (!rev)
-		return (ft_lstrot(&stk->head, stk->n));
-	return (ft_lstrrot(&stk->head, stk->n));
-}
-
-int	r(t_stack *stk)
-{
-	if (rotate(stk, 0))
-		return (ft_printf("r%c\n", (stk)->name));
-	ft_printf("error; r%c\n", (stk)->name);
-	return (0);
-}
-
-
-int	rr(t_stack *stk)
-{
-	if (rotate(stk, 1))
-		return (ft_printf("rr%c\n", (stk)->name));
-	ft_printf("error; rr%c\n", (stk)->name);
-	return (0);
-}
-int	rrs(t_stack *stks, int rev)
-{
-	if (rotate(&stks[a], rev)  && rotate(&stks[b], rev))
-		return (ft_printf("r%c%c\n", 'r' * rev, 'r'));
-	ft_printf("error; r%c%c\n", 'r' * rev, 'r');
-	return (0);
-}
-
-t_list	*ft_lstpop(t_list **list)
-{
-	t_list	*next;
-	t_list	*popd;
-
-	popd = *list;
-	if (popd) 
-	{
-		next = popd->next;
-		popd->next = NULL;
-		*list = next;
-		return (popd);
-	}
-	return (NULL);
-}
-
-t_list	*ps_stkpop(t_stack *stk)
-{
-	t_list *popd;
-	
-	if (stk && stk->head)
-	{
-		if (stk->n--)
-		{
-			popd = ft_lstpop(&stk->head);
-			//if (!stk->n)
-			//	stk->head = NULL;
-			return (popd);
-		}
-	}
-	return (NULL);
-}
-
-int	ps_stkpush(t_stack *stk, t_list *lst)
-{
-	if (stk && lst)
-	{
-		(ft_lstadd_front(&stk->head, lst));
-		stk->n++;
-		return (1);
-	}
-	return (0);
-}
-
-int	push(t_stack *stks, int stk_to)
-{
-	t_list *from;
-
-
-	from = ps_stkpop(&stks[(stk_to + 1) % 2]);
-	if (from)
-		return (ps_stkpush(&stks[stk_to], from));
-	return (0);
-}
-
-int	p(t_stack *stks, int stk_to)
-{
-	if (push(stks, stk_to))
-		return (ft_printf("p%c\n", (stks)[stk_to].name));
-	ft_printf("error: p%c\n", (stks)[stk_to].name);
-	return (0);
-}
-
-int	ft_lstswap(t_list **lst)
-{
-	t_list	*next;
-
-	if (*lst && (*lst)->next)
-	{
-		next = (*lst)->next;
-		(*lst)->next = next->next;
-		next->next = *lst;
-		*lst = next;
-		return (1);
-	}
-	return (0);
-}
-
-int	swap(t_stack *stk)
-{
-	if (stk)
-		return (ft_lstswap(&stk->head));
-	return (0);	
-}
-
-int	s(t_stack *stk)
-{
-	if (swap(stk))
-		return (ft_printf("s%c\n", (stk)->name));
-	ft_printf("error: s%c\n", (stk)->name);
-	return (0);
-}
 int compute_disorder(t_stack *stk)
 {
 	t_list  *tmp;
@@ -413,7 +229,7 @@ void	place_in_stk(t_stack *stk, t_list *to_place)
 */
 t_element *ps_lstele(t_list *lst)
 {
-	if (lst)
+	if (lst->content)
 		return (lst->content);
 	return (NULL);
 }
@@ -435,40 +251,43 @@ int	n_sorted(t_stack stk)
 
 void	bubble(t_stack **stks, int to)
 {
-	t_list	**s1;
-	t_list	**s2;
+	t_list	*s1;
+	t_list	*s2;
 	int		from;
 	int		remain;
 
 	from = (to + 1 ) % 2;
-	s1 = &(*stks)[from].head;
-	s2 = &(*stks)[to].head;
+	s1 = (stks)[from]->head;
+
+	s2 = NULL;
+	if (*((stks)[to]))
+		s2 = (stks)[to]->head;
 	remain = (*stks)[from].n - n_sorted((*stks)[from]);
-	while (*s1 && remain > 0)
+	while (s1 && remain > 0)
 	{
-	remain = (*stks)[from].n - n_sorted((*stks)[from]);
-		if (!s2[0])
+		if (!(s2))
 			p((*stks), to);
-		else if (ps_lstele(*s2)->sorted == 0)
+		else if (ps_lstele(s2)->sorted == 0)
 		{
-			if (ps_lstcmp(*s1, *s2) >0 )
+			if ((to % 2 && ps_lstcmp(s1, s2) >0 ))
 			{
 				p((*stks), to);
 				r(&(*stks)[to]);
 			}
-/*			else if (!(to % 2) && ps_lstcmp(*s1, *s2) < 0 )
+			else if (!(to % 2) && ps_lstcmp(s1, s2) < 0 )
 			{
-				p((*stks), to);
-				r(&(*stks)[to]);
+						p((*stks), to);
+						rr(&(*stks)[to]);
 			}
-			*/
 			else
 				p((*stks), to);
-		}
+			}
 		else
-				r(&(*stks)[to]);
+			r(&(*stks)[from]);
+		remain = (*stks)[from].n - n_sorted((*stks)[from]);
+		ft_printf(">>>%i %i \n", remain, 0-remain);
 	}
-	ps_lstele(*s2)->sorted = ps_lstele(*s2)->sort;
+	ps_lstele(s2)->sorted = ps_lstele(s2)->sort;
 	//ft_printf("%i %i %n",(*stks)[from].n, (*stks)[to].n );	
 	//p(stks, from);
 	//r(&(*stks)[to % 2]);
@@ -485,7 +304,7 @@ void bubble_sort(t_stack *stks)
 	to = 0;
 	while (++to < n )// && !ps_issorted(&(*stks)[a]))
 	{
-		bubble((&stks), to);
+		bubble((&stks), to % 2);
 		//r(&(*stks)[to % 2]);
 		ps_print((stks)[a]);
 		ps_print((stks)[b]);
@@ -522,41 +341,41 @@ int main(int ac, char **av)
 	ps_print(stks[a]);
 	bubble_sort(&stks);
 }
-	//ps_print(stks[a]);
-	//ps_print(stks[b]);
-	//	ft_lstrot(&stks[a].head, stks[a].n);
-	/*
-	   r(&stks[a]);
-	   ps_print(stks[a]);
-	   rr(&stks[a]);
-	   ps_print(stks[a]);
-	   r(&stks[a]);
-	   r(&stks[a]);
-	   r(&stks[a]);
-	   ps_print(stks[a]);
-	//rrs(&stks, 0);
-	//rrs(&stks, 1);
-	//ps_stkpop(&stks[a]);
-	ps_print(stks[a]);
-	p(stks, b);
-	p(stks, b);
-	p(stks, b);
-	ps_print(stks[b]);
-	ps_print(stks[a]);
-	p(stks, b);
-	p(stks, b);
-	p(stks, b);
-	ps_print(stks[b]);
-	ps_print(stks[a]);
-	s(&stks[b]);
-	ps_print(stks[b]);
-	p(stks, a);
-	p(stks, a);
-	s(&stks[a]);
-	ps_print(stks[b]);
-	ps_print(stks[a]);
-	return (1);
-	*/
+//ps_print(stks[a]);
+//ps_print(stks[b]);
+//	ft_lstrot(&stks[a].head, stks[a].n);
+/*
+   r(&stks[a]);
+   ps_print(stks[a]);
+   rr(&stks[a]);
+   ps_print(stks[a]);
+   r(&stks[a]);
+   r(&stks[a]);
+   r(&stks[a]);
+   ps_print(stks[a]);
+//rrs(&stks, 0);
+//rrs(&stks, 1);
+//ps_stkpop(&stks[a]);
+ps_print(stks[a]);
+p(stks, b);
+p(stks, b);
+p(stks, b);
+ps_print(stks[b]);
+ps_print(stks[a]);
+p(stks, b);
+p(stks, b);
+p(stks, b);
+ps_print(stks[b]);
+ps_print(stks[a]);
+s(&stks[b]);
+ps_print(stks[b]);
+p(stks, a);
+p(stks, a);
+s(&stks[a]);
+ps_print(stks[b]);
+ps_print(stks[a]);
+return (1);
+*/
 /*
    int	main()
    {
@@ -627,3 +446,4 @@ btree_apply_by_level(node5, applyf);
 //	btree_pprint(node5);
 }
 */
+

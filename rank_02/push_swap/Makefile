@@ -6,7 +6,7 @@
 #    By: maprunty <maprunty@student.42heilbron      +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/12/05 00:35:07 by maprunty          #+#    #+#              #
-#    Updated: 2025/12/05 00:35:11 by maprunty         ###   ########.fr        #
+#    Updated: 2025/12/12 02:02:04 by maprunty         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -18,7 +18,7 @@ INC 	:= -Iinclude
 CC      := gcc -g 
 CFLAGS  := $(INC) #-Wall -Wextra -Werror 
 
-S_FILES	:= main.c misc.c ft_help.c #push_swap.c 
+S_FILES	:= main.c misc.c ft_help.c rotate.c push.c swap.c #push_swap.c 
 
 SRC	:= $(S_FILES:%.c=src/%.c)
 
