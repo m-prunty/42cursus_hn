@@ -6,7 +6,7 @@
 /*   By: maprunty <maprunty@student.42heilbron      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/05 00:57:54 by maprunty          #+#    #+#             */
-/*   Updated: 2025/12/13 10:20:43 by maprunty         ###   ########.fr       */
+/*   Updated: 2025/12/13 11:36:48 by maprunty         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,12 +33,14 @@ typedef struct s_element
 	int		value;
 	int		idx;
 	int		sort;
+	int		sorted;
 }	t_element;
 
 typedef struct s_ps
 {
-	t_stack		*a;
-	t_stack		*b;
+	t_stack		stks[2];
+	char		curstk;
+	int			moves;
 	char		**flags;
 	t_element	*elements;
 }	t_ps;

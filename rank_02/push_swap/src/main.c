@@ -6,7 +6,7 @@
 /*   By: maprunty <maprunty@student.42heilbronn.de  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/02 16:50:45 by maprunty          #+#    #+#             */
-/*   Updated: 2025/12/13 11:10:11 by maprunty         ###   ########.fr       */
+/*   Updated: 2025/12/13 12:04:17 by maprunty         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -276,81 +276,13 @@ int	n_sorted(t_stack stk)
 	lst = stk.head;
 	while (lst)
 	{
-//		if (ps_lstele(lst)->sorted)
+		if (ps_lstele(lst)->sorted)
 			i++;
 		lst = lst->next;
 	}
 	return (i);
 }
-/*
-void	bubble(t_stack **stks, int to)
-{
-	t_list	**s1;
-	t_list	**s2;
-	int		from;
-	int		remain;
 
-	from = (to + 1 ) % 2;
-	s1 = &(*stks)[from].head;
-
-	s2 = NULL;
-	if (stks[to])
-		s2 = &(*stks)[to].head;
-	remain = (*stks)[from].n - n_sorted((*stks)[from]);
-	while (*s1 && remain > 0)
-	{
-		if (ps_lstele(*s1)->sorted == 0)
-		{
-
-			if (!(*s2 && (*s2)->content))
-				p((*stks), to);
-			else 		{
-				if (( ps_lstcmp(*s1, *s2) < 0 ) )
-				{
-					p((*stks), to);
-					r(&(*stks)[to]);
-				}
-			//		else if (!(to % 2) && ps_lstcmp(*s1, *s2) < 0 )
-			//		{
-			//		p((*stks), to);
-			//		rr(&(*stks)[to]);
-			//		}
-				else
-					p((*stks), to);
-			}
-		}
-		else
-			r(&(*stks)[from]);
-		remain = (*stks)[from].n - n_sorted((*stks)[from]);
-		//		ft_printf(">>>%i %i \n", remain, 0-remain);
-	}
-	ps_lstele(*s2)->sorted = ps_lstele(*s2)->sort;
-
-	//ft_printf("%i %i %n",(*stks)[from].n, (*stks)[to].n );	
-	//p(stks, from);
-	//r(&(*stks)[to % 2]);
-}
-*/
-/*
-void bubble_sort(t_stack stks[2])
-{
-	int	n;
-	int	i;
-	int	to;
-
-
-	n = (stks)[A].n;
-	to = 0;
-	while (++to < n )// && !ps_issorted(&(*stks)[A]))
-	{
-		bubble((&stks), to % 2);
-		//r(&(*stks)[to % 2]);
-		ps_print((stks)[A]);
-		ps_print((stks)[B]);
-	}
-
-}
-*/
 void bubble_sort(t_stack stks[2])
 {
 	int	n;
@@ -369,7 +301,6 @@ void bubble_sort(t_stack stks[2])
 			}
 			else
 				rr(&(stks)[A]);
-
 		}
 		p((stks), B);
 
@@ -458,36 +389,17 @@ void	ps_five_sort(t_stack *stks, int from)
 	ps_three_sort(&stks[from]);
 	while (pushed--)
 		p(stks, from);
-	/*
-	 while (stks[from].n > 3 && ++pushed)
-		p((stks), (from + 1) % 2);
-	ps_three_sort(&stks[from]);
-	while (pushed--)
-	{
-		while (ps_lstcmp(*lst1, *lst2) > 0)
-		{
-			if (ps_lstcmp(ft_lstlast(lst1), *lst2) > 0 && p(stks, from))
-				break ;
-			r(&stks[from]);
-		}
-		while (ps_lstcmp(*lst1, *lst2) < 0)
-		{
-			if (ps_lstcmp(ft_lstlast(lst1), *lst2) < 0 && p(stks, from))
-				break ;
-			rr(&stks[from]);
-		}
-	}
-	*/
 }
 
 int main(int ac, char **av)
 {
 	int			*iarr;
 	char		**flags;
+	t_ps		ps[1];
 	t_stack		stks[2];
 	t_element	*elements;
 
-	ft_bzero(stks, sizeof(stks));
+	//ft_bzero(ps, sizeof(stks));
 	if (ac > 1)
 	{
 		av = handle_input(&ac, ++av, flags);
@@ -505,115 +417,7 @@ int main(int ac, char **av)
 		ft_printf("disorder->>>%i\n", compute_disorder(&stks[A]));
 	}
 	ps_print(stks[A]);
-	//bubble_sort(stks);
-	//ps_three_sort(&stks[A]);
 	ps_five_sort(stks, A);
 	ps_print((stks)[A]);
 	ps_print((stks)[B]);
 }
-//ps_print(stks[A]);
-//ps_print(stks[B]);
-//	ft_lstrot(&stks[A].head, stks[A].n);
-/*
-   r(&stks[A]);
-   ps_print(stks[A]);
-   rr(&stks[A]);
-   ps_print(stks[A]);
-   r(&stks[A]);
-   r(&stks[A]);
-   r(&stks[A]);
-   ps_print(stks[A]);
-//rrs(&stks, 0);
-//rrs(&stks, 1);
-//ps_stkpop(&stks[A]);
-ps_print(stks[A]);
-p(stks, B);
-p(stks, B);
-p(stks, B);
-ps_print(stks[B]);
-ps_print(stks[A]);
-p(stks, B);
-p(stks, B);
-p(stks, B);
-ps_print(stks[B]);
-ps_print(stks[A]);
-s(&stks[B]);
-ps_print(stks[B]);
-p(stks, A);
-p(stks, A);
-s(&stks[A]);
-ps_print(stks[B]);
-ps_print(stks[A]);
-return (1);
-*/
-/*
-   int	main()
-   {
-   t_btree *node1 = btree_create_node("1");
-   t_btree *node2 = btree_create_node("2");
-   t_btree	*node3 = btree_create_node("3");
-   t_btree *node4 = btree_create_node("4");
-   t_btree *node5 = btree_create_node("5");
-   t_btree *node6 = btree_create_node("6");
-   t_btree *node7 = btree_create_node("7");
-   t_btree *node8 = btree_create_node("8");
-
-   t_btree	*root = btree_create_node("1");
-   root->left = btree_create_node("2");
-   root->right = btree_create_node("3");
-   root->left->left = btree_create_node("4");
-   root->left->right = btree_create_node("5");
-   root->right->right = btree_create_node("6");
-   btree_pprint(root);
-   */
-/*
-   node1->left = node2;
-   node1->right = node3;
-
-   node2->left = node4;
-   node2->right = node5;
-
-   node3->left = node6;
-   node3->right = node7;
-
-   node4->left = node8;
-   node4->right = NULL;
-   */
-/*
-   btree_apply_prefix(root, ft_putstr);
-   ft_printf("\n");
-   btree_apply_infix(root, ft_putstr);
-   ft_printf("\n");
-   btree_apply_suffix(root, ft_putstr);
-   btree_insert_data(&node5, "4", ft_strcmp);
-   btree_insert_data(&node5, "1", ft_strcmp);
-   btree_insert_data(&node5, "9", ft_strcmp);
-   btree_insert_data(&node5, "1", ft_strcmp);
-   btree_insert_data(&node5, "6", ft_strcmp);
-   btree_insert_data(&node5, "4", ft_strcmp);
-   btree_insert_data(&node5, "4", ft_strcmp);
-   btree_insert_data(&node5, "9", ft_strcmp);
-   btree_insert_data(&node5, "4", ft_strcmp);
-   btree_insert_data(&node5, "1", ft_strcmp);
-   btree_insert_data(&node5, "7", ft_strcmp);
-   btree_insert_data(&node5, "-9", ft_strcmp);
-   btree_insert_data(&node5, "1", ft_strcmp);
-   btree_insert_data(&node5, "1", ft_strcmp);
-   btree_insert_data(&node5, "1", ft_strcmp);
-   btree_insert_data(&node5, "1", ft_strcmp);
-   btree_insert_data(&node5, "0", ft_strcmp);
-   btree_insert_data(&node5, "7", ft_strcmp);
-   btree_insert_data(&node5, "0", ft_strcmp);
-   ft_printf("\n");
-   btree_apply_infix(node5, ft_putstr);
-   ft_printf("\n");
-   btree_apply_infix((btree_search_item(node5, "6", ft_strcmp)), ft_putstr);
-   ft_printf("\n");
-   t_list *lst;
-   lst = ft_lstnew(node1);
-//ft_printf("%i", btree_level_count(node5));
-btree_apply_by_level(node5, applyf);
-//	btree_pprint(node5);
-}
-*/
-
