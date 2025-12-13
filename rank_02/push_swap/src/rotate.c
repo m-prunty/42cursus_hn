@@ -6,7 +6,7 @@
 /*   By: maprunty <maprunty@student.42heilbronn.de  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/12 01:25:13 by maprunty          #+#    #+#             */
-/*   Updated: 2025/12/12 01:25:52 by maprunty         ###   ########.fr       */
+/*   Updated: 2025/12/13 06:49:01 by maprunty         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,7 +73,7 @@ int	rr(t_stack *stk)
 }
 int	rrs(t_stack *stks, int rev)
 {
-	if (rotate(&stks[a], rev)  && rotate(&stks[b], rev))
+	if (rotate(&stks[A], rev)  && rotate(&stks[B], rev))
 		return (ft_printf("r%c%c\n", 'r' * rev, 'r'));
 	ft_printf("error; r%c%c\n", 'r' * rev, 'r');
 	return (0);

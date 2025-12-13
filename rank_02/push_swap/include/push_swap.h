@@ -6,7 +6,7 @@
 /*   By: maprunty <maprunty@student.42heilbron      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/05 00:57:54 by maprunty          #+#    #+#             */
-/*   Updated: 2025/12/12 02:43:01 by maprunty         ###   ########.fr       */
+/*   Updated: 2025/12/13 10:20:43 by maprunty         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,8 +15,8 @@
 #include "ft_btree.h"
 #include "get_next_line.h"
 
-# define a 0
-# define b 1
+# define A 0
+# define B 1
 
 
 typedef struct s_stack
@@ -31,9 +31,18 @@ typedef struct s_stack
 typedef struct s_element
 {
 	int		value;
-	int		sorted;
+	int		idx;
 	int		sort;
 }	t_element;
+
+typedef struct s_ps
+{
+	t_stack		*a;
+	t_stack		*b;
+	char		**flags;
+	t_element	*elements;
+}	t_ps;
+
 
 int			*ft_strstoiarr(char **strs,  int n);
 t_element	*ps_elenew(int value);
