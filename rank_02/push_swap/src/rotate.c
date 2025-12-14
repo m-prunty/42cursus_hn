@@ -6,7 +6,7 @@
 /*   By: maprunty <maprunty@student.42heilbronn.de  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/12 01:25:13 by maprunty          #+#    #+#             */
-/*   Updated: 2025/12/14 09:25:58 by maprunty         ###   ########.fr       */
+/*   Updated: 2025/12/14 11:00:08 by maprunty         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,9 +61,9 @@ int	r(t_ps *ps)
 	{
 		ps->count.r[ps->curstk] += 1;
 		ps->count.tot += 1;
-		return (ft_printf("r%c\n", ps->stks->name));
+		return (ft_printf_fd(ps->fd, "r%c\n", ps->stks->name));
 	}
-	ft_printf("error; r%c\n", ps->stks->name);
+	ft_printf_fd(2, "error; r%c\n", ps->stks->name);
 	return (0);
 }
 
@@ -74,9 +74,9 @@ int	rr(t_ps *ps)
 	{
 		ps->count.rr[ps->curstk] += 1;
 		ps->count.tot += 1;
-		return (ft_printf("rr%c\n", ps->stks->name));
+		return (ft_printf_fd(ps->fd, "rr%c\n", ps->stks->name));
 	}
-	ft_printf("error; rr%c\n", ps->stks->name);
+	ft_printf_fd(2, "error; rr%c\n", ps->stks->name);
 	return (0);
 }
 int	rrs(t_ps *ps, int rev)
@@ -85,8 +85,8 @@ int	rrs(t_ps *ps, int rev)
 	{
 		ps->count.rrs[rev] += 1;
 		ps->count.tot += 1;
-		return (ft_printf("r%c%c\n", 'r' * rev, 'r'));
+		return (ft_printf_fd(ps->fd, "r%c%c\n", 'r' * rev, 'r'));
 	}
-	ft_printf("error; r%c%c\n", 'r' * rev, 'r');
+	ft_printf_fd(2, "error; r%c%c\n", 'r' * rev, 'r');
 	return (0);
 }

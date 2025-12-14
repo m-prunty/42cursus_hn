@@ -6,7 +6,7 @@
 /*   By: maprunty <maprunty@student.42heilbronn.de  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/02 16:50:45 by maprunty          #+#    #+#             */
-/*   Updated: 2025/12/14 09:24:39 by maprunty         ###   ########.fr       */
+/*   Updated: 2025/12/14 14:32:57 by maprunty         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -115,30 +115,37 @@ int	ps_elecmp(void *ele1, void *ele2)
 	return (i1 - i2);
 }
 
-void	ps_putnbr(t_element *ele)
+void	ps_putele(t_element *ele)
 {
-	if (ele )
-	{
-	ft_putnbr_fd(ele->value, 1);
-	ft_putstr_fd(", ", 1);
-	ft_putnbr_fd(ele->sort, 1);
-	ft_putstr_fd(", ", 1);
-	ft_putnbr_fd(ele->idx, 1);
-//	ft_putstr_fd(", ", 1);
-//	ft_putnbr_fd(ele->sorted, 1);
-	ft_putstr_fd("\n", 1);
-	}
+	if (ele)
+		ft_printf_fd(2, "%i, %i, %i\n", ele->value, ele->sort, ele->idx);
 }
 
-void ps_print(t_stack stk)
+void	ps_putnbr(t_element *ele)
 {
-	//if ()
-	ft_printf("stack: %c\n", stk.name);
-	ft_printf("disorder->>>%i\n", compute_disorder(&stk));
-	ft_lstiter(stk.head, ps_putnbr);
-	ft_putchar_fd('\n', 1);
+	if (ele)
+		ft_printf_fd(2, "%i ", ele->value);
+}
+
+void ps_print(t_ps *ps)
+{
+	int i;
+	t_stack stk;
+
+	i = -1;
+	while (++i < 2)
+	{
+		stk = ps->stks[i];
+		if (stk.n)
+		{
+			ft_printf_fd(2, "stack: %c\n", stk.name);
+			ft_printf_fd(2, "disorder->>>%i\n", compute_disorder(&stk));
+			ft_lstiter(stk.head, ps_putele);
+		}
+	}
+	//ft_putchar_fd('\n', 1);
 	//btree_apply_infix(stk.root, ps_putnbr);
-	ft_putchar_fd('\n', 1);
+	//ft_putchar_fd('\n', 1);
 }
 
 void	ps_apfcount(t_element *ele)
@@ -153,7 +160,7 @@ int	ps_init_stacks(t_ps *ps, int n)
 {
 	t_list	*tmplst;
 	int i;
-	
+
 	ps->stks[A].name = 'a';
 	ps->stks[B].name = 'b';
 	i = -1;
@@ -164,6 +171,8 @@ int	ps_init_stacks(t_ps *ps, int n)
 		btree_insert_data(&ps->stks[A].root, &ps->elements[i], ps_elecmp);
 	}
 	btree_apply_infix(ps->stks[A].root, ps_apfcount);
+	ft_lstiter(ps->stks[A].head, ps_putnbr);
+	ft_printf_fd(2, "\n");
 	ps->stks[A].n = i;
 }
 
@@ -174,7 +183,7 @@ int compute_disorder(t_stack *stk)
 	t_list  *nxt;
 	int		mistakes;
 	int		pairs;
-	
+
 	mistakes = 0;
 	pairs = 0;
 	tmp = stk->head;
@@ -209,7 +218,7 @@ int ps_issorted(t_stack *stk)
 		lst = lst->next;
 	}
 	return (1);
-		
+
 }
 
 t_list *get_max(t_stack *stk)
@@ -253,14 +262,7 @@ int		ps_lstcmp(t_list *lst1, t_list *lst2)
 	if (lst1 && lst2)
 		return (ps_elecmp(lst1->content, lst2->content));
 }
-/*
-void	place_in_stk(t_stack *stk, t_list *to_place)
-{
-	t_list	*head;
 
-	while (ps_lstcmp(ahead, bhead)  0)
-}
-*/
 t_ps	*set_curstk(t_ps *ps, int stk)
 {
 	ps->curstk = stk;
@@ -313,7 +315,7 @@ void bubble_sort(t_ps *ps)
 	}
 	while(ps->stks[B].n)
 		p(ps, A);
-		
+
 }
 char	**handle_input(int *ac, char **av, char **flags)
 {
@@ -400,6 +402,18 @@ void	ps_five_sort(t_ps *ps)
 		p(ps, from);
 }
 
+void	ps_bench(t_ps *ps)
+{
+	t_count c;
+
+	c = ps->count;
+	ft_printf_fd(2,"[bench]\tdisorder:\t%i%%\n", ps->disorder);
+	ft_printf_fd(2,"[bench]\tstrategy:\t%s\n", ps->strat);
+	ft_printf_fd(2,"[bench]\ttotal_ops:\t%i\n", c.tot);
+	ft_printf_fd(2,"[bench]\tsa:\t%i sb:\t%i ss:\t%i pa:\t%i pb:\t%i\n", c.s[A], c.s[B], c.ss[0], c.p[A], c.p[B]);
+	ft_printf_fd(2,"[bench]\tra:\t%i rb:\t%i rr:\t%i rra:\t%i rrb:\t%i\n", c.r[A], c.r[B], c.rrs[0], c.rr[A], c.rr[B], c.rrs[1]);
+
+}
 
 int main(int ac, char **av)
 {
@@ -410,6 +424,7 @@ int main(int ac, char **av)
 	t_element	*elements;
 
 	ft_bzero(ps, sizeof(ps));
+	ps->fd = 1;
 	if (ac > 1)
 	{
 		av = handle_input(&ac, ++av, flags);
@@ -417,7 +432,7 @@ int main(int ac, char **av)
 		if (iarr)
 		{
 			ps->elements = ps_getelements(iarr, ac, 'a');
-			free(iarr);
+			//free(iarr);
 			if (!ps->elements)
 				return ( free(av), 0);
 		}
@@ -425,11 +440,11 @@ int main(int ac, char **av)
 			return (free(*av), 0);
 		if (!ps_init_stacks(ps, ac))
 			return (0);
-		ft_printf("disorder->>>%i\n", compute_disorder(&ps->stks[A]));
+		ps->disorder = compute_disorder(&ps->stks[A]);
 	}
-	ps_print(ps->stks[A]);
-//	ps_five_sort(set_curstk(ps, A));
+//	ps_print(ps);
+	//ps_five_sort(set_curstk(ps, A));
 	bubble_sort(ps);
-	ps_print((ps->stks)[A]);
-	ps_print((ps->stks)[B]);
+	ps_bench(ps);
+//	ps_print(ps);
 }

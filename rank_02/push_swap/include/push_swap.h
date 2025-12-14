@@ -6,7 +6,7 @@
 /*   By: maprunty <maprunty@student.42heilbron      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/05 00:57:54 by maprunty          #+#    #+#             */
-/*   Updated: 2025/12/14 09:16:23 by maprunty         ###   ########.fr       */
+/*   Updated: 2025/12/14 12:14:47 by maprunty         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,8 +52,11 @@ typedef struct s_ps
 	t_stack		stks[2];
 	char		curstk;
 	char		**flags;
+	char		*strat;
 	t_element	*elements;
 	t_count		count;
+	int			disorder;
+	int			fd;
 }	t_ps;
 
 
@@ -70,7 +73,7 @@ void	push_swap(int *iarr, int ac);
 
 int		ps_elecmp(void *ele1, void *ele2);
 void	ps_putnbr(t_element *ele);
-void	ps_print(t_stack stk);
+void	ps_print(t_ps *ps);
 void	ps_apfcount(t_element *ele);
 
 int		ps_init_stacks(t_ps *ps, int n);

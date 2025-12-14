@@ -6,7 +6,7 @@
 /*   By: maprunty <maprunty@student.42heilbronn.de  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/12 01:27:02 by maprunty          #+#    #+#             */
-/*   Updated: 2025/12/14 09:26:49 by maprunty         ###   ########.fr       */
+/*   Updated: 2025/12/14 11:07:01 by maprunty         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,8 +82,8 @@ int	p(t_ps *ps, int stk_to)
 	{
 		ps->count.p[stk_to] += 1;
 		ps->count.tot += 1;
-		return (ft_printf("p%c\n", (ps->stks)[stk_to].name));
+		return (ft_printf_fd(ps->fd, "p%c\n", (ps->stks)[stk_to].name));
 	}
-	ft_printf("error: p%c\n", (ps->stks)[stk_to].name);
+	ft_printf_fd(2 , "error: p%c\n", (ps->stks)[stk_to].name);
 	return (0);
 }
