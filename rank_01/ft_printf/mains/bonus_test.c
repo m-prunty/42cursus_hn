@@ -4,7 +4,7 @@
 #include <unistd.h>
 #include <stdlib.h>
 #include <string.h>
-#include "include/ft_printf.h"
+#include "../include/ft_printf.h"
 
 #define CAPTURE(expr) \
 ({ \

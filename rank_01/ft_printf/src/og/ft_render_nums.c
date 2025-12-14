@@ -6,7 +6,7 @@
 /*   By: maprunty <maprunty@student.42heilbronn.de  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/11 18:54:21 by maprunty          #+#    #+#             */
-/*   Updated: 2025/12/14 09:59:52 by maprunty         ###   ########.fr       */
+/*   Updated: 2025/11/17 12:58:51 by maprunty         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,7 @@ void	just_left(unsigned long long res, char *base_s, t_format *fmt)
 		ft_putnbr_ptr(res, fmt);
 	else if (fmt->n)
 		ft_putnbr_base_fmt(res, base_s, fmt);
-	print_space(fmt->width - fmt->len, &fmt->count, fmt->fd );
+	print_space(fmt->width - fmt->len, &fmt->count);
 }
 
 void	just_right(unsigned long long res, char *base_s, t_format *fmt)

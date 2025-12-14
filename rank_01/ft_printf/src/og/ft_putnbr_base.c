@@ -6,7 +6,7 @@
 /*   By: maprunty <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/14 05:12:41 by maprunty          #+#    #+#             */
-/*   Updated: 2025/12/14 09:58:15 by maprunty         ###   ########.fr       */
+/*   Updated: 2025/11/16 01:02:53 by maprunty         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,7 @@ void	ft_putnbr_ptr(size_t n, t_format *fmt)
 	symbols = "0123456789abcdef";
 	base = 16;
 	if (n < base)
-		(ft_putchar_fd_count(symbols[n], fmt->fd, &fmt->count));
+		(ft_putchar_fd_count(symbols[n], FD, &fmt->count));
 	else
 	{
 		ft_putnbr_ptr(n / base, fmt);
@@ -69,5 +69,5 @@ void	ft_putnbr_base_fmt(long int n, char *base, t_format *fmt)
 		ft_putnbr_base_fmt(n / base_len, base, fmt);
 	n %= base_len;
 	if (n < base_len)
-		ft_putchar_fd_count(base[n % base_len], fmt->fd, &fmt->count);
+		ft_putchar_fd_count(base[n % base_len], FD, &fmt->count);
 }

@@ -1,1 +1,3 @@
-briseur2reves
+.*.sw*
+main.c
+*.o

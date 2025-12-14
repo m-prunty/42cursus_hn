@@ -6,7 +6,7 @@
 /*   By: maprunty <maprunty@student.42heilbronn.de  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/10 05:42:04 by maprunty          #+#    #+#             */
-/*   Updated: 2025/11/17 13:04:39 by maprunty         ###   ########.fr       */
+/*   Updated: 2025/12/14 10:06:57 by maprunty         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,6 +44,7 @@ typedef struct s_format
 {
 	const char	*str;
 	t_flag		flags[5];
+	int			fd;
 	int			n;
 	int			len;
 	int			isneg;
@@ -63,13 +64,14 @@ int					ft_parse(t_format *fmt);
 int					ft_render(t_format *fmt);
 void				ft_init_format(t_format *fmt, const char *f_str);
 int					ft_printf(const char *f_str, ...);
+int					ft_printf_fd(int fd, const char *f_str, ...);
 
 int					ft_isvalid_base(char *base);
 void				ft_putnbr_base_fmt(long int n, char *base, t_format *fmt);
 void				ft_putnbr_ptr(size_t n, t_format *fmt);
 
 int					check_flags(t_format *fmt, t_flag f);
-int					print_space(int n, int *count);
+int					print_space(int n, int *count, int fd);
 int					ft_putstr_n_fd(char *s, int n, int fd, int *count);
 void				ft_putstr_fd_count(char *s, int fd, int *count);
 void				ft_putchar_fd_count(char c, int fd, int *count);

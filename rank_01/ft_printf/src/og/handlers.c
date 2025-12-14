@@ -6,7 +6,7 @@
 /*   By: maprunty <maprunty@student.42heilbron      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/15 23:25:20 by maprunty          #+#    #+#             */
-/*   Updated: 2025/12/14 10:01:55 by maprunty         ###   ########.fr       */
+/*   Updated: 2025/11/17 13:02:38 by maprunty         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ void	handle_zero(t_format *fmt, int res)
 			- ((check_flags(fmt, HASH)
 					&& res && ft_strchr("xX", fmt->spec)) * 2);
 		while (i-- > 0)
-			ft_putchar_fd_count('0', fmt->fd, &fmt->count);
+			ft_putchar_fd_count('0', FD, &fmt->count);
 	}
 }
 
@@ -50,7 +50,7 @@ void	handle_precis(t_format *fmt, int res)
 		i = fmt->precision - fmt->n;
 	}
 	while (i-- > 0)
-		ft_putchar_fd_count('0', fmt->fd, &fmt->count);
+		ft_putchar_fd_count('0', FD, &fmt->count);
 }
 
 void	handle_prefix(t_format *fmt, unsigned long long res)
@@ -61,20 +61,20 @@ void	handle_prefix(t_format *fmt, unsigned long long res)
 		if (res || APPLE)
 		{
 			if (ft_islower(fmt->spec))
-				ft_putstr_fd_count("0x", fmt->fd, &fmt->count);
+				ft_putstr_fd_count("0x", FD, &fmt->count);
 			else
-				ft_putstr_fd_count("0X", fmt->fd, &fmt->count);
+				ft_putstr_fd_count("0X", FD, &fmt->count);
 		}
 		return ;
 	}
 	else if (ft_strchr("id", fmt->spec))
 	{
 		if (fmt->isneg)
-			ft_putchar_fd_count('-', fmt->fd, &fmt->count);
+			ft_putchar_fd_count('-', FD, &fmt->count);
 		else if (check_flags(fmt, PLUS))
-			ft_putchar_fd_count('+', fmt->fd, &fmt->count);
+			ft_putchar_fd_count('+', FD, &fmt->count);
 		else if (check_flags(fmt, SPACE) && !fmt->isneg)
-			ft_putchar_fd_count(' ', fmt->fd, &fmt->count);
+			ft_putchar_fd_count(' ', FD, &fmt->count);
 	}
 }
 
@@ -83,8 +83,8 @@ void	handle_width(t_format *fmt, int res)
 	if (ft_strchr("sc", fmt->spec))
 	{
 		if (res && fmt->width > fmt->n)
-			print_space(fmt->width - fmt->n, &fmt->count, fmt->fd);
+			print_space(fmt->width - fmt->n, &fmt->count);
 	}
 	else if ((!check_flags(fmt, ZERO) || fmt->precision >= 0))
-		print_space(fmt->width - fmt->len, &fmt->count, fmt->fd);
+		print_space(fmt->width - fmt->len, &fmt->count);
 }

@@ -6,7 +6,7 @@
 /*   By: maprunty <maprunty@student.42heilbron      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/16 00:55:12 by maprunty          #+#    #+#             */
-/*   Updated: 2025/12/14 09:57:41 by maprunty         ###   ########.fr       */
+/*   Updated: 2025/11/17 10:09:02 by maprunty         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,6 +63,6 @@ int	ft_render_chars(t_format *fmt, unsigned char *s, unsigned char c[2])
 		s = (unsigned char *)"%";
 	handle_precis(fmt, 0);
 	handle_width(fmt, !check_flags(fmt, MINUS));
-	ft_putstr_n_fd((char *)s, fmt->n, fmt->fd, &fmt->count);
+	ft_putstr_n_fd((char *)s, fmt->n, FD, &fmt->count);
 	return (handle_width(fmt, check_flags(fmt, MINUS)), 1);
 }

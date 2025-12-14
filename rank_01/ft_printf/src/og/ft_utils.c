@@ -6,7 +6,7 @@
 /*   By: maprunty <maprunty@student.42heilbronn.de  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/11 18:54:07 by maprunty          #+#    #+#             */
-/*   Updated: 2025/12/14 09:59:18 by maprunty         ###   ########.fr       */
+/*   Updated: 2025/11/17 01:39:20 by maprunty         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,13 +28,13 @@ int	check_flags(t_format *fmt, t_flag f)
 	return (0);
 }
 
-int	print_space(int n, int *count, int fd)
+int	print_space(int n, int *count)
 {
 	int	i;
 
 	i = -1;
 	while (++i < n)
-		ft_putchar_fd_count(' ', fd, count);
+		ft_putchar_fd_count(' ', FD, count);
 	return (i);
 }
 
