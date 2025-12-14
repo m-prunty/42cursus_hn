@@ -6,7 +6,7 @@
 /*   By: maprunty <maprunty@student.42heilbronn.de  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/12 01:25:13 by maprunty          #+#    #+#             */
-/*   Updated: 2025/12/13 06:49:01 by maprunty         ###   ########.fr       */
+/*   Updated: 2025/12/14 09:25:58 by maprunty         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,26 +55,38 @@ int rotate(t_stack *stk, int rev)
 	return (ft_lstrrot(&stk->head, stk->n));
 }
 
-int	r(t_stack *stk)
+int	r(t_ps *ps)
 {
-	if (rotate(stk, 0))
-		return (ft_printf("r%c\n", (stk)->name));
-	ft_printf("error; r%c\n", (stk)->name);
+	if (rotate(&ps->stks[ps->curstk], 0))
+	{
+		ps->count.r[ps->curstk] += 1;
+		ps->count.tot += 1;
+		return (ft_printf("r%c\n", ps->stks->name));
+	}
+	ft_printf("error; r%c\n", ps->stks->name);
 	return (0);
 }
 
 
-int	rr(t_stack *stk)
+int	rr(t_ps *ps)
 {
-	if (rotate(stk, 1))
-		return (ft_printf("rr%c\n", (stk)->name));
-	ft_printf("error; rr%c\n", (stk)->name);
+	if (rotate(&ps->stks[ps->curstk], 1))
+	{
+		ps->count.rr[ps->curstk] += 1;
+		ps->count.tot += 1;
+		return (ft_printf("rr%c\n", ps->stks->name));
+	}
+	ft_printf("error; rr%c\n", ps->stks->name);
 	return (0);
 }
-int	rrs(t_stack *stks, int rev)
+int	rrs(t_ps *ps, int rev)
 {
-	if (rotate(&stks[A], rev)  && rotate(&stks[B], rev))
+	if (rotate(&ps->stks[ps->curstk], rev) &&  rotate(&ps->stks[ps->curstk], rev))
+	{
+		ps->count.rrs[rev] += 1;
+		ps->count.tot += 1;
 		return (ft_printf("r%c%c\n", 'r' * rev, 'r'));
+	}
 	ft_printf("error; r%c%c\n", 'r' * rev, 'r');
 	return (0);
 }

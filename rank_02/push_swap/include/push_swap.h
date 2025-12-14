@@ -6,7 +6,7 @@
 /*   By: maprunty <maprunty@student.42heilbron      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/05 00:57:54 by maprunty          #+#    #+#             */
-/*   Updated: 2025/12/13 11:36:48 by maprunty         ###   ########.fr       */
+/*   Updated: 2025/12/14 09:16:23 by maprunty         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,13 +36,24 @@ typedef struct s_element
 	int		sorted;
 }	t_element;
 
+typedef struct s_count
+{
+	int	tot;
+	int	p[2];
+	int	s[2];
+	int	ss[1];
+	int	r[2];
+	int	rr[2];
+	int	rrs[2];
+}	t_count;
+
 typedef struct s_ps
 {
 	t_stack		stks[2];
 	char		curstk;
-	int			moves;
 	char		**flags;
 	t_element	*elements;
+	t_count		count;
 }	t_ps;
 
 
@@ -62,25 +73,25 @@ void	ps_putnbr(t_element *ele);
 void	ps_print(t_stack stk);
 void	ps_apfcount(t_element *ele);
 
-int		ps_init_stacks(t_stack stks[2], t_element *elements, int n);
+int		ps_init_stacks(t_ps *ps, int n);
 
 int		ft_lstrrot(t_list **lst, int n);
 int		ft_lstrot(t_list **lst, int n);
 int		rotate(t_stack *stk, int rev);
-int		r(t_stack *stk);
-int		rr(t_stack *stk);
-int		rrs(t_stack *stks, int rev);
+int		r(t_ps *ps);
+int		rr(t_ps *ps);
+int		rrs(t_ps *ps, int rev);
 
 t_list	*ft_lstgoto(t_list *lst, int idx);
 t_list	*ft_lstpop(t_list **list);
 t_list	*ps_stkpop(t_stack *stk);
 int		ps_stkpush(t_stack *stk, t_list *lst);
 int		push(t_stack *stks, int stk_to);
-int		p(t_stack *stks, int stk_to);
+int		p(t_ps *ps, int stk_to);
 
 int		ft_lstswap(t_list **lst);
 int		swap(t_stack *stk);
-int		s(t_stack *stk);
+int		s(t_ps *ps);
 
 int		compute_disorder(t_stack *stk);
 int		ps_issorted(t_stack *stk);
@@ -89,5 +100,5 @@ int		ps_lstcmp(t_list *lst1, t_list *lst2);
 void	place_in_stk(t_stack *stk, t_list *to_place);
 int		n_sorted(t_stack stk);
 
-void	bubble(t_stack **stks, int to);
-void	bubble_sort(t_stack *stks);
+void	bubble(t_ps *ps, int to);
+void	bubble_sort(t_ps *ps);

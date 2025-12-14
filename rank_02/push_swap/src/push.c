@@ -6,7 +6,7 @@
 /*   By: maprunty <maprunty@student.42heilbronn.de  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/12 01:27:02 by maprunty          #+#    #+#             */
-/*   Updated: 2025/12/13 12:01:34 by maprunty         ###   ########.fr       */
+/*   Updated: 2025/12/14 09:26:49 by maprunty         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,24 +66,24 @@ int	ps_stkpush(t_stack *stk, t_list *lst)
 	return (0);
 }
 
-int	push(t_ps *ps, int stk_to)
+int	push(t_stack *stks, int stk_to)
 {
 	t_list *from;
 
-	from = ps_stkpop(&ps->stks[(stk_to + 1) % 2]);
+	from = ps_stkpop(&stks[(stk_to + 1) % 2]);
 	if (from)
-		return (ps_stkpush(&ps->stks[stk_to], from));
+		return (ps_stkpush(&stks[stk_to], from));
 	return (0);
-}
-int	ps_print_ops(t_ps *ps, char op)
-{
-
 }
 
 int	p(t_ps *ps, int stk_to)
 {
-	if (push(ps, stk_to))
+	if (push((ps->stks), stk_to))
+	{
+		ps->count.p[stk_to] += 1;
+		ps->count.tot += 1;
 		return (ft_printf("p%c\n", (ps->stks)[stk_to].name));
+	}
 	ft_printf("error: p%c\n", (ps->stks)[stk_to].name);
 	return (0);
 }
