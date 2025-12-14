@@ -6,7 +6,7 @@
 /*   By: maprunty <maprunty@student.42heilbronn.de  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/02 16:50:45 by maprunty          #+#    #+#             */
-/*   Updated: 2025/12/14 14:32:57 by maprunty         ###   ########.fr       */
+/*   Updated: 2025/12/14 19:50:30 by maprunty         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -317,12 +317,14 @@ void bubble_sort(t_ps *ps)
 		p(ps, A);
 
 }
+
+
 char	**handle_input(int *ac, char **av, char **flags)
 {
 	int i;
 
 	i = 0;
-	while (*av[i] == '-' && !ft_isstr_numeric(*av))
+	while ( !ft_isstr_numeric(*av) && *av[i] == '-')
 		i++;
 	flags = (char **)ft_calloc(i, sizeof(char *));
 	while (i && (*ac)--)
@@ -354,6 +356,8 @@ void	ps_update_idx(t_stack *stk)
 
 
 }
+
+
 void	ps_three_sort(t_ps *ps)
 {
 	t_list	**lst;
@@ -402,16 +406,125 @@ void	ps_five_sort(t_ps *ps)
 		p(ps, from);
 }
 
+void bubble_sort_opt(t_ps *ps)
+{
+	int	n;
+	int min;
+	int max;
+	t_list	**lst;
+
+	lst = &ps->stks[A].head;
+	while (ps->stks[A].n)
+	{
+		n = ps->stks[A].n;
+		ps_update_idx(&ps->stks[A]);
+		max = ps_lstele(get_max(&ps->stks[A]))->idx;
+		min = ps_lstele(get_min(&ps->stks[A]))->idx;
+		if (max < min)
+		{
+			rotate_help(set_curstk(ps, A), max);
+			p(ps, B);
+			r(set_curstk(ps, B));
+		}
+		else
+		{
+			rotate_help(set_curstk(ps, A), min);
+			p(ps, B);
+		}
+	}
+	ps_update_idx(&ps->stks[B]);
+	rotate_help(set_curstk(ps, B), ps_lstele(get_max(&ps->stks[B]))->idx );
+	while(ps->stks[B].n)
+	{
+		p(ps, A);
+	}
+}
+
+int	log2n(int n)
+{
+	if (n > 1)
+		return (1 + log2n(n / 2));
+	return (0); 
+}
+
+long	n_log_n(int n)
+{
+	if (n <= 1)
+		return (0);
+	return ((long)n * log2n(n));
+}
+
 void	ps_bench(t_ps *ps)
 {
 	t_count c;
+	int		n;
 
 	c = ps->count;
+	n = ps->stks[A].n;
 	ft_printf_fd(2,"[bench]\tdisorder:\t%i%%\n", ps->disorder);
 	ft_printf_fd(2,"[bench]\tstrategy:\t%s\n", ps->strat);
 	ft_printf_fd(2,"[bench]\ttotal_ops:\t%i\n", c.tot);
-	ft_printf_fd(2,"[bench]\tsa:\t%i sb:\t%i ss:\t%i pa:\t%i pb:\t%i\n", c.s[A], c.s[B], c.ss[0], c.p[A], c.p[B]);
-	ft_printf_fd(2,"[bench]\tra:\t%i rb:\t%i rr:\t%i rra:\t%i rrb:\t%i\n", c.r[A], c.r[B], c.rrs[0], c.rr[A], c.rr[B], c.rrs[1]);
+	ft_printf_fd(2,"[bench]\tsa:\t%i\tsb:\t%i\tss:\t%i\tpa:\t%i\tpb:\t%i\n", c.s[A], c.s[B], c.ss[0], c.p[A], c.p[B]);
+	ft_printf_fd(2,"[bench]\tra:\t%i\trb:\t%i\trr:\t%i\trra:\t%i\trrb:\t%i\n", c.r[A], c.r[B], c.rrs[0], c.rr[A], c.rr[B], c.rrs[1]);
+	ft_printf_fd(2,"[bench]\tops/n:\t%i ops/nlogn:\t%i\n", c.tot / n , c.tot / n_log_n(n) );
+}
+
+void	radix_sort(t_ps *ps)
+{
+	int max;
+	int nbit;
+	int n;
+	int i;
+	
+	max = ps_lstele(get_max(&ps->stks[A]))->sort;
+	nbit = 0;
+	n = ps->stks[A].n;
+	i = 0;
+	while (max >> nbit)
+		nbit++;
+	while (nbit--)
+	{
+		n = ps->stks[A].n;
+		while (n--)
+		{
+			if ((ps_lstele(ps->stks[A].head)->sort >> i)&1)
+				r(set_curstk(ps, A));
+			else
+				p(ps, B);
+		}
+		while (ps->stks[B].n)
+				p(ps, A);
+		i++;
+	}
+
+}
+
+int	ft_sqrt(int nb)
+{
+	int	i;
+	int	j;
+
+	i = 0;
+	j = 0;
+	if (nb == 1)
+		return (1);
+	if (nb > 2){
+		while (nb > 0 && (j++ + ++i))
+			nb -= (i++);
+		if (nb < 0)
+			return (0);
+	}	
+	return (j);
+}
+
+void	k_sort(t_ps *ps)
+{
+	int current_cap;
+	t_list	**lst;
+
+	lst = &ps->stks[A].head;
+	current_cap = ft_sqrt(ps->stks[A].n) * 1.3;
+//	while (ps_lstele())
 
 }
 
@@ -442,9 +555,11 @@ int main(int ac, char **av)
 			return (0);
 		ps->disorder = compute_disorder(&ps->stks[A]);
 	}
-//	ps_print(ps);
+	//	ps_print(ps);
 	//ps_five_sort(set_curstk(ps, A));
-	bubble_sort(ps);
+	//bubble_sort(ps);
+	//bubble_sort_opt(ps);
+	radix_sort(ps);
 	ps_bench(ps);
 //	ps_print(ps);
 }
