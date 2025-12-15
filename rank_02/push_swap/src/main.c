@@ -6,7 +6,7 @@
 /*   By: maprunty <maprunty@student.42heilbronn.de  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/02 16:50:45 by maprunty          #+#    #+#             */
-/*   Updated: 2025/12/14 19:50:30 by maprunty         ###   ########.fr       */
+/*   Updated: 2025/12/15 14:38:28 by maprunty         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -516,7 +516,7 @@ int	ft_sqrt(int nb)
 	}	
 	return (j);
 }
-
+/*
 void	k_sort(t_ps *ps)
 {
 	int current_cap;
@@ -524,10 +524,10 @@ void	k_sort(t_ps *ps)
 
 	lst = &ps->stks[A].head;
 	current_cap = ft_sqrt(ps->stks[A].n) * 1.3;
-//	while (ps_lstele())
+	while (ps_lstele(ps->stks[A].head))
 
 }
-
+*/
 int main(int ac, char **av)
 {
 	int			*iarr;
