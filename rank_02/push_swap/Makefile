@@ -6,7 +6,7 @@
 #    By: maprunty <maprunty@student.42heilbron      +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/12/05 00:35:07 by maprunty          #+#    #+#              #
-#    Updated: 2025/12/12 02:02:04 by maprunty         ###   ########.fr        #
+#    Updated: 2025/12/16 01:09:23 by maprunty         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -29,6 +29,8 @@ all: $(NAME)
 $(NAME): $(OBJ) 
 	$(CC) $(CFLAGS) $^ $(LIBS) -o $@
 
+debug: dbgclean bonus
+	$(CC) -no-pie main.c $(NAME) 
 
 obj/%.o: src/%.c | obj
 	$(CC) $(CFLAGS) -c $< -o $@
@@ -41,6 +43,9 @@ clean:
 
 fclean: clean
 	rm -rf $(NAME)
+
+dbgclean: fclean
+	rm -rf a.out
 
 re: fclean all
 

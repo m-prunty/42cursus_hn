@@ -6,7 +6,7 @@
 /*   By: maprunty <maprunty@student.42heilbronn.de  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/02 16:50:45 by maprunty          #+#    #+#             */
-/*   Updated: 2025/12/15 14:38:28 by maprunty         ###   ########.fr       */
+/*   Updated: 2025/12/16 02:50:12 by maprunty         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -139,8 +139,9 @@ void ps_print(t_ps *ps)
 		if (stk.n)
 		{
 			ft_printf_fd(2, "stack: %c\n", stk.name);
-			ft_printf_fd(2, "disorder->>>%i\n", compute_disorder(&stk));
 			ft_lstiter(stk.head, ps_putele);
+			//ft_lstiter(stk.head, ps_putnbr);
+			ft_printf_fd(2, "disorder->>>%i\n", compute_disorder(&stk));
 		}
 	}
 	//ft_putchar_fd('\n', 1);
@@ -319,24 +320,6 @@ void bubble_sort(t_ps *ps)
 }
 
 
-char	**handle_input(int *ac, char **av, char **flags)
-{
-	int i;
-
-	i = 0;
-	while ( !ft_isstr_numeric(*av) && *av[i] == '-')
-		i++;
-	flags = (char **)ft_calloc(i, sizeof(char *));
-	while (i && (*ac)--)
-		flags[--i] = ft_strdup(*av++);
-	if (*ac == 2)
-		av = ft_split(av[0], ' ');
-	else
-		while (--*ac)
-			av[i] = ft_strdup(av[i]);
-	*ac = chk_input(av);
-	return (av);
-}
 void	ps_update_idx(t_stack *stk)
 {
 	t_list	*lst;
@@ -487,7 +470,7 @@ void	radix_sort(t_ps *ps)
 		n = ps->stks[A].n;
 		while (n--)
 		{
-			if ((ps_lstele(ps->stks[A].head)->sort >> i)&1)
+			if ((ps_lstele(ps->stks[A].head)->sort >> i) & 1)
 				r(set_curstk(ps, A));
 			else
 				p(ps, B);
@@ -508,26 +491,70 @@ int	ft_sqrt(int nb)
 	j = 0;
 	if (nb == 1)
 		return (1);
-	if (nb > 2){
+	if (nb > 2)
+	{
 		while (nb > 0 && (j++ + ++i))
 			nb -= (i++);
-		if (nb < 0)
-			return (0);
+	//	if (nb < 0)
+//			return (0);
 	}	
 	return (j);
 }
-/*
+
+#include <math.h>
 void	k_sort(t_ps *ps)
 {
 	int current_cap;
 	t_list	**lst;
 
 	lst = &ps->stks[A].head;
-	current_cap = ft_sqrt(ps->stks[A].n) * 1.3;
-	while (ps_lstele(ps->stks[A].head))
+	current_cap = ft_sqrt(ps->stks[A].n) * 1;
+	while (ps->stks[A].n)
+	{
+		ps_update_idx(&ps->stks[A]);
+		if (ps_lstele(ps->stks[A].head)->sort <= ps->stks[B].n)
+		{
+			p(ps, B);
+			r(set_curstk(ps, B));
+		}
+		else if(ps_lstele(ps->stks[A].head)->sort <= ps->stks[B].n + current_cap)
+			p(ps, B);
+		else 
+			r(set_curstk(ps, A));
+	}
+	while (ps->stks[B].n)
+	{
+		ps_update_idx(&ps->stks[B]);
+		rotate_help(set_curstk(ps, B), ps_lstele(get_max(&ps->stks[B]))->idx );
+		p(ps, A);
+	}
+	ps_update_idx(&ps->stks[A]);
+}
+/*
+void	check_flags(t_ps *ps)
+{
 
 }
 */
+char	**handle_input(int *ac, char **av, t_ps *ps)
+{
+	int i;
+
+	i = 0;
+	while ( av[i] && *(av[i]) == '-' && !ft_isdigit(*av[i] + 1))
+		i++;
+	ps->flags = (char **)ft_calloc(i, sizeof(char *));
+	while (i && (*ac)--)
+		ps->flags[--i] = ft_strdup(*av++);
+	if (*ac == 2)
+		av = ft_split(av[0], ' ');
+	else
+		while (--*ac)
+			av[i] = ft_strdup(av[i]);
+	*ac = chk_input(av);
+	return (av);
+}
+
 int main(int ac, char **av)
 {
 	int			*iarr;
@@ -540,7 +567,7 @@ int main(int ac, char **av)
 	ps->fd = 1;
 	if (ac > 1)
 	{
-		av = handle_input(&ac, ++av, flags);
+		av = handle_input(&ac, ++av, ps);
 		iarr = ft_strstoiarr(av, ac);
 		if (iarr)
 		{
@@ -559,7 +586,8 @@ int main(int ac, char **av)
 	//ps_five_sort(set_curstk(ps, A));
 	//bubble_sort(ps);
 	//bubble_sort_opt(ps);
-	radix_sort(ps);
+	//radix_sort(ps);
+	k_sort(ps);
+	ps_print(ps);
 	ps_bench(ps);
-//	ps_print(ps);
 }
