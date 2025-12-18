@@ -6,13 +6,13 @@
 /*   By: maprunty <maprunty@student.42heilbronn.de  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/12 01:27:02 by maprunty          #+#    #+#             */
-/*   Updated: 2025/12/14 11:07:01 by maprunty         ###   ########.fr       */
+/*   Updated: 2025/12/18 21:21:22 by maprunty         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "push_swap.h"
 
-t_list *ft_lstgoto(t_list *lst, int idx)
+t_list	*ft_lstgoto(t_list *lst, int idx)
 {
 	if (idx < 0 || !lst)
 		return (NULL);
@@ -21,14 +21,13 @@ t_list *ft_lstgoto(t_list *lst, int idx)
 	return (lst);
 }
 
-
 t_list	*ft_lstpop(t_list **list)
 {
 	t_list	*next;
 	t_list	*popd;
 
 	popd = *list;
-	if (popd) 
+	if (popd)
 	{
 		next = popd->next;
 		popd->next = NULL;
@@ -40,8 +39,8 @@ t_list	*ft_lstpop(t_list **list)
 
 t_list	*ps_stkpop(t_stack *stk)
 {
-	t_list *popd;
-	
+	t_list	*popd;
+
 	if (stk && stk->head)
 	{
 		if (stk->n--)
@@ -68,7 +67,7 @@ int	ps_stkpush(t_stack *stk, t_list *lst)
 
 int	push(t_stack *stks, int stk_to)
 {
-	t_list *from;
+	t_list	*from;
 
 	from = ps_stkpop(&stks[(stk_to + 1) % 2]);
 	if (from)
@@ -84,6 +83,6 @@ int	p(t_ps *ps, int stk_to)
 		ps->count.tot += 1;
 		return (ft_printf_fd(ps->fd, "p%c\n", (ps->stks)[stk_to].name));
 	}
-	ft_printf_fd(2 , "error: p%c\n", (ps->stks)[stk_to].name);
+	ft_printf_fd(2, "error: p%c\n", (ps->stks)[stk_to].name);
 	return (0);
 }

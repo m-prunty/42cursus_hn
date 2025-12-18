@@ -6,7 +6,7 @@
 #    By: maprunty <maprunty@student.42heilbronn.de  +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/12/17 14:21:46 by maprunty          #+#    #+#              #
-#    Updated: 2025/12/17 22:20:44 by maprunty         ###   ########.fr        #
+#    Updated: 2025/12/18 19:23:33 by maprunty         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -14,7 +14,7 @@
 NAME 	:= push_swap_tst
 
 LIBS	:= ../lib/libft.a #lib/libft.a
-PS		:= ../
+PS		:= ..
 PSBIN	:= push_swap
 
 INC 	:= -Iinclude
@@ -34,7 +34,7 @@ $(NAME): $(OBJ)
 
 $(PSBIN):
 	$(MAKE) -C $(PS)
-	mv $(PS)/$@ $(NAME) . 
+	mv $(PS)/$@ . 
 
 debug: dbgclean all 
 	$(CC) -no-pie main.c $(NAME) 
@@ -46,10 +46,11 @@ obj:
 	mkdir -p $@
 
 clean:
+	$(MAKE) -C $(PS) clean
 	rm -rf $(OBJ)
 
 fclean: clean
-	rm -rf $(NAME)
+	rm -rf $(NAME) $(PSBIN)
 
 dbgclean: fclean
 	rm -rf a.out

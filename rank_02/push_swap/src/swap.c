@@ -6,7 +6,7 @@
 /*   By: maprunty <maprunty@student.42heilbronn.de  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/12 02:05:34 by maprunty          #+#    #+#             */
-/*   Updated: 2025/12/14 11:01:03 by maprunty         ###   ########.fr       */
+/*   Updated: 2025/12/18 20:07:37 by maprunty         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ int	swap(t_stack *stk)
 {
 	if (stk)
 		return (ft_lstswap(&stk->head));
-	return (0);	
+	return (0);
 }
 
 int	s(t_ps *ps)

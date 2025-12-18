@@ -6,7 +6,7 @@
 /*   By: maprunty <maprunty@student.42heilbronn.de  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/02 16:50:45 by maprunty          #+#    #+#             */
-/*   Updated: 2025/12/16 02:50:12 by maprunty         ###   ########.fr       */
+/*   Updated: 2025/12/18 21:26:05 by maprunty         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,11 +28,11 @@ int	ft_isstr_numeric(char *str)
 
 int	chk_input(char **strs)
 {
-	int i;
+	int	i;
 
 	i = 0;
 	while (strs[i])
-	{	
+	{
 		if (ft_isstr_numeric(strs[i]))
 			i++;
 		else
@@ -41,12 +41,12 @@ int	chk_input(char **strs)
 	return (i);
 }
 
-int	*ft_strstoiarr(char **strs,  int n)
+int	*ft_strstoiarr(char **strs, int n)
 {
 	int	i;
 	int	j;
 	int	tmp;
-	int *iarr;
+	int	*iarr;
 
 	iarr = NULL;
 	j = 0;
@@ -70,19 +70,9 @@ int	*ft_strstoiarr(char **strs,  int n)
 	return (iarr);
 }
 
-
-void	push_swap(int *iarr, int ac)
-{
-	int	i = 0;
-
-	while (i < ac)
-		ft_printf("%i", iarr[i++]);
-
-}
-
 t_element	*ps_elenew(int value)
 {
-	t_element *element;
+	t_element	*element;
 
 	element = (t_element *)ft_calloc(1, sizeof(t_element));
 	if (!element)
@@ -91,13 +81,11 @@ t_element	*ps_elenew(int value)
 	return (element);
 }
 
-t_element		*ps_getelements(int *iarr, int n, char name)
+t_element	*ps_getelements(int *iarr, int n)
 {
 	int			i;
-	t_stack		*stk;
 	t_element	*elements;
 
-	stk = NULL;
 	i = -1;
 	elements = (t_element *)ft_calloc(n, sizeof(t_element *));
 	while (++i < n)
@@ -109,28 +97,34 @@ int	ps_elecmp(void *ele1, void *ele2)
 {
 	int	i1;
 	int	i2;
-	
-	i1 =((t_element *)ele1)->value;
-	i2 =((t_element *)ele2)->value;
+
+	i1 = ((t_element *)ele1)->value;
+	i2 = ((t_element *)ele2)->value;
 	return (i1 - i2);
 }
 
-void	ps_putele(t_element *ele)
+void	ps_putele(void *e)
 {
+	t_element	*ele;
+
+	ele = (t_element *)e;
 	if (ele)
 		ft_printf_fd(2, "%i, %i, %i\n", ele->value, ele->sort, ele->idx);
 }
 
-void	ps_putnbr(t_element *ele)
+void	ps_putnbr(void *e)
 {
+	t_element	*ele;
+
+	ele = (t_element *)e;
 	if (ele)
 		ft_printf_fd(2, "%i ", ele->value);
 }
 
-void ps_print(t_ps *ps)
+void	ps_print(t_ps *ps)
 {
-	int i;
-	t_stack stk;
+	t_stack	stk;
+	int		i;
 
 	i = -1;
 	while (++i < 2)
@@ -149,10 +143,12 @@ void ps_print(t_ps *ps)
 	//ft_putchar_fd('\n', 1);
 }
 
-void	ps_apfcount(t_element *ele)
+void	ps_apfcount(void *e)
 {
+	t_element	*ele;
 	static int	i = 0;
 
+	ele = (t_element *)e;
 	i++;
 	ele->sort = i;
 }
@@ -160,7 +156,7 @@ void	ps_apfcount(t_element *ele)
 int	ps_init_stacks(t_ps *ps, int n)
 {
 	t_list	*tmplst;
-	int i;
+	int		i;
 
 	ps->stks[A].name = 'a';
 	ps->stks[B].name = 'b';
@@ -175,13 +171,13 @@ int	ps_init_stacks(t_ps *ps, int n)
 	ft_lstiter(ps->stks[A].head, ps_putnbr);
 	ft_printf_fd(2, "\n");
 	ps->stks[A].n = i;
+	return (1);
 }
 
-
-int compute_disorder(t_stack *stk)
+int	compute_disorder(t_stack *stk)
 {
-	t_list  *tmp;
-	t_list  *nxt;
+	t_list	*tmp;
+	t_list	*nxt;
 	int		mistakes;
 	int		pairs;
 
@@ -192,7 +188,7 @@ int compute_disorder(t_stack *stk)
 	{
 		nxt = tmp->next;
 		while (nxt)
-		{	
+		{
 			pairs++;
 			if (ps_elecmp(tmp->content, nxt->content) > 0)
 				mistakes++;
@@ -205,8 +201,8 @@ int compute_disorder(t_stack *stk)
 	return (0);
 }
 
-int ps_issorted(t_stack *stk)
-{	
+int	ps_issorted(t_stack *stk)
+{
 	t_list	*lst;
 	int		n;
 
@@ -219,10 +215,9 @@ int ps_issorted(t_stack *stk)
 		lst = lst->next;
 	}
 	return (1);
-
 }
 
-t_list *get_max(t_stack *stk)
+t_list	*get_max(t_stack *stk)
 {
 	t_list	*cur;
 	t_list	*max;
@@ -240,7 +235,7 @@ t_list *get_max(t_stack *stk)
 	return (max);
 }
 
-t_list *get_min(t_stack *stk)
+t_list	*get_min(t_stack *stk)
 {
 	t_list	*cur;
 	t_list	*min;
@@ -258,10 +253,11 @@ t_list *get_min(t_stack *stk)
 	return (min);
 }
 
-int		ps_lstcmp(t_list *lst1, t_list *lst2)
+int	ps_lstcmp(t_list *lst1, t_list *lst2)
 {
 	if (lst1 && lst2)
 		return (ps_elecmp(lst1->content, lst2->content));
+	return (0);
 }
 
 t_ps	*set_curstk(t_ps *ps, int stk)
@@ -270,12 +266,13 @@ t_ps	*set_curstk(t_ps *ps, int stk)
 	return (ps);
 }
 
-t_element *ps_lstele(t_list *lst)
+t_element	*ps_lstele(t_list *lst)
 {
 	if (lst->content)
 		return ((t_element *)lst->content);
 	return (NULL);
 }
+
 int	n_sorted(t_stack stk)
 {
 	t_list	*lst;
@@ -292,9 +289,9 @@ int	n_sorted(t_stack stk)
 	return (i);
 }
 
-void bubble_sort(t_ps *ps)
+void	bubble_sort(t_ps *ps)
 {
-	int	n;
+	int		n;
 	t_list	**lst;
 
 	lst = &ps->stks[A].head;
@@ -303,7 +300,7 @@ void bubble_sort(t_ps *ps)
 		n = ps->stks[A].n;
 		while (n-- > 1)
 		{
-			if (( ps_lstcmp(*lst, (*lst)->next) < 0 ) )
+			if ((ps_lstcmp(*lst, (*lst)->next) < 0))
 			{
 				s(set_curstk(ps, A));
 				r(set_curstk(ps, A));
@@ -312,22 +309,19 @@ void bubble_sort(t_ps *ps)
 				r(set_curstk(ps, A));
 		}
 		p(ps, B);
-
 	}
-	while(ps->stks[B].n)
+	while (ps->stks[B].n)
 		p(ps, A);
-
 }
-
 
 void	ps_update_idx(t_stack *stk)
 {
 	t_list	*lst;
 	int		i;
 
-	i = 0; 
+	i = 0;
 	lst = stk->head;
-	while (lst )
+	while (lst)
 	{
 		if (i > stk->n / 2)
 			ps_lstele(lst)->idx = i - stk->n;
@@ -336,10 +330,7 @@ void	ps_update_idx(t_stack *stk)
 		lst = lst->next;
 		i++;
 	}
-
-
 }
-
 
 void	ps_three_sort(t_ps *ps)
 {
@@ -352,12 +343,10 @@ void	ps_three_sort(t_ps *ps)
 		rr(ps);
 	if (ps_lstcmp(*lst, (*lst)->next) > 0)
 		s(ps);
-	return (0);
 }
 
 t_list	*rotate_help(t_ps *ps, int n)
 {
-
 	if (n > 0)
 		while (n--)
 			r(ps);
@@ -369,19 +358,16 @@ t_list	*rotate_help(t_ps *ps, int n)
 
 void	ps_five_sort(t_ps *ps)
 {
-	t_list	**lst1;
-	t_list	**lst2;
 	int		from;
 	int		pushed;
 
 	from = ps->curstk;
 	pushed = 0;
-	lst1 = &ps->stks[from].head;
-	lst2 = &ps->stks[(from+1) % 2].head;
 	while (ps->stks[from].n > 3 && ++pushed)
 	{
 		ps_update_idx(&ps->stks[from]);
-		rotate_help(set_curstk(ps, from), ps_lstele(get_min(&ps->stks[from]))->idx);
+		rotate_help(set_curstk(ps, from),
+			ps_lstele(get_min(&ps->stks[from]))->idx);
 		p(ps, (from + 1) % 2);
 	}
 	ps_three_sort(set_curstk(ps, from));
@@ -389,17 +375,13 @@ void	ps_five_sort(t_ps *ps)
 		p(ps, from);
 }
 
-void bubble_sort_opt(t_ps *ps)
+void	bubble_sort_opt(t_ps *ps)
 {
-	int	n;
-	int min;
-	int max;
-	t_list	**lst;
+	int	min;
+	int	max;
 
-	lst = &ps->stks[A].head;
 	while (ps->stks[A].n)
 	{
-		n = ps->stks[A].n;
 		ps_update_idx(&ps->stks[A]);
 		max = ps_lstele(get_max(&ps->stks[A]))->idx;
 		min = ps_lstele(get_min(&ps->stks[A]))->idx;
@@ -416,18 +398,16 @@ void bubble_sort_opt(t_ps *ps)
 		}
 	}
 	ps_update_idx(&ps->stks[B]);
-	rotate_help(set_curstk(ps, B), ps_lstele(get_max(&ps->stks[B]))->idx );
-	while(ps->stks[B].n)
-	{
+	rotate_help(set_curstk(ps, B), ps_lstele(get_max(&ps->stks[B]))->idx);
+	while (ps->stks[B].n)
 		p(ps, A);
-	}
 }
 
 int	log2n(int n)
 {
 	if (n > 1)
 		return (1 + log2n(n / 2));
-	return (0); 
+	return (0);
 }
 
 long	n_log_n(int n)
@@ -439,26 +419,29 @@ long	n_log_n(int n)
 
 void	ps_bench(t_ps *ps)
 {
-	t_count c;
+	t_count	c;
 	int		n;
 
 	c = ps->count;
 	n = ps->stks[A].n;
-	ft_printf_fd(2,"[bench]\tdisorder:\t%i%%\n", ps->disorder);
-	ft_printf_fd(2,"[bench]\tstrategy:\t%s\n", ps->strat);
-	ft_printf_fd(2,"[bench]\ttotal_ops:\t%i\n", c.tot);
-	ft_printf_fd(2,"[bench]\tsa:\t%i\tsb:\t%i\tss:\t%i\tpa:\t%i\tpb:\t%i\n", c.s[A], c.s[B], c.ss[0], c.p[A], c.p[B]);
-	ft_printf_fd(2,"[bench]\tra:\t%i\trb:\t%i\trr:\t%i\trra:\t%i\trrb:\t%i\n", c.r[A], c.r[B], c.rrs[0], c.rr[A], c.rr[B], c.rrs[1]);
-	ft_printf_fd(2,"[bench]\tops/n:\t%i ops/nlogn:\t%i\n", c.tot / n , c.tot / n_log_n(n) );
+	ft_printf_fd(2, "[bench]\tdisorder:\t%i%%\n", ps->disorder);
+	ft_printf_fd(2, "[bench]\tstrategy:\t%s\n", ps->strat);
+	ft_printf_fd(2, "[bench]\ttotal_ops:\t%i\n", c.tot);
+	ft_printf_fd(2, "[bench]\tsa:\t%i\tsb:\t%i\tss:\t%i\tpa:\t%i\tpb:\t%i\n",
+		c.s[A], c.s[B], c.ss[0], c.p[A], c.p[B]);
+	ft_printf_fd(2, "[bench]\tra:\t%i\trb:\t%i\trr:\t%i\trra:\t%i\trrb:\t%i\n",
+		c.r[A], c.r[B], c.rrs[0], c.rr[A], c.rr[B], c.rrs[1]);
+	ft_printf_fd(2, "[bench]\tops/n:\t%i ops/nlogn:\t%i\n",
+		c.tot / n, c.tot / n_log_n(n));
 }
 
 void	radix_sort(t_ps *ps)
 {
-	int max;
-	int nbit;
-	int n;
-	int i;
-	
+	int	max;
+	int	nbit;
+	int	n;
+	int	i;
+
 	max = ps_lstele(get_max(&ps->stks[A]))->sort;
 	nbit = 0;
 	n = ps->stks[A].n;
@@ -476,10 +459,9 @@ void	radix_sort(t_ps *ps)
 				p(ps, B);
 		}
 		while (ps->stks[B].n)
-				p(ps, A);
+			p(ps, A);
 		i++;
 	}
-
 }
 
 int	ft_sqrt(int nb)
@@ -495,20 +477,15 @@ int	ft_sqrt(int nb)
 	{
 		while (nb > 0 && (j++ + ++i))
 			nb -= (i++);
-	//	if (nb < 0)
-//			return (0);
-	}	
+	}
 	return (j);
 }
 
-#include <math.h>
 void	k_sort(t_ps *ps)
 {
-	int current_cap;
-	t_list	**lst;
+	int	range;
 
-	lst = &ps->stks[A].head;
-	current_cap = ft_sqrt(ps->stks[A].n) * 1;
+	range = ft_sqrt(ps->stks[A].n) * 1;
 	while (ps->stks[A].n)
 	{
 		ps_update_idx(&ps->stks[A]);
@@ -517,31 +494,26 @@ void	k_sort(t_ps *ps)
 			p(ps, B);
 			r(set_curstk(ps, B));
 		}
-		else if(ps_lstele(ps->stks[A].head)->sort <= ps->stks[B].n + current_cap)
+		else if (ps_lstele(ps->stks[A].head)->sort <= ps->stks[B].n + range)
 			p(ps, B);
-		else 
+		else
 			r(set_curstk(ps, A));
 	}
 	while (ps->stks[B].n)
 	{
 		ps_update_idx(&ps->stks[B]);
-		rotate_help(set_curstk(ps, B), ps_lstele(get_max(&ps->stks[B]))->idx );
+		rotate_help(set_curstk(ps, B), ps_lstele(get_max(&ps->stks[B]))->idx);
 		p(ps, A);
 	}
 	ps_update_idx(&ps->stks[A]);
 }
-/*
-void	check_flags(t_ps *ps)
-{
 
-}
-*/
 char	**handle_input(int *ac, char **av, t_ps *ps)
 {
-	int i;
+	int	i;
 
 	i = 0;
-	while ( av[i] && *(av[i]) == '-' && !ft_isdigit(*av[i] + 1))
+	while (av[i] && *(av[i]) == '-' && !ft_isdigit(*av[i] + 1))
 		i++;
 	ps->flags = (char **)ft_calloc(i, sizeof(char *));
 	while (i && (*ac)--)
@@ -555,13 +527,22 @@ char	**handle_input(int *ac, char **av, t_ps *ps)
 	return (av);
 }
 
-int main(int ac, char **av)
+void	push_swap(t_ps *ps)
 {
-	int			*iarr;
-	char		**flags;
-	t_ps		ps[1];
-	t_stack		stks[2];
-	t_element	*elements;
+	//	ps_print(ps);
+	//ps_five_sort(set_curstk(ps, A));
+	//bubble_sort(ps);
+	//bubble_sort_opt(ps);
+	//radix_sort(ps);
+	k_sort(ps);
+	ps_print(ps);
+	ps_bench(ps);
+}
+
+int	main(int ac, char **av)
+{
+	int		*iarr;
+	t_ps	ps[1];
 
 	ft_bzero(ps, sizeof(ps));
 	ps->fd = 1;
@@ -571,23 +552,15 @@ int main(int ac, char **av)
 		iarr = ft_strstoiarr(av, ac);
 		if (iarr)
 		{
-			ps->elements = ps_getelements(iarr, ac, 'a');
-			//free(iarr);
+			ps->elements = ps_getelements(iarr, ac);
 			if (!ps->elements)
-				return ( free(av), 0);
+				return (free(av), 0);
 		}
 		else if (ac == -1 || !iarr)
 			return (free(*av), 0);
 		if (!ps_init_stacks(ps, ac))
 			return (0);
 		ps->disorder = compute_disorder(&ps->stks[A]);
+		push_swap(*ps)
 	}
-	//	ps_print(ps);
-	//ps_five_sort(set_curstk(ps, A));
-	//bubble_sort(ps);
-	//bubble_sort_opt(ps);
-	//radix_sort(ps);
-	k_sort(ps);
-	ps_print(ps);
-	ps_bench(ps);
 }

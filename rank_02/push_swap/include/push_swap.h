@@ -6,7 +6,7 @@
 /*   By: maprunty <maprunty@student.42heilbron      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/05 00:57:54 by maprunty          #+#    #+#             */
-/*   Updated: 2025/12/14 12:14:47 by maprunty         ###   ########.fr       */
+/*   Updated: 2025/12/18 19:21:22 by maprunty         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,7 @@ typedef struct s_count
 typedef struct s_ps
 {
 	t_stack		stks[2];
-	char		curstk;
+	int			curstk;
 	char		**flags;
 	char		*strat;
 	t_element	*elements;
@@ -62,7 +62,7 @@ typedef struct s_ps
 
 int			*ft_strstoiarr(char **strs,  int n);
 t_element	*ps_elenew(int value);
-t_element	*ps_getelements(int *iarr, int n, char name);
+t_element	*ps_getelements(int *iarr, int n);
 t_list		*get_max(t_stack *stk);
 t_element	*ps_lstele(t_list *lst);
 
@@ -72,9 +72,9 @@ int		chk_input(char **strs);
 void	push_swap(int *iarr, int ac);
 
 int		ps_elecmp(void *ele1, void *ele2);
-void	ps_putnbr(t_element *ele);
+void	ps_putnbr(void *e);
 void	ps_print(t_ps *ps);
-void	ps_apfcount(t_element *ele);
+void	ps_apfcount(void *e);
 
 int		ps_init_stacks(t_ps *ps, int n);
 

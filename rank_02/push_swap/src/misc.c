@@ -6,7 +6,7 @@
 /*   By: maprunty <maprunty@student.42heilbronn.de  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/02 16:50:53 by maprunty          #+#    #+#             */
-/*   Updated: 2025/12/05 01:00:08 by maprunty         ###   ########.fr       */
+/*   Updated: 2025/12/18 21:22:49 by maprunty         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ void	btree_pprint_help(void *item, int current_level,
 	if (is_first_elem)
 	{
 		ft_printf("\nLevel ");
-		ft_printf("%i",current_level);
+		ft_printf("%i", current_level);
 		ft_printf(": ");
 		while (n_levels--)
 			ft_printf("    ");

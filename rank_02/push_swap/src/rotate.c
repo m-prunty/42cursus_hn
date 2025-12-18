@@ -6,7 +6,7 @@
 /*   By: maprunty <maprunty@student.42heilbronn.de  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/12 01:25:13 by maprunty          #+#    #+#             */
-/*   Updated: 2025/12/14 15:57:23 by maprunty         ###   ########.fr       */
+/*   Updated: 2025/12/18 20:09:44 by maprunty         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,7 @@ int	ft_lstrot(t_list **lst, int n)
 	return (0);
 }
 
-int rotate(t_stack *stk, int rev)
+int	rotate(t_stack *stk, int rev)
 {
 	if (!rev)
 		return (ft_lstrot(&stk->head, stk->n));
@@ -67,7 +67,6 @@ int	r(t_ps *ps)
 	return (0);
 }
 
-
 int	rr(t_ps *ps)
 {
 	if (rotate(&ps->stks[ps->curstk], 1))
@@ -79,9 +78,11 @@ int	rr(t_ps *ps)
 	ft_printf_fd(2, "error; rr%c\n", ps->stks->name);
 	return (0);
 }
+
 int	rrs(t_ps *ps, int rev)
 {
-	if (rotate(&ps->stks[ps->curstk], rev) &&  rotate(&ps->stks[ps->curstk], rev))
+	if (rotate(&ps->stks[ps->curstk], rev)
+		&& rotate(&ps->stks[ps->curstk], rev))
 	{
 		ps->count.rrs[rev] += 1;
 		ps->count.tot += 1;
