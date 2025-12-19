@@ -8,10 +8,12 @@
 #include <sys/wait.h>
 #include <string.h>
 #include <stdio.h>
+#include <time.h>
 
 #define SEED 42
 #define NTEST 100
 #define NGROUP 5 
+
 
 char	*ft_itoa(int n);
 char	**ft_split(char const *s, char c);
@@ -37,6 +39,8 @@ typedef enum s_e_ops
 typedef enum s_e_stats
 {
 	STAT_NULL = 0,
+	STAT_TIME_TOT,
+	STAT_TIME_AVG,
 	STAT_MOVES_N,
 	STAT_MOVES_NLOGN,
 	STAT_MIN,
@@ -55,12 +59,15 @@ typedef struct s_tcount
 	int	tot;
 	int	nerr;
 	int ops[OP_COUNT];
+    clock_t start, end;
 }	t_tcount;
 
 static unsigned long int next = 1;
 
 static char	*g_stats[STAT_COUNT] = {
 	"null",
+	"time_tot",
+	"time_avg",
 	"moves_n",
 	"moves_nlogn",
 	"min",
@@ -296,24 +303,30 @@ void	print_stats(int stats[STAT_COUNT])
 void	stats_group(t_tcount count[NTEST], int *stats, int nargs)
 {
 	int	i;
+	int	cps;
 	int	grp_tot;
 
 	printf("\nNTEST: %i\tn of args:%4i \n", NTEST,nargs);
 	i = 0;
+	cps = CLOCKS_PER_SEC;
 	grp_tot = 0;
+//	clock_tot = 0;
 	stats[STAT_MIN] = count[i].tot;
 	while (i < NTEST)
 	{
 		grp_tot += count[i].tot;
+		stats[STAT_TIME_TOT] += (count[i].end - count[i].start);
 		if (count[i].tot < stats[STAT_MIN])
 			stats[STAT_MIN] = count[i].tot;
 		if (count[i].tot > stats[STAT_MAX])
 			stats[STAT_MAX] = count[i].tot;
 		i++;
 	}
+	//stats[STAT_TIME_TOT] = //CLOCKS_PER_SEC;
 	stats[STAT_MOVES_N] = grp_tot / (i * nargs);
 	stats[STAT_MOVES_NLOGN] = grp_tot / n_log_n(i * nargs);
 	stats[STAT_MEAN] = grp_tot / i;
+	stats[STAT_TIME_AVG] = stats[STAT_TIME_TOT] / NTEST ;// CLOCKS_PER_SEC; 
 	stats[0] = grp_tot;
 	print_stats(stats);
 }
@@ -348,7 +361,9 @@ int main()
 			bzero(buf[0], g_pbuf);
 			bzero(buf[1], g_pbuf);
 			argv = get_nargs("./push_swap", n);
+			counts[i][j].start = clock();
 			ps_capture(argv, buf[0], buf[1]);
+			counts[i][j].end = clock();
 			//printf("\n>>>> out_buf\n%s\n", buf[0]);
 			//printf("\n>>>> err_buf\n%s\n", buf[1]);
 			count_test(&counts[i][j], buf[0]);
