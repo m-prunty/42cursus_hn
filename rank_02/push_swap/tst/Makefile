@@ -6,7 +6,7 @@
 #    By: maprunty <maprunty@student.42heilbronn.de  +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/12/17 14:21:46 by maprunty          #+#    #+#              #
-#    Updated: 2025/12/18 19:23:33 by maprunty         ###   ########.fr        #
+#    Updated: 2025/12/19 21:43:07 by maprunty         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -31,6 +31,7 @@ all: $(PSBIN) $(NAME)
 
 $(NAME): $(OBJ) 
 	$(CC) $(CFLAGS) $^ $(LIBS) -o $@
+	mv $@ ~/.local/bin/
 
 $(PSBIN):
 	$(MAKE) -C $(PS)

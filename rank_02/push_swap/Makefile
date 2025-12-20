@@ -6,7 +6,7 @@
 #    By: maprunty <maprunty@student.42heilbron      +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/12/05 00:35:07 by maprunty          #+#    #+#              #
-#    Updated: 2025/12/18 19:05:34 by maprunty         ###   ########.fr        #
+#    Updated: 2025/12/20 08:11:17 by maprunty         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -15,9 +15,9 @@ NAME 	:= push_swap
 LIBS	:= lib/libft.a 
 
 INC 	:= -Iinclude
-CC      := gcc -g 
+CC      := gcc -g # -fsanitize=address 
 CFLAGS  := $(INC) -Wall -Wextra -Werror 
-S_FILES	:= main.c misc.c ft_help.c rotate.c push.c swap.c #push_swap.c 
+S_FILES	:= main.c misc.c rotate.c push.c swap.c #push_swap.c 
 
 SRC		:= $(S_FILES:%.c=src/%.c)
 OBJ     := $(patsubst src/%.c,obj/%.o,$(SRC))

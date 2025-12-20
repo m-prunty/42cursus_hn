@@ -6,7 +6,7 @@
 /*   By: maprunty <maprunty@student.42heilbron      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/05 00:57:54 by maprunty          #+#    #+#             */
-/*   Updated: 2025/12/18 19:21:22 by maprunty         ###   ########.fr       */
+/*   Updated: 2025/12/20 12:16:10 by maprunty         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,13 @@
 # define A 0
 # define B 1
 
+typedef enum e_psflag
+{
+	BENCH	= 'B',
+	BUBBLE	= 'b',
+	RADIX	= 'r',
+	K_SORT	= 'k',
+}	t_psflag;
 
 typedef struct s_stack
 {
@@ -25,7 +32,6 @@ typedef struct s_stack
 	int		n;
 	t_list	*head;
 	t_btree *root;
-	
 }	t_stack;
 
 typedef struct s_element
@@ -51,8 +57,7 @@ typedef struct s_ps
 {
 	t_stack		stks[2];
 	int			curstk;
-	char		**flags;
-	char		*strat;
+	t_psflag	flags[2];
 	t_element	*elements;
 	t_count		count;
 	int			disorder;
@@ -61,7 +66,7 @@ typedef struct s_ps
 
 
 int			*ft_strstoiarr(char **strs,  int n);
-t_element	*ps_elenew(int value);
+t_element	ps_elenew(int value);
 t_element	*ps_getelements(int *iarr, int n);
 t_list		*get_max(t_stack *stk);
 t_element	*ps_lstele(t_list *lst);
@@ -69,7 +74,7 @@ t_element	*ps_lstele(t_list *lst);
 int		ft_isstr_numeric(char *str);
 int		chk_input(char **strs);
 
-void	push_swap(int *iarr, int ac);
+void	push_swap(t_ps *ps);
 
 int		ps_elecmp(void *ele1, void *ele2);
 void	ps_putnbr(void *e);
