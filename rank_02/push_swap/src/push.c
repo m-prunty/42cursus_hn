@@ -6,20 +6,11 @@
 /*   By: maprunty <maprunty@student.42heilbronn.de  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/12 01:27:02 by maprunty          #+#    #+#             */
-/*   Updated: 2025/12/18 21:21:22 by maprunty         ###   ########.fr       */
+/*   Updated: 2025/12/20 15:32:56 by maprunty         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "push_swap.h"
-
-t_list	*ft_lstgoto(t_list *lst, int idx)
-{
-	if (idx < 0 || !lst)
-		return (NULL);
-	if (idx)
-		return (ft_lstgoto(lst->next, --idx));
-	return (lst);
-}
 
 t_list	*ft_lstpop(t_list **list)
 {
