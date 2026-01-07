@@ -6,7 +6,7 @@
 /*   By: maprunty <maprunty@student.42heilbron      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/20 14:42:35 by maprunty          #+#    #+#             */
-/*   Updated: 2026/01/02 01:07:22 by maprunty         ###   ########.fr       */
+/*   Updated: 2026/01/07 15:37:46 by maprunty         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ int	ps_init_stacks(t_ps *ps, int n)
 	{
 		tmplst = ft_lstnew(&ps->elements[i]);
 		ft_lstadd_back(&ps->stks[A].head, tmplst);
-		btree_insert_data(&ps->stks[A].root, &ps->elements[i], ps_elecmp);
+		btree_insert_data_l(&ps->stks[A].root, &ps->elements[i], ps_elecmp);
 	}
 	btree_apply_infix(ps->stks[A].root, ps_apfcount);
 	ps->stks[A].n = i;

@@ -6,7 +6,7 @@
 /*   By: maprunty <maprunty@student.42heilbron      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/05 00:57:54 by maprunty          #+#    #+#             */
-/*   Updated: 2026/01/02 01:53:13 by maprunty         ###   ########.fr       */
+/*   Updated: 2026/01/07 15:26:40 by maprunty         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,7 +80,7 @@ int			ft_isstr_numeric(char *str);
 // elements.c
 t_element	ps_elenew(int value);
 t_element	*ps_getelements(int *iarr, int n);
-int			ps_elecmp(void *ele1, void *ele2);
+long		ps_elecmp(void *ele1, void *ele2);
 void		ps_apfcount(void *e);
 
 // print.c

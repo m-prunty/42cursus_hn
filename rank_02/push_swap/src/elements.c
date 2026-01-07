@@ -6,7 +6,7 @@
 /*   By: maprunty <maprunty@student.42heilbron      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/20 14:42:35 by maprunty          #+#    #+#             */
-/*   Updated: 2026/01/02 02:03:00 by maprunty         ###   ########.fr       */
+/*   Updated: 2026/01/07 15:25:33 by maprunty         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,10 +34,10 @@ t_element	*ps_getelements(int *iarr, int n)
 	return (elements);
 }
 
-int	ps_elecmp(void *ele1, void *ele2)
+long	ps_elecmp(void *ele1, void *ele2)
 {
-	int	i1;
-	int	i2;
+	long	i1;
+	long	i2;
 
 	i1 = ((t_element *)ele1)->value;
 	i2 = ((t_element *)ele2)->value;
